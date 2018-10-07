@@ -1,0 +1,46 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE hibernate-configuration PUBLIC
+    "-//Hibernate/Hibernate Configuration DTD//EN"
+    "http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
+<hibernate-configuration>
+  <session-factory>
+    <property name="connection.url">jdbc:oracle:thin:@192.168.0.202:1521:orcl</property>
+    <property name="connection.driver_class">oracle.jdbc.OracleDriver</property>
+    <mapping class="com.atlp.jzfp.entity.fpgz.JzfpBBfllDwEntity"/>
+    <mapping class="com.atlp.jzfp.entity.fpgz.JzfpBBfllDysjEntity"/>
+    <mapping class="com.atlp.jzfp.entity.fpgz.JzfpBBfllGzdEntity"/>
+    <mapping class="com.atlp.jzfp.entity.fpgz.JzfpBBfllGzdCyEntity"/>
+    <mapping class="com.atlp.jzfp.entity.fpgz.JzfpBBfllRyEntity"/>
+    <mapping class="com.atlp.jzfp.entity.fpgz.JzfpBFpdxFpcEntity"/>
+    <mapping class="com.atlp.jzfp.entity.fpgz.JzfpBFpdxFphEntity"/>
+    <mapping class="com.atlp.jzfp.entity.fpgz.JzfpBFpdxFphCyEntity"/>
+    <mapping class="com.atlp.jzfp.entity.fpgz.JzfpBFpgzBfdjEntity"/>
+    <mapping class="com.atlp.jzfp.entity.fpgz.JzfpBFpgzBfgxEntity"/>
+    <mapping class="com.atlp.jzfp.entity.fpgz.JzfpBFpgzFjEntity"/>
+    <mapping class="com.atlp.jzfp.entity.fpxm.JzfpBXmFjEntity"/>
+    <mapping class="com.atlp.jzfp.entity.fpxm.JzfpBXmFlEntity"/>
+    <mapping class="com.atlp.jzfp.entity.fpxm.JzfpBXmJdEntity"/>
+    <mapping class="com.atlp.jzfp.entity.fpxm.JzfpBXmJdYbbEntity"/>
+    <mapping class="com.atlp.jzfp.entity.fpxm.JzfpBXmXxEntity"/>
+    <mapping class="com.atlp.jzfp.entity.fpxm.JzfpBXmYsEntity"/>
+    <mapping class="com.atlp.jzfp.entity.fpxm.JzfpBXmZlEntity"/>
+    <mapping class="com.atlp.jzfp.entity.fpxm.JzfpBXmZxEntity"/>
+    <mapping class="com.atlp.jzfp.entity.yzgz.JzfpBYzgzGzdEntity"/>
+    <mapping class="com.atlp.jzfp.entity.yzgz.JzfpBYzgzGzdCyEntity"/>
+    <mapping class="com.atlp.jzfp.entity.zcxc.JzfpBZcxcEntity"/>
+    <mapping class="com.atlp.jzfp.entity.fpzj.JzfpBZjDzEntity"/>
+    <mapping class="com.atlp.jzfp.entity.fpzj.JzfpBZjFjEntity"/>
+    <mapping class="com.atlp.jzfp.entity.fpzj.JzfpBZjLyEntity"/>
+    <mapping class="com.atlp.jzfp.entity.fpzj.JzfpBZjSydjEntity"/>
+    <mapping class="com.atlp.jzfp.entity.fpzj.JzfpBZjXbEntity"/>
+    <mapping class="com.atlp.jzfp.entity.zzjg.JzfpBZzjgCdEntity"/>
+    <mapping class="com.atlp.jzfp.entity.zzjg.JzfpBZzjgDwEntity"/>
+    <mapping class="com.atlp.jzfp.entity.zzjg.JzfpBZzjgSqxxEntity"/>
+    <mapping class="com.atlp.jzfp.entity.zzjg.JzfpBZzjgYhEntity"/>
+    <!-- <property name="connection.username"/> -->
+    <!-- <property name="connection.password"/> -->
+
+    <!-- DB schema will be updated if needed -->
+    <!-- <property name="hbm2ddl.auto">update</property> -->
+  </session-factory>
+</hibernate-configuration>
