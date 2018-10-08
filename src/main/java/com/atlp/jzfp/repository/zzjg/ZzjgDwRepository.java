@@ -11,6 +11,4 @@ import com.atlp.jzfp.entity.zzjg.JzfpBZzjgDwEntity;
  */
 public interface ZzjgDwRepository extends BaseRepository<JzfpBZzjgDwEntity, Long> {
     JzfpBZzjgDwEntity findByDwid(String dwid);
-
-    JzfpBZzjgDwEntity findAllByDwidOrDqzt(String dwid);
 }

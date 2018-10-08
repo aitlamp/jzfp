@@ -35,7 +35,7 @@ public class ZcxcServiceImpl implements IZcxcService {
 
     @Override
     public Map<String, Object> getPage(PageModel page) throws Exception {
-        Map reMap = new HashMap();
+        Map<String, Object> reMap = new HashMap();
         reMap.put("code", "0");
         reMap.put("msg", "SUCCESS");
 
