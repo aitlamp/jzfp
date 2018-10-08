@@ -5,6 +5,7 @@ import com.atlp.jzfp.entity.zzjg.JzfpBZzjgDwEntity;
 import org.springframework.data.domain.Page;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.Map;
 
 /**
  * 单位 Service 接口
@@ -14,7 +15,7 @@ import javax.servlet.http.HttpServletRequest;
  */
 public interface IDwService {
     //table分页展示
-    Page<JzfpBZzjgDwEntity> getPage(PageModel page);
+    Map getPage(PageModel pageModel);
 
     //保存
     boolean doSave(JzfpBZzjgDwEntity cdEntity, HttpServletRequest request);

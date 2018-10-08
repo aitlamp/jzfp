@@ -1,13 +1,9 @@
 package com.atlp.jzfp.common.data;
 
 import lombok.Data;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 
-import java.util.Iterator;
 import java.util.List;
-import java.util.function.Function;
+import java.util.Map;
 
 /**
  * 分页模版
@@ -17,11 +13,11 @@ import java.util.function.Function;
  */
 @Data
 public class PageModel {
-    private int offset; // 当前页偏移数
-    private int limit; // 每页记录数
-    private int page; // 当前页数
-
-    public int getPage() {
-        return offset / limit;
-    }
+    private int pageSize; // 每页记录数
+    private int currentPage; // 当前页数
+    private int totalPages; // 总页数
+    private int totalRows; // 总记录数
+    private List<Map> rows; // 数据
+    private List<Map> columns; // 表头数据
+    private Map pmap; // 其他参数
 }

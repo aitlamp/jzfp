@@ -6,15 +6,13 @@ import com.atlp.jzfp.entity.zzjg.JzfpBZzjgDwEntity;
 import com.atlp.jzfp.repository.zzjg.ZzjgDwRepository;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.interceptor.TransactionAspectSupport;
 
 import javax.servlet.http.HttpServletRequest;
 import java.sql.Timestamp;
-import java.util.Date;
+import java.util.*;
 
 /**
  * 单位 Service
@@ -31,8 +29,28 @@ public class DwServiceImpl implements IDwService {
     /**
      * 获取分页数据
      */
-    public Page<JzfpBZzjgDwEntity> getPage(PageModel page) {
-        return dwRepository.findAll(PageRequest.of(page.getPage(), page.getLimit()));
+    public Map getPage(PageModel pageModel) {
+        Map retMap = new HashMap();
+        retMap.put("code", "0");
+        retMap.put("msg", "成功");
+        //查询数据
+        String sql = "select t.* from JZFP_B_ZZJG_DW t order by t.dwpwsx ";
+        pageModel = dwRepository.findPageBySql(sql, pageModel);
+        //设置表头数据
+        List<Map> columnList = new ArrayList<>();
+        Map columnMap = new HashMap();
+        //单位名称
+        columnMap.put("prop", "dwmc");
+        columnMap.put("label", "单位名称");
+        columnList.add(columnMap);
+        //单位简称
+        columnMap.put("prop", "dwjc");
+        columnMap.put("label", "单位简称");
+        columnList.add(columnMap);
+        pageModel.setColumns(columnList);
+        //设置返回值
+        retMap.put("data", pageModel);
+        return retMap;
     }
 
     /**

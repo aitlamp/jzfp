@@ -33,7 +33,7 @@ public class CdServiceImpl implements ICdService {
      * 获取分页数据
      */
     public Page<JzfpBZzjgCdEntity> getPage(PageModel page) {
-        return zzjgCdRepository.findAll(PageRequest.of(page.getPage(), page.getLimit()));
+        return null;//zzjgCdRepository.findAll(PageRequest.of(page.getPage(), page.getLimit()));
     }
 
     /**

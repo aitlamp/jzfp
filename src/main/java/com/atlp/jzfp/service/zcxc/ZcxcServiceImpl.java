@@ -38,8 +38,8 @@ public class ZcxcServiceImpl implements IZcxcService {
 
     @Override
     public Page<JzfpBZcxcEntity> getPage(PageModel page) throws Exception {
-        return zcxcRepository.findAll(PageRequest.of(page.getPage(), page.getLimit(),
-                new Sort(Sort.Direction.DESC, "fbrq")));
+        return null;//zcxcRepository.findAll(PageRequest.of(page.getPage(), page.getLimit(),
+        //new Sort(Sort.Direction.DESC, "fbrq")));
     }
 
     @Override

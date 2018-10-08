@@ -1,5 +1,6 @@
 package com.atlp.jzfp.common.base;
 
+import com.atlp.jzfp.common.data.PageModel;
 import com.atlp.jzfp.common.utils.AtlpUtil;
 import org.hibernate.query.internal.NativeQueryImpl;
 import org.hibernate.transform.Transformers;
@@ -75,6 +76,9 @@ public class BaseRepositoryImpl<T, ID extends Serializable> extends SimpleJpaRep
         return pages;
     }
 
+    /**
+     * 根据sql查询分页数据 -- spring page
+     */
     @Transactional(rollbackFor = Exception.class)
     public Page<Map> findPageBySql(String sql, Pageable pageable) {
         Query query = entityManager.createNativeQuery(sql);
@@ -91,6 +95,38 @@ public class BaseRepositoryImpl<T, ID extends Serializable> extends SimpleJpaRep
         query.setMaxResults(pageable.getPageSize());
         Page<Map> pages = new PageImpl<>(content, pageable, list.size());
         return pages;
+    }
+
+    /**
+     * 根据sql查询分页数据 -- spring page
+     */
+    @Transactional(rollbackFor = Exception.class)
+    public PageModel findPageBySql(String sql, PageModel pageModel) {
+        //根据sql查询数据，并返回Map
+        Query query = entityManager.createNativeQuery(sql);
+        query.unwrap(NativeQueryImpl.class).setResultTransformer(Transformers.ALIAS_TO_ENTITY_MAP);
+
+        //总记录数
+        int totalRows = query.getResultList().size();
+
+        //设置查询的起始和结束记录
+        query.setFirstResult(pageModel.getPageSize() * (pageModel.getCurrentPage() - 1));
+        query.setMaxResults(pageModel.getPageSize());
+
+        //将map的key值转换成小写
+        List<Map> content = new ArrayList<>();
+        List<Map> list = query.getResultList();
+        for (Map map : list) {
+            Map tMap = AtlpUtil.mapKeyCaseConvert(map);
+            content.add(tMap);
+        }
+
+        //设置返回值
+        pageModel.setTotalPages((int) Math.ceil((double) totalRows / pageModel.getPageSize()));
+        pageModel.setTotalRows(totalRows);
+        pageModel.setRows(content);
+
+        return pageModel;
     }
 
 }

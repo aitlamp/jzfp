@@ -1,5 +1,5 @@
 #spring.profiles.active
 spring:
   profiles:
-    #active: dev
-    active: office202
+    active: aliyun126
+    #active: office202
