@@ -15,6 +15,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.Query;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -125,6 +126,38 @@ public class BaseRepositoryImpl<T, ID extends Serializable> extends SimpleJpaRep
         pageModel.setTotalPages((int) Math.ceil((double) totalRows / pageModel.getPageSize()));
         pageModel.setTotalRows(totalRows);
         pageModel.setRows(content);
+
+        return pageModel;
+    }
+
+    /**
+     * 根据sql查询分页数据 -- spring page
+     */
+    @Transactional(rollbackFor = Exception.class)
+    public PageModel findPageBySql(String sql, PageModel pageModel, String[][] columns) {
+        //根据sql查询数据
+        pageModel = this.findPageBySql(sql, pageModel);
+
+        //设置表头数据
+        List<Map> columnList = new ArrayList<>();
+        for (String[] column : columns) {
+            Map columnMap = new HashMap();
+            int n = 0;
+            for (String field : column) {
+                if (n == 0) {
+                    columnMap.put("prop", field);
+                }
+                if (n == 1) {
+                    columnMap.put("label", field);
+                }
+                if (n == 2) {
+                    columnMap.put("width", field);
+                }
+                n++;
+            }
+            columnList.add(columnMap);
+        }
+        pageModel.setColumns(columnList);
 
         return pageModel;
     }

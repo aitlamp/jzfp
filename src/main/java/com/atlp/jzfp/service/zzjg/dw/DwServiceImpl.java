@@ -12,7 +12,9 @@ import org.springframework.transaction.interceptor.TransactionAspectSupport;
 
 import javax.servlet.http.HttpServletRequest;
 import java.sql.Timestamp;
-import java.util.*;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * 单位 Service
@@ -34,20 +36,23 @@ public class DwServiceImpl implements IDwService {
         retMap.put("code", "0");
         retMap.put("msg", "成功");
         //查询数据
-        String sql = "select t.* from JZFP_B_ZZJG_DW t order by t.dwpwsx ";
-        pageModel = dwRepository.findPageBySql(sql, pageModel);
-        //设置表头数据
-        List<Map> columnList = new ArrayList<>();
-        Map columnMap = new HashMap();
-        //单位名称
-        columnMap.put("prop", "dwmc");
-        columnMap.put("label", "单位名称");
-        columnList.add(columnMap);
-        //单位简称
-        columnMap.put("prop", "dwjc");
-        columnMap.put("label", "单位简称");
-        columnList.add(columnMap);
-        pageModel.setColumns(columnList);
+        String sql = "select t.dwmc, t.dwjc from JZFP_B_ZZJG_DW t order by t.dwpwsx ";
+        String[][] columns = {{"dwmc", "单位名称", "100",},
+                {"dwjc", "单位简称", "80",},
+                {"dwid", "单位ID", "50"}};
+        pageModel = dwRepository.findPageBySql(sql, pageModel, columns);
+//        //设置表头数据
+//        List<Map> columnList = new ArrayList<>();
+//        Map columnMap = new HashMap();
+//        //单位名称
+//        columnMap.put("prop", "dwmc");
+//        columnMap.put("label", "单位名称");
+//        columnList.add(columnMap);
+//        //单位简称
+//        columnMap.put("prop", "dwjc");
+//        columnMap.put("label", "单位简称");
+//        columnList.add(columnMap);
+//        pageModel.setColumns(columnList);
         //设置返回值
         retMap.put("data", pageModel);
         return retMap;
