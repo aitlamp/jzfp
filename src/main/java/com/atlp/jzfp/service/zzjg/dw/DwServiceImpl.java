@@ -36,10 +36,14 @@ public class DwServiceImpl implements IDwService {
         retMap.put("code", "0");
         retMap.put("msg", "成功");
         //查询数据
-        String sql = "select t.dwmc, t.dwjc from JZFP_B_ZZJG_DW t order by t.dwpwsx ";
-        String[][] columns = {{"dwmc", "单位名称", "100",},
+        String sql = "select t.dwmc, t.dwjc "
+                + " from JZFP_B_ZZJG_DW t "
+                + " order by t.dwpwsx ";
+        String[][] columns = {
+                {"dwmc", "单位名称", "100",},
                 {"dwjc", "单位简称", "80",},
-                {"dwid", "单位ID", "50"}};
+                {"dwid", "单位ID", "50"}
+        };
         pageModel = dwRepository.findPageBySql(sql, pageModel, columns);
 //        //设置表头数据
 //        List<Map> columnList = new ArrayList<>();
