@@ -2,7 +2,6 @@ package com.atlp.jzfp.service.zcxc;
 
 import com.atlp.jzfp.common.data.PageModel;
 import com.atlp.jzfp.entity.zcxc.JzfpBZcxcEntity;
-import org.springframework.data.domain.Page;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
@@ -21,7 +20,7 @@ public interface IZcxcService {
      * @return
      * @throws Exception
      */
-    public Page<JzfpBZcxcEntity> getPage(PageModel page) throws Exception;
+    public Map<String, Object> getPage(PageModel page) throws Exception;
 
     /**
      * 查询所有政策宣传

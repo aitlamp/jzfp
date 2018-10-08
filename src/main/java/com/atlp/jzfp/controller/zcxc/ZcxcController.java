@@ -5,7 +5,6 @@ import com.atlp.jzfp.common.data.PageModel;
 import com.atlp.jzfp.entity.zcxc.JzfpBZcxcEntity;
 import com.atlp.jzfp.service.zcxc.IZcxcService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
@@ -33,7 +32,7 @@ public class ZcxcController extends BaseController {
      */
     @RequestMapping(value = "/getPage", method = RequestMethod.POST)
     @ResponseBody
-    public Page<JzfpBZcxcEntity> getPage(@RequestBody PageModel page) throws Exception {
+    public Map<String, Object> getPage(@RequestBody PageModel page) throws Exception {
         return iZcxcService.getPage(page);
     }
 

@@ -8,9 +8,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.interceptor.TransactionAspectSupport;
@@ -37,9 +34,29 @@ public class ZcxcServiceImpl implements IZcxcService {
     private ZcxcRepository zcxcRepository;
 
     @Override
-    public Page<JzfpBZcxcEntity> getPage(PageModel page) throws Exception {
-        return null;//zcxcRepository.findAll(PageRequest.of(page.getPage(), page.getLimit(),
-        //new Sort(Sort.Direction.DESC, "fbrq")));
+    public Map<String, Object> getPage(PageModel page) throws Exception {
+        Map reMap = new HashMap();
+        reMap.put("code", "0");
+        reMap.put("msg", "SUCCESS");
+
+        //查询数据
+        String sql = "select t.xcid, t.lx, t.bt, t.nr, t.dqzt from jzfp_b_zcxc t order by t.firsttime desc ";
+        String[][] columns = {{"xcid", "宣传id", "100"},
+                {"lx", "类型", "80"},
+                {"bt", "标题", "50"}, {"nr", "内容", "80"},
+                {"dqzt", "当前状态", "80"}};
+        page = zcxcRepository.findPageBySql(sql, page, columns);
+
+        // 查询list无数据
+        if (AtlpUtil.isEmpty(page.getRows())) {
+            logger.debug("政策宣传信息空空如也...分页信息==={}", page.toString());
+            reMap.put("code", "-1");
+            reMap.put("msg", "政策宣传信息空空如也.");
+            return reMap;
+        }
+
+        reMap.put("data", page);
+        return reMap;
     }
 
     @Override
