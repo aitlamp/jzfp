@@ -43,4 +43,4 @@ custom-props:
   access-ignore: include,webjars,login,doLogin,main/,zzjg
   tysq-path: http://47.99.139.126/tysq/tysqRestWS/callService.do
   app-code: JZFP
-  nginx-path: http://47.99.139.126:82/files/
+  nginx-path: http://47.99.139.126:82/files/jzfp

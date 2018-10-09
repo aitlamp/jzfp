@@ -13,4 +13,5 @@ public class CustomProps {
     private List<String> accessIgnore;
     private String tysqPath;
     private String appCode;
+    private String nginxPath;
 }
