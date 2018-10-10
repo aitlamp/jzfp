@@ -27,6 +27,7 @@ public class XmzlController extends BaseController {
     @RequestMapping(value = "/getPage")
     @ResponseBody
     public Map<String, Object> getPage(PageModel page) throws Exception {
+        System.out.println("asdfg");
         return null;
     }
 
