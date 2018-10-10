@@ -72,7 +72,7 @@ public class XmflController extends BaseController {
             return reMap;
         }
 
-        return iXmflService.doSaveOrUpdate(entity);
+        return iXmflService.doSaveOrUpdate(entity, request);
     }
 
     /**
@@ -96,7 +96,7 @@ public class XmflController extends BaseController {
             return reMap;
         }
 
-        return iXmflService.doSaveOrUpdate(entity);
+        return iXmflService.doSaveOrUpdate(entity, request);
     }
 
     /**

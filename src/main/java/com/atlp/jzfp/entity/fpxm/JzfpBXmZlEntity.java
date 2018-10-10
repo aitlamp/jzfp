@@ -30,4 +30,6 @@ public class JzfpBXmZlEntity implements Serializable {
 
     @Transient
     private JzfpBXmFjEntity xmFjEntity;
+    @Transient
+    private String flmc;
 }
