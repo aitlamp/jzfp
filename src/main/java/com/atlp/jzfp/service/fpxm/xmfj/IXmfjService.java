@@ -12,6 +12,14 @@ import java.util.Map;
 public interface IXmfjService {
 
     /**
+     * 主键id查询项目附件
+     * @param id
+     * @return
+     * @throws Exception
+     */
+    public JzfpBXmFjEntity getInfoById(String id) throws Exception;
+
+    /**
      * 添加项目附件
      * @param entity
      * @return

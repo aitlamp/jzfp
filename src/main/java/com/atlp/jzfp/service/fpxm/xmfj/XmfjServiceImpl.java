@@ -13,6 +13,7 @@ import org.springframework.transaction.interceptor.TransactionAspectSupport;
 
 import java.sql.Timestamp;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -28,6 +29,11 @@ public class XmfjServiceImpl implements IXmfjService {
 
     @Autowired
     private FpxmXmfjRepository xmfjRepository;
+
+    @Override
+    public JzfpBXmFjEntity getInfoById(String id) throws Exception {
+        return xmfjRepository.findByFjid(id);
+    }
 
     @Override
     public void doSave(JzfpBXmFjEntity entity) throws Exception {
@@ -55,6 +61,21 @@ public class XmfjServiceImpl implements IXmfjService {
 
     @Override
     public Map<String, Object> doDelete(JzfpBXmFjEntity entity) throws Exception {
-        return null;
+        Map<String, Object> reMap = new HashMap<>();
+        reMap.put("code", "0");
+        reMap.put("msg", "SUCCESS");
+
+        try {
+            xmfjRepository.delete(entity);
+        } catch (Exception e) {
+            logger.debug("删除项目附件失败...项目附件信息==={}", entity.toString());
+            e.printStackTrace();
+            TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
+            reMap.put("code", "-1");
+            reMap.put("msg", "删除项目附件失败.");
+            return reMap;
+        }
+
+        return reMap;
     }
 }
