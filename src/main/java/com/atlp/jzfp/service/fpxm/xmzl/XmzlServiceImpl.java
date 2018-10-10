@@ -1,8 +1,10 @@
 package com.atlp.jzfp.service.fpxm.xmzl;
 
 import com.atlp.jzfp.common.utils.AtlpUtil;
+import com.atlp.jzfp.entity.fpxm.JzfpBXmFjEntity;
 import com.atlp.jzfp.entity.fpxm.JzfpBXmZlEntity;
 import com.atlp.jzfp.repository.fpxm.FpxmXmZlRepository;
+import com.atlp.jzfp.service.fpxm.xmfj.IXmfjService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
@@ -29,6 +31,8 @@ public class XmzlServiceImpl implements IXmzlService {
 
     @Autowired
     private FpxmXmZlRepository xmZlRepository;
+    @Autowired
+    private IXmfjService iXmfjService;
 
     @Override
     public Map<String, Object> doSave(JzfpBXmZlEntity entity) throws Exception {
@@ -37,8 +41,15 @@ public class XmzlServiceImpl implements IXmzlService {
         reMap.put("msg", "SUCCESS");
 
         try {
-            JzfpBXmZlEntity saveEntity = new JzfpBXmZlEntity();
+            // 判断项目附件是否正常
+            if (AtlpUtil.isEmpty(entity.getXmFjEntity())) {
+                logger.debug("项目资料附件为空，添加项目分类资料失败...项目分类资料信息==={}",entity.toString());
+                reMap.put("code", "-1");
+                reMap.put("msg", "系统异常，添加项目分类资料失败.");
+                return reMap;
+            }
 
+            JzfpBXmZlEntity saveEntity = new JzfpBXmZlEntity();
             BeanUtils.copyProperties(entity, saveEntity, AtlpUtil.getNullPropertyNames(entity));
             // AtlpUtil.setUserInfo(saveEntity, request);
             saveEntity.setFirsttime(new Timestamp(new Date().getTime()));
@@ -54,6 +65,11 @@ public class XmzlServiceImpl implements IXmzlService {
                 reMap.put("msg", "系统异常，添加项目分类资料失败.");
                 return reMap;
             }
+
+            // 项目资料添加成功，添加资料附件
+            JzfpBXmFjEntity xmFjEntity = entity.getXmFjEntity();
+            xmFjEntity.setZlid(save.getZlid());
+            iXmfjService.doSave(xmFjEntity);
         } catch (Exception e) {
             e.printStackTrace();
             TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();

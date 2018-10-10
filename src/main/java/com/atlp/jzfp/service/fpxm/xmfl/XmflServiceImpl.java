@@ -165,11 +165,12 @@ public class XmflServiceImpl implements IXmflService {
             // 项目分类添加成功，添加项目分类对应资料
             List<JzfpBXmZlEntity> xmZlEntityList = entity.getXmZlEntityList();
             if (!AtlpUtil.isEmpty(xmZlEntityList)) {
-                // 项目附件list
+                // 项目资料list
                 for (JzfpBXmZlEntity xmZlEntity : xmZlEntityList) {
                     // 根据项目附件id和项目分类id查询该附件是否存在，不存在该附件则直接添加
-                    JzfpBXmZlEntity zlEntity = xmZlRepository.findByZlidAndFlid(xmZlEntity.getZlid(), entity.getFlid());
+                    JzfpBXmZlEntity zlEntity = xmZlRepository.findByZlid(xmZlEntity.getZlid());
                     if (AtlpUtil.isEmpty(zlEntity)) {
+                        xmZlEntity.setFlid(save.getFlid());
                         iXmzlService.doSave(xmZlEntity);
                     }
                 }
