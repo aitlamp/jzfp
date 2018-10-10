@@ -22,13 +22,14 @@ import java.util.Map;
  * @Decription: 资金来源 controller
  */
 @Controller
-@RequestMapping(value = "/fpzj/zjly",method = {RequestMethod.GET,RequestMethod.POST})
+@RequestMapping(value = "/fpzj/zjly", method = {RequestMethod.GET, RequestMethod.POST})
 public class ZjlyController extends BaseController {
     @Autowired
     private IZjlyService iZjlyService;
 
     /**
      * 资金来源分页数据展示
+     *
      * @param page
      * @return
      * @throws Exception
@@ -44,6 +45,7 @@ public class ZjlyController extends BaseController {
 
     /**
      * 增加资金来源信息
+     *
      * @param request
      * @param entiy
      * @return
@@ -56,10 +58,10 @@ public class ZjlyController extends BaseController {
         reMap.put("code", "0");
         reMap.put("msg", "SUCCESS");
 
-        if (AtlpUtil.isEmpty(entiy)||AtlpUtil.isEmpty(entiy.getLymc())){
-            logger.debug("传入资金来源信息不完整，增加资金来源信息失败...来源名称==={}",entiy.toString());
-            reMap.put("code","-1");
-            reMap.put("msg","传入资金来源信息不完整，增加资金来源信息失败");
+        if (AtlpUtil.isEmpty(entiy) || AtlpUtil.isEmpty(entiy.getLymc())) {
+            logger.debug("传入资金来源信息不完整，增加资金来源信息失败...来源名称==={}", entiy.toString());
+            reMap.put("code", "-1");
+            reMap.put("msg", "传入资金来源信息不完整，增加资金来源信息失败");
             return reMap;
         }
 
@@ -68,6 +70,7 @@ public class ZjlyController extends BaseController {
 
     /**
      * 修改资金来源信息
+     *
      * @param request
      * @param entiy
      * @return
@@ -80,13 +83,27 @@ public class ZjlyController extends BaseController {
         reMap.put("code", "0");
         reMap.put("msg", "SUCCESS");
 
-        if (AtlpUtil.isEmpty(entiy)||AtlpUtil.isEmpty(entiy.getLyid())||AtlpUtil.isEmpty(entiy.getLymc())){
-            logger.debug("传入资金来源信息不完整，修改资金来源信息失败...来源名称==={}",entiy.toString());
-            reMap.put("code","-1");
-            reMap.put("msg","传入资金来源信息不完整，修改资金来源信息失败");
+        if (AtlpUtil.isEmpty(entiy) || AtlpUtil.isEmpty(entiy.getLyid()) || AtlpUtil.isEmpty(entiy.getLymc())) {
+            logger.debug("传入资金来源信息不完整，修改资金来源信息失败...来源名称==={}", entiy.toString());
+            reMap.put("code", "-1");
+            reMap.put("msg", "传入资金来源信息不完整，修改资金来源信息失败");
             return reMap;
         }
 
         return iZjlyService.doSaveOrUpdate(entiy);
+    }
+
+    /**
+     * 删除对应的资金来源信息
+     *
+     * @param request
+     * @param entiy
+     * @return
+     * @throws Exception
+     */
+    @RequestMapping(value = "/doDelete", method = RequestMethod.POST)
+    @ResponseBody
+    public Map<String, Object> doDelete(HttpServletRequest request, @RequestBody JzfpBZjLyEntity entiy) throws Exception {
+        return iZjlyService.doDelete(entiy);
     }
 }

@@ -14,13 +14,16 @@ import java.util.Map;
 public interface IZjlyService {
     /**
      * 资金来源信息分页展示
+     *
      * @param page
      * @return
      * @throws Exception
      */
     public Map<String, Object> getPage(PageModel page) throws Exception;
+
     /**
      * 添加资金来源
+     *
      * @param entity
      * @return
      * @throws Exception
@@ -30,9 +33,18 @@ public interface IZjlyService {
     /**
      * 修改资金来源
      * 修改状态
+     *
      * @param entity
      * @return
      * @throws Exception
      */
     public Map<String, Object> doUpdate(JzfpBZjLyEntity entity) throws Exception;
+
+    /**
+     * 删除资金来源信息
+     *
+     * @param entiy
+     * @return
+     */
+    public Map<String, Object> doDelete(JzfpBZjLyEntity entiy);
 }
