@@ -1,24 +1,36 @@
 package com.atlp.jzfp.entity.fpzj;
 
-import javax.persistence.*;
-import java.sql.Time;
+import lombok.Data;
+import org.hibernate.annotations.GenericGenerator;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.Table;
+import java.io.Serializable;
+import java.sql.Timestamp;
+
+
+@Data
 @Entity
-@Table(name = "JZFP_B_ZJ_LY", schema = "JZFP", catalog = "")
-public class JzfpBZjLyEntity {
+@Table(name = "JZFP_B_ZJ_LY")
+public class JzfpBZjLyEntity implements Serializable {
+    @Id
+    @GenericGenerator(name = "system-uuid", strategy = "uuid")
+    @GeneratedValue(generator = "system-uuid")
     private String lyid;
     private String lymc;
     private long xssx;
     private String sm;
     private String dqzt;
-    private Time firsttime;
-    private Time lasttime;
+    private Timestamp firsttime;
+    private Timestamp lasttime;
     private String yhid;
     private String yhxm;
     private String yhdwid;
     private String yhdwmc;
 
-    @Id
+    /*@Id
     @Column(name = "LYID")
     public String getLyid() {
         return lyid;
@@ -164,5 +176,5 @@ public class JzfpBZjLyEntity {
         result = 31 * result + (yhdwid != null ? yhdwid.hashCode() : 0);
         result = 31 * result + (yhdwmc != null ? yhdwmc.hashCode() : 0);
         return result;
-    }
+    }*/
 }
