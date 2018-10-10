@@ -73,6 +73,10 @@ public class ZjlyServiceImpl implements IZjlyService {
             saveEntity.setFirsttime(new Timestamp(new Date().getTime()));
             saveEntity.setLasttime(new Timestamp(new Date().getTime()));
             saveEntity.setDqzt("有效");
+            saveEntity.setYhid("123a");
+            saveEntity.setYhxm("aaaaaa");
+            saveEntity.setYhdwid("321b");
+            saveEntity.setYhdwmc("bbbbbb");
         } else {
             saveEntity = zjlyRepository.findByLyid(entity.getLyid());
             if (AtlpUtil.isEmpty(saveEntity)) {
