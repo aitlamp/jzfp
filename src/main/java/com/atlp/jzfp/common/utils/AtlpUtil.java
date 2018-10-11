@@ -11,6 +11,7 @@ import java.beans.PropertyDescriptor;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.sql.Clob;
 import java.util.*;
 
 /**
@@ -186,6 +187,10 @@ public class AtlpUtil {
             // 循环源Map
             for (Object key : map.keySet()) {
                 Object value = map.get(key);
+                if (value instanceof Clob) {
+                    Clob clob = (Clob) value;
+                    value = clob.getSubString((long) 1, (int) clob.length());
+                }
                 String lowKey = key.toString().toLowerCase();
                 tMap.put(lowKey, value);
             }

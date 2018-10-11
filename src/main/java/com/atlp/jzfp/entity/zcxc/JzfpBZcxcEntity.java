@@ -2,9 +2,11 @@ package com.atlp.jzfp.entity.zcxc;
 
 import lombok.Data;
 import org.hibernate.annotations.GenericGenerator;
-import org.hibernate.annotations.Type;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.Table;
 import java.io.Serializable;
 import java.sql.Timestamp;
 
@@ -19,8 +21,6 @@ public class JzfpBZcxcEntity implements Serializable {
     private String xcid;
     private Integer lx;
     private String bt;
-    @Lob
-    @Type(type = "org.hibernate.type.TextType")
     private String nr;
     private Timestamp shrq;
     private Timestamp fbrq;

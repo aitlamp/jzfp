@@ -3,6 +3,7 @@ package com.atlp.jzfp.service.common.login;
 import com.alibaba.fastjson.JSON;
 import com.atlp.jzfp.common.prop.CustomProps;
 import com.atlp.jzfp.common.utils.HttpClientUtil;
+import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,10 +19,10 @@ import java.util.Map;
  * @author ctc
  * @date 2018年8月14日 23:11:18
  */
+@Slf4j
 @Service
 @Transactional
 public class LoginServiceImpl implements ILoginService {
-    private static Logger log = LoggerFactory.getLogger(LoginServiceImpl.class);
 
     @Autowired
     CustomProps customProps;

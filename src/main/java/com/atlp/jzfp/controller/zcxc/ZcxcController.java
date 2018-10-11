@@ -4,6 +4,7 @@ import com.atlp.jzfp.common.base.BaseController;
 import com.atlp.jzfp.common.data.PageModel;
 import com.atlp.jzfp.entity.zcxc.JzfpBZcxcEntity;
 import com.atlp.jzfp.service.zcxc.IZcxcService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -17,6 +18,7 @@ import java.util.Map;
  * @CreateTime: 2018-10-07 15:42
  * @Decription: 政策宣传控制层
  */
+@Slf4j
 @Controller
 @RequestMapping(value = "/zcxc/zcxc", method = {RequestMethod.GET, RequestMethod.POST})
 public class ZcxcController extends BaseController {
@@ -26,6 +28,7 @@ public class ZcxcController extends BaseController {
 
     /**
      * 分页查询
+     *
      * @param page
      * @return
      * @throws Exception
@@ -33,11 +36,15 @@ public class ZcxcController extends BaseController {
     @RequestMapping(value = "/getPage", method = RequestMethod.POST)
     @ResponseBody
     public Map<String, Object> getPage(@RequestBody PageModel page) throws Exception {
+        log.info("info");
+        log.debug("debug");
+        log.error("error");
         return iZcxcService.getPage(page);
     }
 
     /**
      * 新增政策宣传
+     *
      * @param entity
      * @return
      * @throws Exception
@@ -58,8 +65,10 @@ public class ZcxcController extends BaseController {
 
         return iZcxcService.doSaveOrUpdate(entity, request);
     }
+
     /**
      * 新增政策宣传
+     *
      * @param entity
      * @return
      * @throws Exception
@@ -83,6 +92,7 @@ public class ZcxcController extends BaseController {
 
     /**
      * 删除政策宣传
+     *
      * @param xcid
      * @return
      * @throws Exception

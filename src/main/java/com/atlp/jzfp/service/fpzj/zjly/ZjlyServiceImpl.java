@@ -23,7 +23,7 @@ import java.util.Map;
  * @Decription: 资金来源业务层实现类
  */
 @Service
-@Transactional(propagation = Propagation.SUPPORTS,readOnly = true)
+@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 public class ZjlyServiceImpl implements IZjlyService {
 
     private final Logger logger = LoggerFactory.getLogger(getClass());
@@ -33,6 +33,7 @@ public class ZjlyServiceImpl implements IZjlyService {
 
     /**
      * 资金来源分页数据展示
+     *
      * @param page
      * @return
      * @throws Exception
@@ -44,16 +45,17 @@ public class ZjlyServiceImpl implements IZjlyService {
         retMap.put("msg", "成功");
         String sql = "select t.lymc,t.sm,t.yhid,t.lasttime from JZFP_B_ZJ_LY t order by t.xssx";
         String[][] columns = {{"lymc", "来源说明", "80"},
-                {"sm", "说明", "100"},{"yhxm", "维护人", "80"},
+                {"sm", "说明", "100"}, {"yhxm", "维护人", "80"},
                 {"lasttime", "维护时间", "80"}};
-        page=zjlyRepository.findPageBySql(sql,page,columns);
-        retMap.put("data",page);
+        page = zjlyRepository.findPageBySql(sql, page, columns);
+        retMap.put("data", page);
 
         return retMap;
     }
 
     /**
      * 增加资金来源信息
+     *
      * @param entity
      * @return
      * @throws Exception
@@ -68,7 +70,7 @@ public class ZjlyServiceImpl implements IZjlyService {
 
         JzfpBZjLyEntity saveEntity = new JzfpBZjLyEntity();
         //判断主键ID
-        if (null==entity.getLyid()){
+        if (null == entity.getLyid()) {
             BeanUtils.copyProperties(entity, saveEntity, AtlpUtil.getNullPropertyNames(entity));
             saveEntity.setFirsttime(new Timestamp(new Date().getTime()));
             saveEntity.setLasttime(new Timestamp(new Date().getTime()));
@@ -86,7 +88,7 @@ public class ZjlyServiceImpl implements IZjlyService {
         }
         JzfpBZjLyEntity save = zjlyRepository.save(saveEntity);
         //判断增加或修改是否成功
-        if (null==save||null==save.getLyid()){
+        if (null == save || null == save.getLyid()) {
             logger.debug("资金来源增加或修改失败...资金来源信息==={}", entity.getLyid());
             retMap.put("code", "-1");
             retMap.put("msg", "系统异常，查询资金来源失败.");
@@ -100,6 +102,7 @@ public class ZjlyServiceImpl implements IZjlyService {
     /**
      * 资金来源信息修改
      * 状态修改
+     *
      * @param entity
      * @return
      * @throws Exception
@@ -124,7 +127,7 @@ public class ZjlyServiceImpl implements IZjlyService {
 
         JzfpBZjLyEntity update = zjlyRepository.save(updateEntity);
         //判断修改是否成功
-        if (AtlpUtil.isEmpty(update)||AtlpUtil.isEmpty(update.getLyid())){
+        if (AtlpUtil.isEmpty(update) || AtlpUtil.isEmpty(update.getLyid())) {
             logger.debug("资金来源修改失败...资金来源信息==={}", entity.getLyid());
             retMap.put("code", "-1");
             retMap.put("msg", "系统异常，查询资金来源失败.");
