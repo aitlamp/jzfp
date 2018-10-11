@@ -32,7 +32,7 @@ spring:
 
   datasource:
     driver-class-name: oracle.jdbc.driver.OracleDriver
-    url: jdbc:oracle:thin:@192.168.0.202:1521:orcl
+    url: jdbc:oracle:thin:@192.168.1.202:1521:orcl
     username: jzfp
     password: jzfp123
 
