@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.interceptor.TransactionAspectSupport;
 
+import javax.servlet.http.HttpServletRequest;
 import java.sql.Timestamp;
 import java.util.Date;
 import java.util.HashMap;
@@ -47,7 +48,9 @@ public class XmflServiceImpl implements IXmflService {
         reMap.put("msg", "SUCCESS");
 
         // 查询数据
-        String sql = "select t.flid,t.xssx,t.flmc,t.sm,t.yhxm,t.lasttime from jzfp_b_xm_fl t where pflid = '"+ page.getPmap().get("pflid").toString() +"' ";
+        String sql = "select t.flid,t.xssx,t.flmc,t.sm,t.yhxm,t.lasttime from jzfp_b_xm_fl t " +
+                " where pflid = '"+ page.getPmap().get("pflid").toString() +"' " +
+                " order by t.xssx ";
         String[][] columns = {{"xssx", "显示顺序", "100"},
                 {"flmc", "分类名称", "80"},
                 {"sm", "说明", "50"}, {"yhxm", "维护人", "80"},
@@ -125,7 +128,7 @@ public class XmflServiceImpl implements IXmflService {
     }
 
     @Override
-    public Map<String, Object> doSaveOrUpdate(JzfpBXmFlEntity entity) throws Exception {
+    public Map<String, Object> doSaveOrUpdate(JzfpBXmFlEntity entity, HttpServletRequest request) throws Exception {
         Map<String, Object> reMap = new HashMap<>();
         reMap.put("code", "0");
         reMap.put("msg", "SUCCESS");
@@ -171,7 +174,7 @@ public class XmflServiceImpl implements IXmflService {
                     JzfpBXmZlEntity zlEntity = xmZlRepository.findByZlid(xmZlEntity.getZlid());
                     if (AtlpUtil.isEmpty(zlEntity)) {
                         xmZlEntity.setFlid(save.getFlid());
-                        iXmzlService.doSave(xmZlEntity);
+                        iXmzlService.doSaveOrUpdate(xmZlEntity, request);
                     }
                 }
             }

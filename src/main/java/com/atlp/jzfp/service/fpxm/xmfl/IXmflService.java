@@ -3,6 +3,7 @@ package com.atlp.jzfp.service.fpxm.xmfl;
 import com.atlp.jzfp.common.data.PageModel;
 import com.atlp.jzfp.entity.fpxm.JzfpBXmFlEntity;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 import java.util.Map;
 
@@ -66,7 +67,7 @@ public interface IXmflService {
      * @return
      * @throws Exception
      */
-    public Map<String, Object> doSaveOrUpdate(JzfpBXmFlEntity entity) throws Exception;
+    public Map<String, Object> doSaveOrUpdate(JzfpBXmFlEntity entity, HttpServletRequest request) throws Exception;
 
     /**
      * 修改项目分类
