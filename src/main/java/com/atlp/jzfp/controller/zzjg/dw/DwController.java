@@ -2,6 +2,7 @@ package com.atlp.jzfp.controller.zzjg.dw;
 
 import com.alibaba.fastjson.JSONObject;
 import com.atlp.jzfp.common.base.BaseController;
+import com.atlp.jzfp.common.base.FastDFSClientWrapper;
 import com.atlp.jzfp.common.data.PageModel;
 import com.atlp.jzfp.common.prop.CustomProps;
 import com.atlp.jzfp.service.zzjg.dw.IDwService;
@@ -34,6 +35,8 @@ public class DwController extends BaseController {
     private IDwService dwService;
     @Autowired
     CustomProps customProps;
+    @Autowired
+    private FastDFSClientWrapper dfsClient;
 
     /**
      * 获取单位分页数据
@@ -49,27 +52,14 @@ public class DwController extends BaseController {
     @ResponseBody
     @RequestMapping(value = "/doUpload", method = RequestMethod.POST)
     public String uploadImg(@RequestParam("file") MultipartFile file, HttpServletRequest request) {
-        String contentType = file.getContentType();
-        String fileName = file.getOriginalFilename();
-        /*System.out.println("fileName-->" + fileName);
-        System.out.println("getContentType-->" + contentType);*/
-        String filePath = request.getSession().getServletContext().getRealPath("imgupload/");
+        String imgUrl = "";
         try {
-            //PicUploadResult picUpload = new PicUploadResult();
-            String url = customProps.getNginxPath() + "/" + fileName;
-            System.out.println(url);
-            file.transferTo(new File(url));
-            //FileUtil.uploadFile(file.getBytes(), filePath, fileName);
-
-            String content = "hellow 中国";
-            InputStream ips = new ByteArrayInputStream(content.getBytes("UTF-8"));
-            System.out.println(upload("http://aitlamp.com:82/files/jzfp/", "text.txt", ips));
-
+            imgUrl = dfsClient.uploadFile(file);
         } catch (Exception e) {
-            // TODO: handle exception
+            e.printStackTrace();
         }
         //返回json
-        return "uploadimg success";
+        return imgUrl;
     }
 
     public static JSONObject upload(String httpurl, String fileName, InputStream inputStream) {
