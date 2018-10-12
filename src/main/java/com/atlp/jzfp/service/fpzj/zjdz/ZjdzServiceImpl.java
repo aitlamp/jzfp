@@ -145,7 +145,7 @@ public class ZjdzServiceImpl implements IZjdzService {
         retMap.put("code", "0");
         retMap.put("msg", "成功");
 
-        if (AtlpUtil.isEmpty(entity) || AtlpUtil.isEmpty(entity)) {
+        if (AtlpUtil.isEmpty(entity) || AtlpUtil.isEmpty(entity.getDzid())) {
             logger.debug("参数异常，删除资金到账信息失败...资金到账id==={}", entity.getDzid());
             retMap.put("code", "-1");
             retMap.put("msg", "系统异常,删除资金到账信息失败");

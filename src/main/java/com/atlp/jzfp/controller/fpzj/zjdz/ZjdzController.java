@@ -38,9 +38,6 @@ public class ZjdzController extends BaseController {
     @RequestMapping(value = "/getPage", method = RequestMethod.POST)
     @ResponseBody
     public Map<String, Object> getPage(@RequestBody PageModel page) throws Exception {
-        Map<String, Object> reMap = new HashMap<>();
-        reMap.put("code", "0");
-        reMap.put("msg", "SUCCESS");
         return iZjdzService.getPage(page);
     }
 
@@ -61,7 +58,7 @@ public class ZjdzController extends BaseController {
         if (AtlpUtil.isEmpty(entity) || AtlpUtil.isEmpty(entity.getLyid())
                 || AtlpUtil.isEmpty(entity.getDzsj()) || AtlpUtil.isEmpty(entity.getDzje())
                 || AtlpUtil.isEmpty(entity.getNd())) {
-            logger.debug("传入资金到账信息不完整，增加资金到账信息失败...资金来源id==={},到账时间==={},到账金额==={},资金年度==={}");
+            logger.debug("传入资金到账信息不完整，增加资金到账信息失败...资金来源id==={},到账时间==={},到账金额==={},资金年度==={}", entity.toString());
             reMap.put("code", "-1");
             reMap.put("msg", "传入资金到账信息不完整，增加资金到账信息失败");
             return reMap;
@@ -86,7 +83,7 @@ public class ZjdzController extends BaseController {
         if (AtlpUtil.isEmpty(entity) || AtlpUtil.isEmpty(entity.getDzid())
                 || AtlpUtil.isEmpty(entity.getLyid()) || AtlpUtil.isEmpty(entity.getDzsj())
                 || AtlpUtil.isEmpty(entity.getDzje()) || AtlpUtil.isEmpty(entity.getNd())) {
-            logger.debug("传入资金到账信息不完整，增加资金到账信息失败...资金到账id==={},资金来源id==={},到账时间==={},到账金额==={},资金年度==={}");
+            logger.debug("传入资金到账信息不完整，增加资金到账信息失败...资金到账id==={},资金来源id==={},到账时间==={},到账金额==={},资金年度==={}", entity.toString());
             reMap.put("code", "-1");
             reMap.put("msg", "传入资金到账信息不完整，增加资金到账信息失败");
             return reMap;
