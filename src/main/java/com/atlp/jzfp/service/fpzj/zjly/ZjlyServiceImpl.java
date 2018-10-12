@@ -75,6 +75,10 @@ public class ZjlyServiceImpl implements IZjlyService {
             saveEntity.setFirsttime(new Timestamp(new Date().getTime()));
             saveEntity.setLasttime(new Timestamp(new Date().getTime()));
             saveEntity.setDqzt("有效");
+            saveEntity.setYhid("123a");
+            saveEntity.setYhxm("aaaaaa");
+            saveEntity.setYhdwid("321b");
+            saveEntity.setYhdwmc("bbbbbb");
         } else {
             saveEntity = zjlyRepository.findByLyid(entity.getLyid());
             if (AtlpUtil.isEmpty(saveEntity)) {
@@ -128,11 +132,32 @@ public class ZjlyServiceImpl implements IZjlyService {
         JzfpBZjLyEntity update = zjlyRepository.save(updateEntity);
         //判断修改是否成功
         if (AtlpUtil.isEmpty(update) || AtlpUtil.isEmpty(update.getLyid())) {
-            logger.debug("资金来源修改失败...资金来源信息==={}", entity.getLyid());
+            logger.debug("参数异常,资金来源修改失败...资金来源信息==={}", entity.getLyid());
             retMap.put("code", "-1");
             retMap.put("msg", "系统异常，查询资金来源失败.");
             return retMap;
         }
+        return retMap;
+    }
+
+    /**
+     * 删除对应的资金来源信息
+     *
+     * @param entity
+     * @return
+     */
+    @Override
+    public Map<String, Object> doDelete(JzfpBZjLyEntity entity) {
+        Map retMap = new HashMap();
+        retMap.put("code", "0");
+        retMap.put("msg", "成功");
+        if (AtlpUtil.isEmpty(entity) || AtlpUtil.isEmpty(entity.getLyid())) {
+            logger.debug("参数异常，资金来源删除失败...资金来源ID==={}", entity.getLyid());
+            retMap.put("code", "-1");
+            retMap.put("msg", "系统异常，资金来源删除失败");
+            return retMap;
+        }
+        zjlyRepository.delete(entity);
         return retMap;
     }
 }
