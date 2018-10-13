@@ -9,6 +9,8 @@ import com.atlp.jzfp.service.fpxm.xmjd.IXmjdService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.interceptor.TransactionAspectSupport;
 
 import javax.servlet.http.HttpServletRequest;
@@ -24,6 +26,8 @@ import java.util.Map;
  * @Decription:
  */
 @Slf4j
+@Service
+@Transactional
 public class XmxxServiceImpl implements IXmxxService {
 
     @Autowired

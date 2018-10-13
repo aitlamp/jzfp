@@ -43,7 +43,7 @@ public abstract class BaseController {
         binder.registerCustomEditor(Date.class, new PropertyEditorSupport() {
             @Override
             public void setAsText(String text) {
-                setValue(DateTimeUtil.parseTimestamp(DateTimeUtil.parseDate(text)));
+                setValue(DateTimeUtil.date2Timestamp(DateTimeUtil.parseDate(text)));
             }
         });
     }

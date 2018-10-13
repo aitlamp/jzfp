@@ -43,7 +43,7 @@ public class XmjdServiceImpl implements IXmjdService {
         try {
             JzfpBXmJdEntity saveEntity = new JzfpBXmJdEntity();
             // 判断主键id，增加或是修改
-            if (AtlpUtil.isEmpty(entity.getXmid())) {
+            if (AtlpUtil.isEmpty(entity.getJdid())) {
                 BeanUtils.copyProperties(entity, saveEntity, AtlpUtil.getNullPropertyNames(entity));
                 // AtlpUtil.setUserInfo(saveEntity, request);
                 saveEntity.setFirsttime(new Timestamp(new Date().getTime()));
