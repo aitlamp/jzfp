@@ -7,6 +7,7 @@ import com.atlp.jzfp.entity.fpxm.JzfpBXmZlEntity;
 import com.atlp.jzfp.repository.fpxm.FpxmXmZlRepository;
 import com.atlp.jzfp.repository.fpxm.FpxmXmflRepository;
 import com.atlp.jzfp.service.fpxm.xmzl.IXmzlService;
+import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
@@ -28,6 +29,7 @@ import java.util.Map;
  * @CreateTime: 2018-10-08 15:31
  * @Decription: 项目分类业务层实现类
  */
+@Slf4j
 @Service
 @Transactional
 public class XmflServiceImpl implements IXmflService {
@@ -89,6 +91,23 @@ public class XmflServiceImpl implements IXmflService {
         xmflList.add(map);
 
         reMap.put("data", xmflList);
+        return reMap;
+    }
+
+    @Override
+    public Map<String, Object> getSelectByPflid(String pflid) throws Exception {
+        Map<String, Object> reMap = new HashMap();
+        reMap.put("code", "0");
+        reMap.put("msg", "SUCCESS");
+
+        List<JzfpBXmFlEntity> xmFlList = xmflRepository.findByPflid(pflid);
+        if (AtlpUtil.isEmpty(xmFlList)) {
+            log.debug("查询项目分类失败,上级分类id==={}", pflid);
+            reMap.put("code", "-1");
+            reMap.put("msg", "查询项目分类失败.");
+        }
+        reMap.put("data", xmFlList);
+
         return reMap;
     }
 
