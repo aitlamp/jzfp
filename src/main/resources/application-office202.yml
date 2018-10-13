@@ -40,7 +40,6 @@ spring:
 #logging:
 #  level:
 #    com.atlp: debug
-#  file: test.log
 
 #FastDFS
 fdfs:
@@ -54,5 +53,6 @@ fdfs:
 
 #自定义属性
 custom-props:
-  access-ignore: include,webjars,login,doLogin,main/,jzfp
-  fdfs-path: http://47.97.173.180:90/
+  log-level: debug
+  access-ignore: include,webjars,login,doLogin,main/,jzfp #访问忽略路径，以逗号分隔
+  fdfs-path: http://47.97.173.180:90/ #FastDFS地址

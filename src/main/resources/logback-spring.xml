@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration>
+    <springProperty scope="context" name="logLevel" source="custom-props.log-level"/>
 
     <!-- %m输出的信息,%p日志级别,%t线程名,%d日期,%c类的全名,%i索引【从数字0开始递增】,,, -->
     <!-- appender是configuration的子节点，是负责写日志的组件。 -->
@@ -29,15 +30,14 @@
     </appender>
 
     <!-- 控制台输出日志级别 -->
-    <root level="info">
+    <root level="INFO">
         <appender-ref ref="STDOUT"/>
-        <appender-ref ref="logFile"/>
     </root>
 
     <!-- 指定项目中某个包，当有日志操作行为时的日志记录级别 -->
     <!-- com.liyan为根包，也就是只要是发生在这个根包下面的所有日志操作行为的权限都是DEBUG -->
     <!-- 级别依次为【从高到低】：FATAL > ERROR > WARN > INFO > DEBUG > TRACE  -->
-    <logger name="com.atlp.jzfp" level="DEBUG">
+    <logger name="com.atlp.jzfp" level="${logLevel}">
         <appender-ref ref="logFile"/>
     </logger>
 
