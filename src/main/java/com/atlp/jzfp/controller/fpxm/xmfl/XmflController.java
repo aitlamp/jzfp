@@ -7,10 +7,7 @@ import com.atlp.jzfp.entity.fpxm.JzfpBXmFlEntity;
 import com.atlp.jzfp.service.fpxm.xmfl.IXmflService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
@@ -108,6 +105,18 @@ public class XmflController extends BaseController {
     @ResponseBody
     public Map<String, Object> getXmflTreeWithTitle() throws Exception {
         return iXmflService.getListWithTitle();
+    }
+
+    /**
+     * 查询项目分类
+     * @param pflid
+     * @return
+     * @throws Exception
+     */
+    @RequestMapping(value = "/getXmflSelect/{pflid}")
+    @ResponseBody
+    public Map<String, Object> getXmflSelect(@PathVariable(name = "pflid", required = true) String pflid) throws Exception {
+        return iXmflService.getSelectByPflid(pflid);
     }
 
 }

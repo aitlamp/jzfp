@@ -8,7 +8,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import java.io.Serializable;
-import java.math.BigDecimal;
 import java.sql.Timestamp;
 
 @Data
@@ -23,7 +22,7 @@ public class JzfpBXmJdEntity implements Serializable {
     private String xmid;
     private String jdmc;
     private String jsnr;
-    private BigDecimal gzlzb;
+    private Double gzlzb;
     private Timestamp kssj;
     private Timestamp jssj;
     private Integer jdsx;

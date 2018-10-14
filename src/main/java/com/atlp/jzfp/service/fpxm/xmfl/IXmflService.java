@@ -38,6 +38,14 @@ public interface IXmflService {
     public Map<String, Object> getListWithTitle() throws Exception;
 
     /**
+     * 根据上级分类if查询分类select
+     * @param pflid
+     * @return
+     * @throws Exception
+     */
+    public Map<String, Object> getSelectByPflid(String pflid) throws Exception;
+
+    /**
      * 根据上级分类id查询下级分类list
      * @param pflid
      * @return
