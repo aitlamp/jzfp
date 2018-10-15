@@ -1,7 +1,10 @@
 package com.atlp.jzfp.service.common.login;
 
 import com.alibaba.fastjson.JSON;
+import com.atlp.jzfp.service.zzjg.yh.IYhService;
 import lombok.extern.slf4j.Slf4j;
+import org.atlp.exception.BusinessException;
+import org.atlp.utils.AtlpUtil;
 import org.atlp.utils.HttpClientUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
@@ -21,33 +24,23 @@ import java.util.Map;
 @Service
 @Transactional
 public class LoginServiceImpl implements ILoginService {
-
     @Autowired
-    private Environment env;
+    private IYhService yhService;
 
     //登录方法
     public Map<String, Object> doLogin(String userName, String userPwd, String clientIp) {
-        // 设置header
-        Map<String, String> headers = new HashMap<>();
-        headers.put("Content-Type", "application/json; charset=UTF-8");
-        // 组织参数
-        Map<String, Object> pmap = new HashMap<>();
-        pmap.put("ip", clientIp);
-        pmap.put("hhid", "");
-        pmap.put("method", "userLogin");
-        //pmap.put("appCode", customProps.getAppCode());
-        pmap.put("userName", userName);
-        pmap.put("userPwd", userPwd);
-        // 发送请求
-        Map<String, Object> responseMap = HttpClientUtil.postJson(null, pmap, headers);
-        log.debug("调用统一授权接口登录方法返回值：" + responseMap);
-        // 处理参数
-        int statusCode = (Integer) responseMap.get("statusCode");
-        if (statusCode == 200) {
-            String responseContent = responseMap.get("responseContent").toString();
-            // 将返回值转为Map对象
-            return JSON.parseObject(responseContent);
+        // 判断用户名是否存在
+        Map userMap = yhService.findMapByDlid(userName);
+        if (AtlpUtil.isEmpty(userMap)) {
+            throw new BusinessException(4001, "用户名不存在");
         }
-        return null;
+        // 判断密码是否正确
+        String yhmm = AtlpUtil.toString(userMap.get("yhmm"));
+        if (!yhmm.equals(userPwd)) {
+            throw new BusinessException(4002, "密码不正确");
+        }
+        //插入登录日志
+
+        return userMap;
     }
 }

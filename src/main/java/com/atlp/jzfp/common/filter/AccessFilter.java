@@ -1,21 +1,16 @@
 package com.atlp.jzfp.common.filter;
 
-import com.alibaba.fastjson.JSON;
+import lombok.extern.slf4j.Slf4j;
 import org.atlp.utils.AtlpUtil;
-import org.atlp.utils.HttpClientUtil;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.annotation.Order;
 import org.springframework.core.env.Environment;
-import org.springframework.util.StringUtils;
 
 import javax.servlet.*;
 import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -25,16 +20,15 @@ import java.util.Map;
  * @author 曹铁诚
  * @date 2018年8月22日 11:14:00
  */
+@Slf4j
 @Order(1)
 @WebFilter(filterName = "accessFilter", urlPatterns = "/*")
 public class AccessFilter implements Filter {
-    private static Logger log = LoggerFactory.getLogger(AccessFilter.class);
-
     @Autowired
     private Environment env;
 
     @Override
-    public void init(FilterConfig filterConfig) throws ServletException {
+    public void init(FilterConfig filterConfig) {
         log.info("AccessFilter过滤器初始化！");
     }
 
@@ -70,8 +64,18 @@ public class AccessFilter implements Filter {
             return;
         }
 
+        // 判断session是否存在hhid
+        String hhid = httpServletRequest.getSession().getAttribute("hhid").toString();
+        if (AtlpUtil.isEmpty(hhid)) {
+            // 验证不通过
+            String contextPath = httpServletRequest.getContextPath();
+            httpServletResponse.sendRedirect(contextPath);
+        }
+
+        // 验证hhid是否过期
+
         //判断是否登录
-        Map<String, Object> checkLoginMap = this.checkLogin(httpServletRequest);
+        Map<String, Object> checkLoginMap = null;//this.checkLogin(httpServletRequest);
         String code = checkLoginMap.get("code").toString();
         if (code.equals("00")) {
             // 验证通过
@@ -90,50 +94,4 @@ public class AccessFilter implements Filter {
         log.info("AccessFilter过滤器销毁！");
     }
 
-    /**
-     * 判断用户是否登录
-     */
-    private Map<String, Object> checkLogin(HttpServletRequest request) {
-        Map<String, Object> retMap = new HashMap<String, Object>();
-        retMap.put("code", "01");
-        retMap.put("msg", "未知错误！");
-        try {
-            // 判断session是否存在hhid
-            if (StringUtils.isEmpty(request.getSession().getAttribute("hhid"))) {
-                // 没有登录
-                retMap.put("code", "02");
-                retMap.put("msg", "您还没有登录！");
-                return retMap;
-            }
-            String hhid = request.getSession().getAttribute("hhid").toString();
-
-            /***** 验证hhid是否过期 *****/
-
-            // 设置header
-            Map<String, String> headers = new HashMap<>();
-            headers.put("Content-Type", "application/json; charset=UTF-8");
-            // 组织参数
-            Map<String, Object> pmap = new HashMap<>();
-            pmap.put("ip", AtlpUtil.getClientIP(request));
-            pmap.put("hhid", hhid);
-            pmap.put("method", "checkHhid");
-            // 发送请求
-            Map<String, Object> responseMap = HttpClientUtil.postJson(null, pmap, headers);
-            log.debug("调用统一授权接口验证会话ID方法返回值：" + responseMap);
-            // 处理参数
-            int statusCode = (Integer) responseMap.get("statusCode");
-            if (statusCode == 200) {
-                String responseContent = responseMap.get("responseContent").toString();
-                // 将返回值转为Map对象
-                return JSON.parseObject(responseContent);
-            } else {
-                retMap.put("code", "03");
-                retMap.put("msg", "调用接口失败！");
-                return retMap;
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return retMap;
-    }
 }
