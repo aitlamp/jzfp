@@ -20,7 +20,7 @@ public interface IZjlyService {
      * @return
      * @throws Exception
      */
-    public Map<String, Object> getPage(PageModel page) throws Exception;
+    public PageModel getPage(PageModel page) throws Exception;
 
     /**
      * 添加资金来源
@@ -39,7 +39,7 @@ public interface IZjlyService {
      * @return
      * @throws Exception
      */
-    public Map<String, Object> doUpdate(JzfpBZjLyEntity entity) throws Exception;
+    public Boolean doUpdate(JzfpBZjLyEntity entity) throws Exception;
 
     /**
      * 删除资金来源信息
@@ -47,5 +47,5 @@ public interface IZjlyService {
      * @param entiy
      * @return
      */
-    public Map<String, Object> doDelete(JzfpBZjLyEntity entiy);
+    public Boolean doDelete(JzfpBZjLyEntity entiy);
 }

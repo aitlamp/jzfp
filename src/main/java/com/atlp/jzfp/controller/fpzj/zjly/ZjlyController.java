@@ -38,7 +38,7 @@ public class ZjlyController extends BaseController {
      */
     @RequestMapping(value = "/getPage", method = RequestMethod.POST)
     @ResponseBody
-    public Map<String, Object> getPage(@RequestBody PageModel page) throws Exception {
+    public PageModel getPage(@RequestBody PageModel page) throws Exception {
         return iZjlyService.getPage(page);
     }
 
@@ -77,9 +77,7 @@ public class ZjlyController extends BaseController {
 
         if (AtlpUtil.isEmpty(entiy) || AtlpUtil.isEmpty(entiy.getLyid()) || AtlpUtil.isEmpty(entiy.getLymc())) {
             log.debug("参数异常，传入资金来源信息不完整，修改资金来源信息失败...来源名称==={}", entiy.toString());
-//            reMap.put("code", "-1");
-//            reMap.put("msg", "传入资金来源信息不完整，修改资金来源信息失败");
-//            return reMap;
+            throw new BusinessException(4201,"传入资金来源信息不完整，修改资金来源信息失败...");
         }
 
         return iZjlyService.doSaveOrUpdate(entiy);
@@ -95,7 +93,7 @@ public class ZjlyController extends BaseController {
      */
     @RequestMapping(value = "/doDelete", method = RequestMethod.POST)
     @ResponseBody
-    public Map<String, Object> doDelete(HttpServletRequest request, @RequestBody JzfpBZjLyEntity entiy) throws Exception {
+    public Boolean doDelete(HttpServletRequest request, @RequestBody JzfpBZjLyEntity entiy) throws Exception {
         return iZjlyService.doDelete(entiy);
     }
 }

@@ -17,15 +17,15 @@ public interface IZjdzService {
      * @param page
      * @return
      */
-    public Map<String, Object> getPage(PageModel page);
+    public PageModel getPage(PageModel page);
 
     /**
      * 查看资金到账的详细信息
      *
-     * @param dzid
+     * @param entity
      * @return
      */
-    public Map<String, Object> getZjdzById(String dzid);
+    public JzfpBZjDzEntity getZjdzById(JzfpBZjDzEntity entity);
 
     /**
      * 增加或修改资金到账信息
@@ -33,7 +33,7 @@ public interface IZjdzService {
      * @param entity
      * @return
      */
-    public Map<String, Object> doSaveOrUpdate(JzfpBZjDzEntity entity);
+    public Boolean doSaveOrUpdate(JzfpBZjDzEntity entity);
 
     /**
      * 删除对应的资金到账数据信息
@@ -41,5 +41,5 @@ public interface IZjdzService {
      * @param entity
      * @return
      */
-    public Map<String, Object> doDelete(JzfpBZjDzEntity entity);
+    public Boolean doDelete(JzfpBZjDzEntity entity);
 }

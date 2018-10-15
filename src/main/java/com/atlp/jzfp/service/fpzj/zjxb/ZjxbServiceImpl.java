@@ -1,6 +1,7 @@
 package com.atlp.jzfp.service.fpzj.zjxb;
 
 import org.atlp.data.PageModel;
+import org.atlp.exception.BusinessException;
 import org.atlp.utils.AtlpUtil;
 import com.atlp.jzfp.entity.fpzj.JzfpBZjXbEntity;
 import com.atlp.jzfp.entity.zzjg.JzfpBZzjgDwEntity;
@@ -40,14 +41,12 @@ public class ZjxbServiceImpl implements IZjxbService {
      * @return
      */
     @Override
-    public Map<String, Object> getPage(PageModel page) {
-        Map retMap = new HashMap();
-        retMap.put("code", "0");
-        retMap.put("msg", "成功");
+    public PageModel getPage(PageModel page) {
+
         String sql = "select t.nd,t.zjlx,t.xbsj,t.xbje,t.pc,t.jsdwmc from JZFP_B_ZJ_XB t";
         page = zjxbRepository.findPageBySql(sql, page);
-        retMap.put("data", page);
-        return retMap;
+
+        return page;
     }
 
     /**
@@ -58,10 +57,7 @@ public class ZjxbServiceImpl implements IZjxbService {
      */
     @Override
     @Transactional
-    public Map<String, Object> doSaveOrUpdate(JzfpBZjXbEntity entity) {
-        Map retMap = new HashMap();
-        retMap.put("code", "0");
-        retMap.put("msg", "成功");
+    public Boolean doSaveOrUpdate(JzfpBZjXbEntity entity) {
         //设置接收单位、下拨单位
         JzfpBZzjgDwEntity zzjgDwEntity = zzjgDwRepository.findByDwid(entity.getJsdwid());
         if (entity.getJsdwmc() != null || !zzjgDwEntity.getDwmc().equals(entity.getJsdwmc())) {
@@ -86,9 +82,7 @@ public class ZjxbServiceImpl implements IZjxbService {
             saveEntity = zjxbRepository.findByDzid(entity.getDzid());
             if (AtlpUtil.isEmpty(saveEntity)) {
                 log.debug("参数异常，查询资金下拨信息失败...资金下拨id==={}", entity.getDzid());
-                retMap.put("code", "-1");
-                retMap.put("msg", "系统异常，查询资金到账信息失败.");
-                return retMap;
+                throw new BusinessException(4201, "查询资金到账信息失败");
             }
             BeanUtils.copyProperties(entity, saveEntity, AtlpUtil.getNullPropertyNames(entity));
             saveEntity.setLasttime(new Timestamp(new Date().getTime()));
@@ -96,34 +90,27 @@ public class ZjxbServiceImpl implements IZjxbService {
         JzfpBZjXbEntity save = zjxbRepository.save(saveEntity);
         if (null == save || null == save.getDzid()) {
             log.debug("参数异常，新增或修改资金下拨信息失败...资金下拨id==={}", entity.getDzid());
-            retMap.put("code", "-2");
-            retMap.put("msg", "系统异常，新增或修改资金下拨信息失败.");
-            return retMap;
+            throw new BusinessException(4202, "新增或修改资金下拨信息失败");
         }
-
-        return retMap;
+        return true;
     }
 
     /**
      * 查询对应的资金下拨详细数据信息
      *
-     * @param dzid
+     * @param entity
      * @return
      */
     @Override
-    public Map<String, Object> getZjxbById(String dzid) {
-        Map retMap = new HashMap();
-        retMap.put("code", "0");
-        retMap.put("msg", "成功");
-        JzfpBZjXbEntity zjxbEntity = zjxbRepository.findByDzid(dzid);
+    public JzfpBZjXbEntity getZjxbById(JzfpBZjXbEntity entity) {
+
+        JzfpBZjXbEntity zjxbEntity = zjxbRepository.findByDzid(entity.getDzid());
         if (AtlpUtil.isEmpty(zjxbEntity)) {
             log.debug("参数异常，查询资金下拨详细信息失败...资金下拨id==={}", zjxbEntity.getDzid());
-            retMap.put("code", "-1");
-            retMap.put("msg", "系统异常，查询资金下拨详细信息失败.");
-            return retMap;
+            throw new BusinessException(4201, "查询资金下拨详细信息失败");
         }
-        retMap.put("data", zjxbEntity);
-        return retMap;
+
+        return zjxbEntity;
     }
 
     /**
@@ -134,17 +121,14 @@ public class ZjxbServiceImpl implements IZjxbService {
      */
     @Override
     @Transactional
-    public Map<String, Object> doDelete(JzfpBZjXbEntity entity) {
-        Map retMap = new HashMap();
-        retMap.put("code", "0");
-        retMap.put("msg", "成功");
-        if (AtlpUtil.isEmpty(entity) || AtlpUtil.isEmpty(entity.getDzid())) {
+    public Boolean doDelete(JzfpBZjXbEntity entity) {
+
+        JzfpBZjXbEntity deleteEntity = zjxbRepository.findByDzid(entity.getDzid());
+        if (AtlpUtil.isEmpty(deleteEntity) || AtlpUtil.isEmpty(deleteEntity.getDzid())) {
             log.debug("参数异常，删除资金下拨信息失败...资金到账id==={}", entity.getDzid());
-            retMap.put("code", "-2");
-            retMap.put("msg", "系统异常,删除资金下拨信息失败");
-            return retMap;
+            throw new BusinessException(4202, "删除资金下拨信息失败");
         }
-        zjxbRepository.delete(entity);
-        return retMap;
+        zjxbRepository.delete(deleteEntity);
+        return true;
     }
 }

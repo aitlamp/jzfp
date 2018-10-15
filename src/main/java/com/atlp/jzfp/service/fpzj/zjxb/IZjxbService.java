@@ -17,7 +17,7 @@ public interface IZjxbService {
      * @param page
      * @return
      */
-    public Map<String, Object> getPage(PageModel page);
+    public PageModel getPage(PageModel page);
 
     /**
      * 新增或修改资金下拨数据信息
@@ -25,15 +25,15 @@ public interface IZjxbService {
      * @param entity
      * @return
      */
-    public Map<String, Object> doSaveOrUpdate(JzfpBZjXbEntity entity);
+    public Boolean doSaveOrUpdate(JzfpBZjXbEntity entity);
 
     /**
      * 查询对应的资金下拨数据信息
      *
-     * @param dzid
+     * @param entity
      * @return
      */
-    public Map<String, Object> getZjxbById(String dzid);
+    public JzfpBZjXbEntity getZjxbById(JzfpBZjXbEntity entity);
 
     /**
      * 删除对应的资金下拨数据信息
@@ -41,5 +41,5 @@ public interface IZjxbService {
      * @param entity
      * @return
      */
-    public Map<String, Object> doDelete(JzfpBZjXbEntity entity);
+    public Boolean doDelete(JzfpBZjXbEntity entity);
 }

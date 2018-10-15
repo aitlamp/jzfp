@@ -14,8 +14,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.Timestamp;
 import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * @Author: bijunming
@@ -39,18 +37,15 @@ public class ZjlyServiceImpl implements IZjlyService {
      * @throws Exception
      */
     @Override
-    public Map<String, Object> getPage(PageModel page) throws Exception {
-        Map retMap = new HashMap();
-        retMap.put("code", "0");
-        retMap.put("msg", "成功");
+    public PageModel getPage(PageModel page) throws Exception {
+
         String sql = "select t.lymc,t.sm,t.yhid,t.lasttime from JZFP_B_ZJ_LY t order by t.xssx";
         String[][] columns = {{"lymc", "来源说明", "80"},
                 {"sm", "说明", "100"}, {"yhxm", "维护人", "80"},
                 {"lasttime", "维护时间", "80"}};
         page = zjlyRepository.findPageBySql(sql, page, columns);
-        retMap.put("data", page);
 
-        return retMap;
+        return page;
     }
 
     /**
@@ -63,7 +58,7 @@ public class ZjlyServiceImpl implements IZjlyService {
     @Override
     @Transactional
     public Boolean doSaveOrUpdate(JzfpBZjLyEntity entity) throws BusinessException {
-        Boolean ret = false;
+        Boolean ret = true;
 
         JzfpBZjLyEntity saveEntity = new JzfpBZjLyEntity();
         //判断主键ID
@@ -80,9 +75,8 @@ public class ZjlyServiceImpl implements IZjlyService {
             saveEntity = zjlyRepository.findByLyid(entity.getLyid());
             if (AtlpUtil.isEmpty(saveEntity)) {
                 log.debug("参数异常，查询资金来源信息失败...资金来源id==={}", entity.getLyid());
-//                retMap.put("code", "-1");
-//                retMap.put("msg", "系统异常，查询资金来源信息失败.");
-//                return retMap;
+                ret = false;
+                throw new BusinessException(4201, "传入资金来源信息不完整，查询资金来源信息失败");
             }
             BeanUtils.copyProperties(entity, saveEntity, AtlpUtil.getNullPropertyNames(entity));
             saveEntity.setLasttime(new Timestamp(new Date().getTime()));
@@ -91,11 +85,9 @@ public class ZjlyServiceImpl implements IZjlyService {
         //判断增加或修改是否成功
         if (null == save || null == save.getLyid()) {
             log.debug("资金来源增加或修改失败...资金来源信息==={}", entity.getLyid());
-//            retMap.put("code", "-2");
-//            retMap.put("msg", "系统异常，查询资金来源失败.");
-//            return retMap;
+            ret = false;
+            throw new BusinessException(4202, "资金来源增加或修改失败...");
         }
-
 
         return ret;
     }
@@ -110,18 +102,13 @@ public class ZjlyServiceImpl implements IZjlyService {
      */
     @Override
     @Transactional
-    public Map<String, Object> doUpdate(JzfpBZjLyEntity entity) throws Exception {
-        Map retMap = new HashMap();
-        retMap.put("code", "0");
-        retMap.put("msg", "成功");
-
-        JzfpBZjLyEntity updateEntity = new JzfpBZjLyEntity();
-        updateEntity = zjlyRepository.findByLyid(entity.getLyid());
+    public Boolean doUpdate(JzfpBZjLyEntity entity) throws Exception {
+        Boolean ret = true;
+        JzfpBZjLyEntity updateEntity = zjlyRepository.findByLyid(entity.getLyid());
         if (AtlpUtil.isEmpty(updateEntity)) {
             log.debug("参数异常，查询资金来源信息失败...资金来源id==={}", entity.getLyid());
-            retMap.put("code", "-1");
-            retMap.put("msg", "系统异常，查询资金来源信息失败.");
-            return retMap;
+            ret = false;
+            throw new BusinessException(4201, "查询资金来源信息失败");
         }
         BeanUtils.copyProperties(entity, updateEntity, AtlpUtil.getNullPropertyNames(entity));
         updateEntity.setLasttime(new Timestamp(new Date().getTime()));
@@ -130,11 +117,10 @@ public class ZjlyServiceImpl implements IZjlyService {
         //判断修改是否成功
         if (AtlpUtil.isEmpty(update) || AtlpUtil.isEmpty(update.getLyid())) {
             log.debug("参数异常,资金来源修改失败...资金来源信息==={}", entity.getLyid());
-            retMap.put("code", "-2");
-            retMap.put("msg", "系统异常，查询资金来源失败.");
-            return retMap;
+            ret = false;
+            throw new BusinessException(4202, "资金来源修改失败");
         }
-        return retMap;
+        return ret;
     }
 
     /**
@@ -144,17 +130,14 @@ public class ZjlyServiceImpl implements IZjlyService {
      * @return
      */
     @Override
-    public Map<String, Object> doDelete(JzfpBZjLyEntity entity) {
-        Map retMap = new HashMap();
-        retMap.put("code", "0");
-        retMap.put("msg", "成功");
-        if (AtlpUtil.isEmpty(entity) || AtlpUtil.isEmpty(entity.getLyid())) {
+    public Boolean doDelete(JzfpBZjLyEntity entity) {
+        Boolean ret = true;
+        JzfpBZjLyEntity deleteEntity = zjlyRepository.findByLyid(entity.getLyid());
+        if (AtlpUtil.isEmpty(deleteEntity) || AtlpUtil.isEmpty(deleteEntity.getLyid())) {
             log.debug("参数异常，资金来源删除失败...资金来源ID==={}", entity.getLyid());
-            retMap.put("code", "-2");
-            retMap.put("msg", "系统异常，资金来源删除失败");
-            return retMap;
+            throw new BusinessException(4202, "资金来源删除失败...资金来源ID==={}");
         }
-        zjlyRepository.delete(entity);
-        return retMap;
+        zjlyRepository.delete(deleteEntity);
+        return ret;
     }
 }

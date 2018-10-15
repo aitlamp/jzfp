@@ -1,6 +1,7 @@
 package com.atlp.jzfp.service.fpzj.zjdz;
 
 import org.atlp.data.PageModel;
+import org.atlp.exception.BusinessException;
 import org.atlp.utils.AtlpUtil;
 import com.atlp.jzfp.entity.fpzj.JzfpBZjDzEntity;
 import com.atlp.jzfp.entity.fpzj.JzfpBZjLyEntity;
@@ -42,37 +43,26 @@ public class ZjdzServiceImpl implements IZjdzService {
      * @return
      */
     @Override
-    public Map<String, Object> getPage(PageModel page) {
-        Map retMap = new HashMap();
-        retMap.put("code", "0");
-        retMap.put("msg", "成功");
+    public PageModel getPage(PageModel page) {
         String sql = "select t.nd,t.zjlx,t.lymc,t.dzsj,t.sjxbsj,t.dzje from JZFP_B_ZJ_DZ t ";
         page = zjdzRepository.findPageBySql(sql, page);
-        retMap.put("data", page);
-        return retMap;
+        return page;
     }
 
     /**
      * 资金到账信息详细查看
      *
-     * @param dzid
+     * @param entity
      * @return
      */
     @Override
-    public Map<String, Object> getZjdzById(String dzid) {
-        Map retMap = new HashMap();
-        retMap.put("code", "0");
-        retMap.put("msg", "成功");
-
-        JzfpBZjDzEntity zjDzEntity = zjdzRepository.findByDzid(dzid);
+    public JzfpBZjDzEntity getZjdzById(JzfpBZjDzEntity entity) {
+        JzfpBZjDzEntity zjDzEntity = zjdzRepository.findByDzid(entity.getDzid());
         if (null == zjDzEntity) {
             log.debug("参数异常，查询资金到账信息失败...资金到账id==={}", zjDzEntity.getDzid());
-            retMap.put("code", "-1");
-            retMap.put("msg", "系统异常，查询资金到账信息失败");
-            return retMap;
+            throw new BusinessException(4201, "参数异常，查询资金到账信息失败");
         }
-        retMap.put("data", zjDzEntity);
-        return retMap;
+        return zjDzEntity;
     }
 
     /**
@@ -83,19 +73,14 @@ public class ZjdzServiceImpl implements IZjdzService {
      */
     @Override
     @Transactional
-    public Map<String, Object> doSaveOrUpdate(JzfpBZjDzEntity entity) {
-        Map retMap = new HashMap();
-        retMap.put("code", "0");
-        retMap.put("msg", "成功");
+    public Boolean doSaveOrUpdate(JzfpBZjDzEntity entity) {
 
         JzfpBZjDzEntity saveEntity = new JzfpBZjDzEntity();
 
         JzfpBZjLyEntity zjlyEntity = zjlyRepository.findByLyid(entity.getLyid());
         if (AtlpUtil.isEmpty(zjlyEntity) || AtlpUtil.isEmpty(zjlyEntity.getLymc())) {
             log.debug("参数异常，查询资金来源信息失败...资金来源名称==={}", zjlyEntity.getLymc());
-            retMap.put("code", "-1");
-            retMap.put("msg", "系统异常，资金来源信息输入有误.");
-            return retMap;
+            throw new BusinessException(4201, "查询资金来源信息失败...资金来源id==={}");
         }
         entity.setLymc(zjlyEntity.getLymc());
         //判断主键ID
@@ -113,9 +98,7 @@ public class ZjdzServiceImpl implements IZjdzService {
             saveEntity = zjdzRepository.findByDzid(entity.getDzid());
             if (AtlpUtil.isEmpty(saveEntity)) {
                 log.debug("参数异常，查询资金到账信息失败...资金到账id==={}", entity.getDzid());
-                retMap.put("code", "-1");
-                retMap.put("msg", "系统异常，查询资金到账信息失败.");
-                return retMap;
+                throw new BusinessException(4201, "查询资金到账信息失败...资金到账id==={}");
             }
             BeanUtils.copyProperties(entity, saveEntity, AtlpUtil.getNullPropertyNames(entity));
             saveEntity.setLasttime(new Timestamp(new Date().getTime()));
@@ -124,12 +107,10 @@ public class ZjdzServiceImpl implements IZjdzService {
         //判断增加或修改成功
         if (null == save || null == save.getDzid()) {
             log.debug("参数异常，增加或修改资金到账信息失败...资金到账id==={}", entity.getDzid());
-            retMap.put("code", "-2");
-            retMap.put("msg", "系统异常,增加或修改资金到账信息失败");
-            return retMap;
+            throw new BusinessException(4202, "增加或修改资金到账信息失败...");
         }
 
-        return retMap;
+        return true;
     }
 
     /**
@@ -140,19 +121,14 @@ public class ZjdzServiceImpl implements IZjdzService {
      */
     @Override
     @Transactional
-    public Map<String, Object> doDelete(JzfpBZjDzEntity entity) {
-        Map retMap = new HashMap();
-        retMap.put("code", "0");
-        retMap.put("msg", "成功");
-
-        if (AtlpUtil.isEmpty(entity) || AtlpUtil.isEmpty(entity.getDzid())) {
+    public Boolean doDelete(JzfpBZjDzEntity entity) {
+        JzfpBZjDzEntity deleteEntity = zjdzRepository.findByDzid(entity.getDzid());
+        if (AtlpUtil.isEmpty(deleteEntity) || AtlpUtil.isEmpty(deleteEntity.getDzid())) {
             log.debug("参数异常，删除资金到账信息失败...资金到账id==={}", entity.getDzid());
-            retMap.put("code", "-2");
-            retMap.put("msg", "系统异常,删除资金到账信息失败");
-            return retMap;
+            throw new BusinessException(4202, "删除资金到账信息失败...资金到账id==={}");
         }
         zjdzRepository.delete(entity);
-        return retMap;
+        return true;
     }
 
 }

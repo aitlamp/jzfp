@@ -1,10 +1,12 @@
 package com.atlp.jzfp.controller.fpzj.zjxb;
 
-import org.atlp.base.BaseController;
-import org.atlp.data.PageModel;
-import org.atlp.utils.AtlpUtil;
 import com.atlp.jzfp.entity.fpzj.JzfpBZjXbEntity;
 import com.atlp.jzfp.service.fpzj.zjxb.IZjxbService;
+import lombok.extern.slf4j.Slf4j;
+import org.atlp.base.BaseController;
+import org.atlp.data.PageModel;
+import org.atlp.exception.BusinessException;
+import org.atlp.utils.AtlpUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -13,14 +15,13 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * @Author: bijunming
  * @CreateTime: 2018/10/11 15:41
  * @Decription: 资金下拨控制层
  */
+@Slf4j
 @Controller
 @RequestMapping(value = "/fpzj/zjxb", method = {RequestMethod.GET, RequestMethod.POST})
 public class ZjxbController extends BaseController {
@@ -37,7 +38,7 @@ public class ZjxbController extends BaseController {
      */
     @RequestMapping(value = "/getPage", method = RequestMethod.POST)
     @ResponseBody
-    public Map<String, Object> getPage(@RequestBody PageModel page) throws Exception {
+    public PageModel getPage(@RequestBody PageModel page) throws Exception {
         return zjxbService.getPage(page);
     }
 
@@ -51,18 +52,13 @@ public class ZjxbController extends BaseController {
      */
     @RequestMapping(value = "/doSave", method = RequestMethod.POST)
     @ResponseBody
-    public Map<String, Object> doSave(HttpServletRequest request, @RequestBody JzfpBZjXbEntity entity) throws Exception {
-        Map<String, Object> reMap = new HashMap<>();
-        reMap.put("code", "0");
-        reMap.put("msg", "SUCCESS");
+    public Boolean doSave(HttpServletRequest request, @RequestBody JzfpBZjXbEntity entity) throws Exception {
         if (AtlpUtil.isEmpty(entity) || AtlpUtil.isEmpty(entity.getXbsj())
                 || AtlpUtil.isEmpty(entity.getXbje()) || AtlpUtil.isEmpty(entity.getJsdwid())
                 || AtlpUtil.isEmpty(entity.getNd())) {
-            logger.debug("传入资金下拨信息不完整，增加资金下拨信息失败...下拨时间==={},下拨金额==={},接收单位id==={},资金年度==={}",
+            log.debug("传入资金下拨信息不完整，增加资金下拨信息失败...下拨时间==={},下拨金额==={},接收单位id==={},资金年度==={}",
                     entity.toString());
-            reMap.put("code", "-1");
-            reMap.put("msg", "传入资金到账信息不完整，增加资金下拨信息失败");
-            return reMap;
+            throw new BusinessException(4201, "传入资金到账信息不完整，增加资金下拨信息失败");
         }
         return zjxbService.doSaveOrUpdate(entity);
     }
@@ -77,18 +73,14 @@ public class ZjxbController extends BaseController {
      */
     @RequestMapping(value = "/doUpdate", method = RequestMethod.POST)
     @ResponseBody
-    public Map<String, Object> doUpdate(HttpServletRequest request, @RequestBody JzfpBZjXbEntity entity) throws Exception {
-        Map<String, Object> reMap = new HashMap<>();
-        reMap.put("code", "0");
-        reMap.put("msg", "SUCCESS");
+    public Boolean doUpdate(HttpServletRequest request, @RequestBody JzfpBZjXbEntity entity) throws Exception {
+
         if (AtlpUtil.isEmpty(entity) || AtlpUtil.isEmpty(entity.getDzid())
                 || AtlpUtil.isEmpty(entity.getXbsj()) || AtlpUtil.isEmpty(entity.getXbje())
                 || AtlpUtil.isEmpty(entity.getJsdwid()) || AtlpUtil.isEmpty(entity.getNd())) {
-            logger.debug("传入资金下拨信息不完整，修改资金下拨信息失败...下拨id==={},下拨单位id==={},下拨单位名称==={}," +
+            log.debug("传入资金下拨信息不完整，修改资金下拨信息失败...下拨id==={},下拨单位id==={},下拨单位名称==={}," +
                     "下拨时间==={},下拨金额==={},接收单位id==={},接收单位名称==={},资金年度==={}", entity.toString());
-            reMap.put("code", "-1");
-            reMap.put("msg", "传入资金下拨信息不完整，修改资金下拨信息失败");
-            return reMap;
+            throw new BusinessException(4201, "传入资金下拨信息不完整，修改资金下拨信息失败");
         }
         return zjxbService.doSaveOrUpdate(entity);
     }
@@ -102,8 +94,8 @@ public class ZjxbController extends BaseController {
      */
     @RequestMapping(value = "/getZjxbById", method = RequestMethod.POST)
     @ResponseBody
-    public Map<String, Object> getZjxbById(HttpServletRequest request, @RequestBody JzfpBZjXbEntity entity) throws Exception {
-        return zjxbService.getZjxbById(entity.getDzid());
+    public JzfpBZjXbEntity getZjxbById(HttpServletRequest request, @RequestBody JzfpBZjXbEntity entity) throws Exception {
+        return zjxbService.getZjxbById(entity);
     }
 
     /**
@@ -116,7 +108,7 @@ public class ZjxbController extends BaseController {
      */
     @RequestMapping(value = "/doDelete", method = RequestMethod.POST)
     @ResponseBody
-    public Map<String, Object> doDelete(HttpServletRequest request, @RequestBody JzfpBZjXbEntity entity) throws Exception {
+    public Boolean doDelete(HttpServletRequest request, @RequestBody JzfpBZjXbEntity entity) throws Exception {
         return zjxbService.doDelete(entity);
     }
 }
