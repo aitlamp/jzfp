@@ -1,6 +1,6 @@
 package com.atlp.jzfp.service.fpxm.xmfl;
 
-import com.atlp.jzfp.common.data.PageModel;
+import org.atlp.data.PageModel;
 import com.atlp.jzfp.entity.fpxm.JzfpBXmFlEntity;
 
 import javax.servlet.http.HttpServletRequest;

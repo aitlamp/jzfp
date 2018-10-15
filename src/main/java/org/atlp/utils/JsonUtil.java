@@ -1,4 +1,4 @@
-package com.atlp.jzfp.common.utils;
+package org.atlp.utils;
 
 import java.io.IOException;
 import java.text.SimpleDateFormat;

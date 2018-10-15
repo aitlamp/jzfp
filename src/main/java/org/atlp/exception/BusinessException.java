@@ -1,6 +1,6 @@
-package com.atlp.jzfp.common.exception;
+package org.atlp.exception;
 
-import com.atlp.jzfp.common.data.ExceptionEnum;
+import org.atlp.data.ExceptionEnum;
 import lombok.Data;
 
 /**
@@ -23,7 +23,7 @@ public class BusinessException extends RuntimeException {
 
     public BusinessException(String msg) {
         super(msg);
-        this.code = 1;
+        this.code = 4000;
     }
 
     public BusinessException(int code, String msg) {

@@ -1,6 +1,6 @@
 package com.atlp.jzfp.service.zzjg.cd;
 
-import com.atlp.jzfp.common.data.PageModel;
+import org.atlp.data.PageModel;
 import com.atlp.jzfp.entity.zzjg.JzfpBZzjgCdEntity;
 import org.springframework.data.domain.Page;
 

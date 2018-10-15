@@ -1,6 +1,6 @@
 package com.atlp.jzfp.service.fpxm.xmfj;
 
-import com.atlp.jzfp.common.utils.AtlpUtil;
+import org.atlp.utils.AtlpUtil;
 import com.atlp.jzfp.entity.fpxm.JzfpBXmFjEntity;
 import com.atlp.jzfp.repository.fpxm.FpxmXmfjRepository;
 import org.slf4j.Logger;

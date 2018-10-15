@@ -1,7 +1,7 @@
 package com.atlp.jzfp.service.fpzj.zjxb;
 
-import com.atlp.jzfp.common.data.PageModel;
-import com.atlp.jzfp.common.utils.AtlpUtil;
+import org.atlp.data.PageModel;
+import org.atlp.utils.AtlpUtil;
 import com.atlp.jzfp.entity.fpzj.JzfpBZjXbEntity;
 import com.atlp.jzfp.entity.zzjg.JzfpBZzjgDwEntity;
 import com.atlp.jzfp.repository.fpzj.FpzjZjxbRepository;

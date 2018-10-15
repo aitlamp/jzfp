@@ -1,4 +1,4 @@
-package com.atlp.jzfp.common.data;
+package org.atlp.data;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -10,8 +10,9 @@ import java.util.Map;
  * @since 2018年10月14日 22:24:48
  */
 public enum ExceptionEnum {
-    ERROR(1, "失败"),
-    UNKONW_ERROR(-1, "未知错误"),
+    ERROR(4000, "失败"),
+    ERROR_UNKONW(4100, "未知错误"),
+    ERROR_PARAM(4200, "参数错误"),
     ;
 
     private int code;   //返回码 非0即失败

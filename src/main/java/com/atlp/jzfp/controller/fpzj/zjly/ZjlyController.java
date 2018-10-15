@@ -1,8 +1,8 @@
 package com.atlp.jzfp.controller.fpzj.zjly;
 
-import com.atlp.jzfp.common.base.BaseController;
-import com.atlp.jzfp.common.data.PageModel;
-import com.atlp.jzfp.common.utils.AtlpUtil;
+import org.atlp.base.BaseController;
+import org.atlp.data.PageModel;
+import org.atlp.utils.AtlpUtil;
 import com.atlp.jzfp.entity.fpzj.JzfpBZjLyEntity;
 import com.atlp.jzfp.service.fpzj.zjly.IZjlyService;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -1,7 +1,7 @@
-package com.atlp.jzfp.common.base;
+package org.atlp.base;
 
-import com.atlp.jzfp.common.data.PageModel;
-import com.atlp.jzfp.common.utils.AtlpUtil;
+import org.atlp.data.PageModel;
+import org.atlp.utils.AtlpUtil;
 import org.hibernate.query.internal.NativeQueryImpl;
 import org.hibernate.transform.Transformers;
 import org.springframework.data.domain.Page;

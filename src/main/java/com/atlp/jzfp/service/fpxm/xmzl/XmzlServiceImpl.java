@@ -1,7 +1,7 @@
 package com.atlp.jzfp.service.fpxm.xmzl;
 
-import com.atlp.jzfp.common.data.PageModel;
-import com.atlp.jzfp.common.utils.AtlpUtil;
+import org.atlp.data.PageModel;
+import org.atlp.utils.AtlpUtil;
 import com.atlp.jzfp.entity.fpxm.JzfpBXmFjEntity;
 import com.atlp.jzfp.entity.fpxm.JzfpBXmFlEntity;
 import com.atlp.jzfp.entity.fpxm.JzfpBXmZlEntity;

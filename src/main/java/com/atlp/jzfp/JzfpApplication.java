@@ -1,10 +1,11 @@
 package com.atlp.jzfp;
 
-import com.atlp.jzfp.common.base.BaseRepositoryImpl;
+import org.atlp.base.BaseRepositoryImpl;
 import com.github.tobato.fastdfs.FdfsClientConfig;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.web.servlet.ServletComponentScan;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.EnableMBeanExport;
 import org.springframework.context.annotation.Import;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
@@ -18,6 +19,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @ServletComponentScan
 //自定义jpa实现类配置
 @EnableJpaRepositories(basePackages = {"com.atlp.jzfp.repository"}, repositoryBaseClass = BaseRepositoryImpl.class)
+@ComponentScan(basePackages = {"org.atlp", "com.atlp.jzfp"}) //设置扫描包路径
 public class JzfpApplication {
     public static void main(String[] args) {
         SpringApplication.run(JzfpApplication.class, args);

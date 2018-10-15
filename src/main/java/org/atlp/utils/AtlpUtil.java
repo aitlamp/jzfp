@@ -1,6 +1,6 @@
-package com.atlp.jzfp.common.utils;
+package org.atlp.utils;
 
-import com.atlp.jzfp.common.data.UserInfo;
+import org.atlp.data.UserInfo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanWrapper;

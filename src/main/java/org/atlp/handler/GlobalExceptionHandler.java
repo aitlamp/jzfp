@@ -1,8 +1,8 @@
-package com.atlp.jzfp.common.base;
+package org.atlp.handler;
 
 
-import com.atlp.jzfp.common.data.ResultModel;
-import com.atlp.jzfp.common.exception.BusinessException;
+import org.atlp.data.ResultModel;
+import org.atlp.exception.BusinessException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -29,7 +29,7 @@ public class GlobalExceptionHandler {
             return ResultModel.failed(businessException.getCode(), businessException.getMessage());
         }
         //未知错误
-        return ResultModel.failed(1, "系统异常：" + e);
+        return ResultModel.failed(5000, "系统异常：" + e);
     }
 
 }

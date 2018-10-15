@@ -1,6 +1,6 @@
-package com.atlp.jzfp.common.base;
+package org.atlp.advice;
 
-import com.atlp.jzfp.common.data.ResultModel;
+import org.atlp.data.ResultModel;
 import org.springframework.core.MethodParameter;
 import org.springframework.http.MediaType;
 import org.springframework.http.converter.HttpMessageConverter;

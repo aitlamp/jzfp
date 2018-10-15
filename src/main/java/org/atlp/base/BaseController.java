@@ -1,6 +1,6 @@
-package com.atlp.jzfp.common.base;
+package org.atlp.base;
 
-import com.atlp.jzfp.common.utils.DateTimeUtil;
+import org.atlp.utils.DateTimeUtil;
 import org.apache.commons.text.StringEscapeUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

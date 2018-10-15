@@ -1,7 +1,7 @@
 package com.atlp.jzfp.controller.common.login;
 
-import com.atlp.jzfp.common.data.UserInfo;
-import com.atlp.jzfp.common.utils.AtlpUtil;
+import org.atlp.data.UserInfo;
+import org.atlp.utils.AtlpUtil;
 import com.atlp.jzfp.entity.zzjg.JzfpBZzjgYhEntity;
 import com.atlp.jzfp.repository.zzjg.ZzjgYhRepository;
 import com.atlp.jzfp.service.common.login.ILoginService;

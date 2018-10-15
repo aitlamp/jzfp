@@ -1,4 +1,4 @@
-package com.atlp.jzfp.common.utils;
+package org.atlp.utils;
 
 import java.util.ArrayList;
 import java.util.Hashtable;

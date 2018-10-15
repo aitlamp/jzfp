@@ -1,7 +1,7 @@
 package com.atlp.jzfp.controller.fpxm.xmjd;
 
-import com.atlp.jzfp.common.base.BaseController;
-import com.atlp.jzfp.common.utils.AtlpUtil;
+import org.atlp.base.BaseController;
+import org.atlp.utils.AtlpUtil;
 import com.atlp.jzfp.entity.fpxm.JzfpBXmJdEntity;
 import com.atlp.jzfp.service.fpxm.xmjd.IXmjdService;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -1,13 +1,13 @@
 package com.atlp.jzfp.common.filter;
 
 import com.alibaba.fastjson.JSON;
-import com.atlp.jzfp.common.prop.CustomProps;
-import com.atlp.jzfp.common.utils.AtlpUtil;
-import com.atlp.jzfp.common.utils.HttpClientUtil;
+import org.atlp.utils.AtlpUtil;
+import org.atlp.utils.HttpClientUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.annotation.Order;
+import org.springframework.core.env.Environment;
 import org.springframework.util.StringUtils;
 
 import javax.servlet.*;
@@ -31,7 +31,7 @@ public class AccessFilter implements Filter {
     private static Logger log = LoggerFactory.getLogger(AccessFilter.class);
 
     @Autowired
-    CustomProps customProps;
+    private Environment env;
 
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
@@ -57,7 +57,7 @@ public class AccessFilter implements Filter {
 
         // 忽略验证
         boolean check = false;
-        List<String> accessIgnore = customProps.getAccessIgnore();
+        List<String> accessIgnore = env.getProperty("custom.access-ignore", List.class);
         for (String ignore : accessIgnore) {
             if (requestUrl.contains(ignore)) {
                 check = true;
@@ -118,7 +118,7 @@ public class AccessFilter implements Filter {
             pmap.put("hhid", hhid);
             pmap.put("method", "checkHhid");
             // 发送请求
-            Map<String, Object> responseMap = HttpClientUtil.postJson(customProps.getTysqPath(), pmap, headers);
+            Map<String, Object> responseMap = HttpClientUtil.postJson(null, pmap, headers);
             log.debug("调用统一授权接口验证会话ID方法返回值：" + responseMap);
             // 处理参数
             int statusCode = (Integer) responseMap.get("statusCode");
