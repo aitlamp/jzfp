@@ -9,7 +9,7 @@ import java.sql.Timestamp;
 
 @Data
 @Entity
-@Table(name = "JZFP_B_ZJ_DZ", schema = "JZFP", catalog = "")
+@Table(name = "JZFP_B_ZJ_DZ")
 public class JzfpBZjDzEntity {
     @Id
     @GenericGenerator(name = "system-uuid", strategy = "uuid")

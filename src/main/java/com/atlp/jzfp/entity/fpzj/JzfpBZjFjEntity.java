@@ -11,7 +11,7 @@ import java.sql.Timestamp;
 
 @Data
 @Entity
-@Table(name = "JZFP_B_ZJ_FJ", schema = "JZFP", catalog = "")
+@Table(name = "JZFP_B_ZJ_FJ")
 public class JzfpBZjFjEntity {
     @Id
     @GenericGenerator(name = "system-uuid", strategy = "uuid")
@@ -31,5 +31,6 @@ public class JzfpBZjFjEntity {
     private String yhxm;
     private String yhdwid;
     private String yhdwmc;
+    private String zjfjurl;
 
 }
