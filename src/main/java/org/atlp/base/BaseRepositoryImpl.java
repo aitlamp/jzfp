@@ -1,6 +1,7 @@
 package org.atlp.base;
 
 import org.atlp.data.PageModel;
+import org.atlp.exception.BusinessException;
 import org.atlp.utils.AtlpUtil;
 import org.hibernate.query.internal.NativeQueryImpl;
 import org.hibernate.transform.Transformers;
@@ -109,6 +110,14 @@ public class BaseRepositoryImpl<T, ID extends Serializable> extends SimpleJpaRep
 
         //总记录数
         int totalRows = query.getResultList().size();
+
+        //判断传参
+        if (pageModel.getPageSize() <= 0) {
+            throw new BusinessException(4201, "pageSize必须大于等于1");
+        }
+        if (pageModel.getCurrentPage() <= 0) {
+            throw new BusinessException(4202, "currentPage必须大于等于1");
+        }
 
         //设置查询的起始和结束记录
         query.setFirstResult(pageModel.getPageSize() * (pageModel.getCurrentPage() - 1));

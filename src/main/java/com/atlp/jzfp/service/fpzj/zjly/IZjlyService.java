@@ -13,39 +13,12 @@ import java.util.Map;
  */
 
 public interface IZjlyService {
-    /**
-     * 资金来源信息分页展示
-     *
-     * @param page
-     * @return
-     * @throws Exception
-     */
-    public PageModel getPage(PageModel page) throws Exception;
 
-    /**
-     * 添加资金来源
-     *
-     * @param entity
-     * @return
-     * @throws Exception
-     */
+    public PageModel getPage(PageModel page);
+
     public Boolean doSaveOrUpdate(JzfpBZjLyEntity entity) throws BusinessException;
 
-    /**
-     * 修改资金来源
-     * 修改状态
-     *
-     * @param entity
-     * @return
-     * @throws Exception
-     */
     public Boolean doUpdate(JzfpBZjLyEntity entity) throws Exception;
 
-    /**
-     * 删除资金来源信息
-     *
-     * @param entiy
-     * @return
-     */
-    public Boolean doDelete(JzfpBZjLyEntity entiy);
+    public Boolean doDelete(String lyid);
 }

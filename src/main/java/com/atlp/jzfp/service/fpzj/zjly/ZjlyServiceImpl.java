@@ -37,15 +37,9 @@ public class ZjlyServiceImpl implements IZjlyService {
      * @throws Exception
      */
     @Override
-    public PageModel getPage(PageModel page) throws Exception {
-
+    public PageModel getPage(PageModel page) {
         String sql = "select t.lymc,t.sm,t.yhid,t.lasttime from JZFP_B_ZJ_LY t order by t.xssx";
-        String[][] columns = {{"lymc", "来源说明", "80"},
-                {"sm", "说明", "100"}, {"yhxm", "维护人", "80"},
-                {"lasttime", "维护时间", "80"}};
-        page = zjlyRepository.findPageBySql(sql, page, columns);
-
-        return page;
+        return zjlyRepository.findPageBySql(sql, page);
     }
 
     /**
@@ -125,19 +119,10 @@ public class ZjlyServiceImpl implements IZjlyService {
 
     /**
      * 删除对应的资金来源信息
-     *
-     * @param entity
-     * @return
      */
     @Override
-    public Boolean doDelete(JzfpBZjLyEntity entity) {
-        Boolean ret = true;
-        JzfpBZjLyEntity deleteEntity = zjlyRepository.findByLyid(entity.getLyid());
-        if (AtlpUtil.isEmpty(deleteEntity) || AtlpUtil.isEmpty(deleteEntity.getLyid())) {
-            log.debug("参数异常，资金来源删除失败...资金来源ID==={}", entity.getLyid());
-            throw new BusinessException(4202, "资金来源删除失败...资金来源ID==={}");
-        }
-        zjlyRepository.delete(deleteEntity);
-        return ret;
+    public Boolean doDelete(String lyid) {
+        zjlyRepository.delete(zjlyRepository.findByLyid(lyid));
+        return true;
     }
 }
