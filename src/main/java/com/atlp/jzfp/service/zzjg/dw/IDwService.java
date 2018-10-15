@@ -22,6 +22,8 @@ public interface IDwService {
     //获取对象
     JzfpBZzjgDwEntity findByDwid(String cdid);
 
+    Object getData(Map pmap);
+
     //删除
     boolean doDelete(String cdid);
 

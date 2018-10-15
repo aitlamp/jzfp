@@ -18,6 +18,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.sql.Timestamp;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -88,6 +89,16 @@ public class DwServiceImpl implements IDwService {
      */
     public JzfpBZzjgDwEntity findByDwid(String cdid) {
         return dwRepository.findByDwid(cdid);
+    }
+
+    /**
+     * 获取数据
+     */
+    public Object getData(Map pmap) {
+        String sql = "select t.* from JZFP_B_ZZJG_DW t ";
+        //List<Map> list = dwRepository.findListMapBySql(sql);
+        Map list = dwRepository.findMapBySql(sql);
+        return list;
     }
 
     /**

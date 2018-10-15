@@ -99,7 +99,7 @@ public class BaseRepositoryImpl<T, ID extends Serializable> extends SimpleJpaRep
     }
 
     /**
-     * 根据sql查询分页数据 -- spring page
+     * 根据sql查询分页数据
      */
     @Transactional(rollbackFor = Exception.class)
     public PageModel findPageBySql(String sql, PageModel pageModel) {
@@ -131,7 +131,7 @@ public class BaseRepositoryImpl<T, ID extends Serializable> extends SimpleJpaRep
     }
 
     /**
-     * 根据sql查询分页数据 -- spring page
+     * 根据sql查询分页数据
      */
     @Transactional(rollbackFor = Exception.class)
     public PageModel findPageBySql(String sql, PageModel pageModel, String[][] columns) {
@@ -162,4 +162,29 @@ public class BaseRepositoryImpl<T, ID extends Serializable> extends SimpleJpaRep
         return pageModel;
     }
 
+    /**
+     * 根据sql查询 返回 List 数据
+     */
+    @Transactional(rollbackFor = Exception.class)
+    public List<Map> findListMapBySql(String sql) {
+        Query query = entityManager.createNativeQuery(sql);
+        query.unwrap(NativeQueryImpl.class).setResultTransformer(Transformers.ALIAS_TO_ENTITY_MAP);
+        List<Map> list = query.getResultList();
+        //将map的key值转换成小写
+        List<Map> content = new ArrayList<>();
+        for (Map map : list) {
+            Map tMap = AtlpUtil.mapKeyCaseConvert(map);
+            content.add(tMap);
+        }
+        return content;
+    }
+
+    /**
+     * 根据sql查询 返回 Map 数据
+     */
+    @Transactional(rollbackFor = Exception.class)
+    public Map findMapBySql(String sql) {
+        List<Map> list = this.findListMapBySql(sql);
+        return list.get(0);
+    }
 }

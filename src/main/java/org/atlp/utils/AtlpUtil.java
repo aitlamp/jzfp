@@ -1,5 +1,11 @@
 package org.atlp.utils;
 
+import org.apache.commons.beanutils.BeanUtils;
+import org.apache.commons.beanutils.ConvertUtils;
+import org.apache.commons.beanutils.PropertyUtilsBean;
+import org.apache.commons.beanutils.converters.DateConverter;
+import org.apache.commons.beanutils.converters.SqlDateConverter;
+import org.apache.commons.lang3.StringUtils;
 import org.atlp.data.UserInfo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -198,5 +204,72 @@ public class AtlpUtil {
             e.printStackTrace();
         }
         return tMap;
+    }
+
+    /**
+     * 将对象转换成字符串
+     *
+     * @param obj 要转换的对象
+     * @return
+     */
+    public static String toString(Object obj) {
+        return obj == null ? "" : obj.toString();
+    }
+
+    /**
+     * 将对象转换成整型
+     *
+     * @param obj 要转换的对象
+     * @return
+     */
+    public static int toInt(Object obj) {
+        return obj == null ? 0 : Integer.valueOf(obj.toString());
+    }
+
+    /**
+     * map对象转换成实体对象
+     *
+     * @param params 参数
+     * @param entity 实体对象
+     */
+    public static <T> void mapToEntity(Map<String, Object> params, T entity) {
+        try {
+            ConvertUtils.register(new DateConverter(), java.util.Date.class);
+            ConvertUtils.register(new SqlDateConverter(), java.sql.Date.class);
+            //ConvertUtils.register(new TimestampConvert(), java.sql.Timestamp.class);
+            //ConvertUtils.register(new CharsConvert(), char[].class);
+            BeanUtils.populate(entity, params);
+            ConvertUtils.deregister(java.util.Date.class);
+            ConvertUtils.deregister(java.sql.Date.class);
+            ConvertUtils.deregister(java.sql.Timestamp.class);
+            ConvertUtils.deregister(char[].class);
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        } catch (InvocationTargetException e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * 将实体类转为map类型
+     *
+     * @param entity 实体类
+     * @return 返回一个map类型的值
+     */
+    public static Map<String, Object> entityToMap(Object entity) {
+        Map<String, Object> map = new HashMap<String, Object>(0);
+        try {
+            PropertyUtilsBean propertyUtilsBean = new PropertyUtilsBean();
+            PropertyDescriptor[] descriptors = propertyUtilsBean.getPropertyDescriptors(entity);
+            for (int i = 0; i < descriptors.length; i++) {
+                String name = descriptors[i].getName();
+                if (!StringUtils.equals(name, "class")) {
+                    map.put(name, propertyUtilsBean.getNestedProperty(entity, name));
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return map;
     }
 }

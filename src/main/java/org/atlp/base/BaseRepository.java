@@ -29,5 +29,9 @@ public interface BaseRepository<T, ID extends Serializable> extends PagingAndSor
     PageModel findPageBySql(String sql, PageModel pageModel);
 
     PageModel findPageBySql(String sql, PageModel pageModel, String[][] columns);
+
+    List<Map> findListMapBySql(String sql);
+
+    Map findMapBySql(String sql);
 }
 

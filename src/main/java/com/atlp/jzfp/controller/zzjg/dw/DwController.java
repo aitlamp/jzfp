@@ -59,4 +59,11 @@ public class DwController extends BaseController {
         return dwService.doDelete(pmap.get("dwid").toString());
     }
 
+    //获取数据
+    @ResponseBody
+    @RequestMapping(value = "/getData", method = RequestMethod.POST)
+    public Object getData(@RequestBody Map pmap) {
+        return dwService.getData(pmap);
+    }
+
 }

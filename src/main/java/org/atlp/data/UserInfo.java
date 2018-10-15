@@ -2,6 +2,9 @@ package org.atlp.data;
 
 import com.atlp.jzfp.entity.zzjg.JzfpBZzjgYhEntity;
 import lombok.Data;
+import org.atlp.utils.AtlpUtil;
+
+import java.util.Map;
 
 /**
  * 用户信息
@@ -24,15 +27,15 @@ public class UserInfo {
     // 岗位信息
 
     //构造函数
-    public UserInfo(JzfpBZzjgYhEntity yhEntity) {
+    public UserInfo(Map userMap) {
         // 用户信息
-        this.yhid = yhEntity.getYhid();
-        this.dlid = yhEntity.getDlid();
-        this.yhxm = yhEntity.getYhxm();
-        this.yhpwsx = yhEntity.getYhpwsx();
+        this.yhid = AtlpUtil.toString(userMap.get("yhid"));
+        this.dlid = AtlpUtil.toString(userMap.get("dlid"));
+        this.yhxm = AtlpUtil.toString(userMap.get("yhxm"));
+        this.yhpwsx = AtlpUtil.toInt(userMap.get("yhpwsx"));
         // 单位信息
-        this.dwid = yhEntity.getDwid();
-        this.dwmc = yhEntity.getDwmc();
+        this.dwid = AtlpUtil.toString(userMap.get("dwid"));
+        this.dwmc = AtlpUtil.toString(userMap.get("dwmc"));
         //this.dwpwsx = yhEntity.getDwpwsx();
     }
 }

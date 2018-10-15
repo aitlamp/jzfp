@@ -1,10 +1,9 @@
 package com.atlp.jzfp.controller.common.login;
 
+import com.atlp.jzfp.service.common.login.ILoginService;
+import com.atlp.jzfp.service.zzjg.yh.IYhService;
 import org.atlp.data.UserInfo;
 import org.atlp.utils.AtlpUtil;
-import com.atlp.jzfp.entity.zzjg.JzfpBZzjgYhEntity;
-import com.atlp.jzfp.repository.zzjg.ZzjgYhRepository;
-import com.atlp.jzfp.service.common.login.ILoginService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -24,7 +23,7 @@ public class LoginController {
     @Autowired
     private ILoginService loginService;
     @Autowired
-    private ZzjgYhRepository zzjgYhRepository;
+    private IYhService yhService;
 
     //公共包含页面
     @RequestMapping({"/include"})
@@ -50,9 +49,10 @@ public class LoginController {
             String hhid = userMap.get("hhid").toString();
             String dlid = userMap.get("dlid").toString();
             // 根据dlid获取本系统用户信息
-            JzfpBZzjgYhEntity yhEntity = zzjgYhRepository.findByDlid(dlid);
-            if (yhEntity != null) {
-                UserInfo userinfo = new UserInfo(yhEntity);
+            Map yhMap = yhService.findMapByDlid(dlid);
+            //JzfpBZzjgYhEntity yhEntity = zzjgYhRepository.findByDlid(dlid);
+            if (yhMap != null) {
+                UserInfo userinfo = new UserInfo(yhMap);
                 // 清空前面的session变量
                 request.getSession().removeAttribute("hhid");
                 request.getSession().removeAttribute("userinfo");
