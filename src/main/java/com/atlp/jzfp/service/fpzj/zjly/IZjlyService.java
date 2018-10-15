@@ -1,8 +1,8 @@
 package com.atlp.jzfp.service.fpzj.zjly;
 
-import com.atlp.jzfp.common.data.PageModel;
-import com.atlp.jzfp.common.exception.BusinessException;
+import org.atlp.data.PageModel;
 import com.atlp.jzfp.entity.fpzj.JzfpBZjLyEntity;
+import org.atlp.exception.BusinessException;
 
 import java.util.Map;
 

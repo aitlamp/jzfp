@@ -1,8 +1,7 @@
 package com.atlp.jzfp.service.zzjg.dw;
 
-import com.atlp.jzfp.common.data.PageModel;
+import org.atlp.data.PageModel;
 import com.atlp.jzfp.entity.zzjg.JzfpBZzjgDwEntity;
-import org.springframework.data.domain.Page;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.Map;

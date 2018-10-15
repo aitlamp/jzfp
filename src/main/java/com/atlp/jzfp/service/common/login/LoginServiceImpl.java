@@ -1,12 +1,10 @@
 package com.atlp.jzfp.service.common.login;
 
 import com.alibaba.fastjson.JSON;
-import com.atlp.jzfp.common.prop.CustomProps;
-import com.atlp.jzfp.common.utils.HttpClientUtil;
 import lombok.extern.slf4j.Slf4j;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.atlp.utils.HttpClientUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -25,7 +23,7 @@ import java.util.Map;
 public class LoginServiceImpl implements ILoginService {
 
     @Autowired
-    CustomProps customProps;
+    private Environment env;
 
     //登录方法
     public Map<String, Object> doLogin(String userName, String userPwd, String clientIp) {
@@ -37,11 +35,11 @@ public class LoginServiceImpl implements ILoginService {
         pmap.put("ip", clientIp);
         pmap.put("hhid", "");
         pmap.put("method", "userLogin");
-        pmap.put("appCode", customProps.getAppCode());
+        //pmap.put("appCode", customProps.getAppCode());
         pmap.put("userName", userName);
         pmap.put("userPwd", userPwd);
         // 发送请求
-        Map<String, Object> responseMap = HttpClientUtil.postJson(customProps.getTysqPath(), pmap, headers);
+        Map<String, Object> responseMap = HttpClientUtil.postJson(null, pmap, headers);
         log.debug("调用统一授权接口登录方法返回值：" + responseMap);
         // 处理参数
         int statusCode = (Integer) responseMap.get("statusCode");

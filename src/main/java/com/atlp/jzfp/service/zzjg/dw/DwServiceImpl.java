@@ -1,9 +1,9 @@
 package com.atlp.jzfp.service.zzjg.dw;
 
-import com.atlp.jzfp.common.data.ExceptionEnum;
-import com.atlp.jzfp.common.data.PageModel;
-import com.atlp.jzfp.common.exception.BusinessException;
-import com.atlp.jzfp.common.utils.AtlpUtil;
+import org.atlp.data.ExceptionEnum;
+import org.atlp.data.PageModel;
+import org.atlp.exception.BusinessException;
+import org.atlp.utils.AtlpUtil;
 import com.atlp.jzfp.entity.zzjg.JzfpBZzjgDwEntity;
 import com.atlp.jzfp.repository.zzjg.ZzjgCdRepository;
 import com.atlp.jzfp.repository.zzjg.ZzjgDwRepository;
@@ -93,27 +93,28 @@ public class DwServiceImpl implements IDwService {
     /**
      * 删除
      */
-    public boolean doDelete(String cdid) throws BusinessException {
+    public boolean doDelete(String dwid) throws BusinessException {
         boolean ret = false;
         //try {
-        //dwRepository.delete(dwRepository.findByDwid(cdid));
-        //dwRepository.delete(dwRepository.findByDwid(cdid + 1));
-
+        //判断传参是否为空
+        if (dwid != null) {
+            throw new BusinessException(ExceptionEnum.ERROR_PARAM);
+        }
+        dwRepository.delete(dwRepository.findByDwid(dwid));
+        //dwRepository.delete(dwRepository.findByDwid(dwid + 1));
         //cdService.doDelete(cdid);
-
-        if (cdid != null) {
-            //throw new RuntimeException("haha");
+        if (dwid != null) {
             //throw new BusinessException(ExceptionEnum.ERROR);
-            //throw new BusinessException(ExceptionEnum.UNKONW_ERROR);
-            //throw new BusinessException(1);
-            throw new BusinessException("参数错误");
-            //throw new BusinessException(2, "参数错误");
+//                throw new BusinessException(ExceptionEnum.UNKONW_ERROR);
+//                throw new BusinessException(1);
+//                throw new BusinessException("参数错误");
+//                throw new BusinessException(2, "参数错误");
         }
         ret = true;
-        //} catch (Exception e) {
+        //} catch (BusinessException e) {
         //} catch (RuntimeException e) {
         //e.printStackTrace();
-        //throw new RuntimeException();
+        //throw new BusinessException();
         //TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();//手动回滚，这样上层就无需去处理异常
         //}
         return ret;

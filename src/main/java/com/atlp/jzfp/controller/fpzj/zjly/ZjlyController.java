@@ -1,12 +1,12 @@
 package com.atlp.jzfp.controller.fpzj.zjly;
 
-import com.atlp.jzfp.common.base.BaseController;
-import com.atlp.jzfp.common.data.PageModel;
-import com.atlp.jzfp.common.exception.BusinessException;
-import com.atlp.jzfp.common.utils.AtlpUtil;
 import com.atlp.jzfp.entity.fpzj.JzfpBZjLyEntity;
 import com.atlp.jzfp.service.fpzj.zjly.IZjlyService;
 import lombok.extern.slf4j.Slf4j;
+import org.atlp.base.BaseController;
+import org.atlp.data.PageModel;
+import org.atlp.exception.BusinessException;
+import org.atlp.utils.AtlpUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.HashMap;
 import java.util.Map;
 
 /**

@@ -1,4 +1,4 @@
-package com.atlp.jzfp.common.base;
+package org.atlp.wrapper;
 
 
 import com.github.tobato.fastdfs.domain.StorePath;

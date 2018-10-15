@@ -1,4 +1,4 @@
-package com.atlp.jzfp.common.utils;
+package org.atlp.utils;
 
 import org.apache.commons.lang3.time.DateUtils;
 

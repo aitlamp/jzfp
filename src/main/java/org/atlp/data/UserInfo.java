@@ -1,4 +1,4 @@
-package com.atlp.jzfp.common.data;
+package org.atlp.data;
 
 import com.atlp.jzfp.entity.zzjg.JzfpBZzjgYhEntity;
 import lombok.Data;

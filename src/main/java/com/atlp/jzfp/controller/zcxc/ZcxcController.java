@@ -1,7 +1,7 @@
 package com.atlp.jzfp.controller.zcxc;
 
-import com.atlp.jzfp.common.base.BaseController;
-import com.atlp.jzfp.common.data.PageModel;
+import org.atlp.base.BaseController;
+import org.atlp.data.PageModel;
 import com.atlp.jzfp.entity.zcxc.JzfpBZcxcEntity;
 import com.atlp.jzfp.service.zcxc.IZcxcService;
 import lombok.extern.slf4j.Slf4j;

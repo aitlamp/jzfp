@@ -1,25 +1,16 @@
 package com.atlp.jzfp.controller.zzjg.dw;
 
-import com.alibaba.fastjson.JSONObject;
-import com.atlp.jzfp.common.base.BaseController;
-import com.atlp.jzfp.common.base.FastDFSClientWrapper;
-import com.atlp.jzfp.common.data.PageModel;
-import com.atlp.jzfp.common.prop.CustomProps;
 import com.atlp.jzfp.service.zzjg.dw.IDwService;
 import lombok.extern.slf4j.Slf4j;
-import org.joda.time.DateTime;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.atlp.base.BaseController;
+import org.atlp.data.PageModel;
+import org.atlp.wrapper.FastDFSClientWrapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
-import java.io.*;
-import java.net.HttpURLConnection;
-import java.net.URL;
-import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -34,8 +25,6 @@ import java.util.Map;
 public class DwController extends BaseController {
     @Autowired
     private IDwService dwService;
-    @Autowired
-    CustomProps customProps;
     @Autowired
     private FastDFSClientWrapper dfsClient;
 

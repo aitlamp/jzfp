@@ -1,9 +1,9 @@
 package com.atlp.jzfp.controller.fpxm.xmxx;
 
-import com.atlp.jzfp.common.base.BaseController;
+import org.atlp.base.BaseController;
 import com.atlp.jzfp.common.base.IStaticInfo;
-import com.atlp.jzfp.common.utils.AtlpUtil;
-import com.atlp.jzfp.common.utils.DateTimeUtil;
+import org.atlp.utils.AtlpUtil;
+import org.atlp.utils.DateTimeUtil;
 import com.atlp.jzfp.entity.fpxm.JzfpBXmJdEntity;
 import com.atlp.jzfp.entity.fpxm.JzfpBXmXxEntity;
 import com.atlp.jzfp.service.fpxm.xmxx.IXmxxService;

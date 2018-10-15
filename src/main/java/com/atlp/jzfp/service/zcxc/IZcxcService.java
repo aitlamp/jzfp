@@ -1,6 +1,6 @@
 package com.atlp.jzfp.service.zcxc;
 
-import com.atlp.jzfp.common.data.PageModel;
+import org.atlp.data.PageModel;
 import com.atlp.jzfp.entity.zcxc.JzfpBZcxcEntity;
 
 import javax.servlet.http.HttpServletRequest;

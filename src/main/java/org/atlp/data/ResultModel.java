@@ -1,4 +1,4 @@
-package com.atlp.jzfp.common.data;
+package org.atlp.data;
 
 
 import lombok.Data;
@@ -43,7 +43,7 @@ public class ResultModel implements Serializable {
     }
 
     public static ResultModel failed(String msg) {
-        return failed(1, msg);
+        return failed(4000, msg);
     }
 
     public static ResultModel failed() {

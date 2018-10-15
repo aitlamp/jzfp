@@ -1,6 +1,6 @@
 package com.atlp.jzfp.repository.zcxc;
 
-import com.atlp.jzfp.common.base.BaseRepository;
+import org.atlp.base.BaseRepository;
 import com.atlp.jzfp.entity.zcxc.JzfpBZcxcEntity;
 
 /**

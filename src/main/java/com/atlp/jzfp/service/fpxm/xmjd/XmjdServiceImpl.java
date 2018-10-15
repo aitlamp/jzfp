@@ -1,6 +1,6 @@
 package com.atlp.jzfp.service.fpxm.xmjd;
 
-import com.atlp.jzfp.common.utils.AtlpUtil;
+import org.atlp.utils.AtlpUtil;
 import com.atlp.jzfp.entity.fpxm.JzfpBXmJdEntity;
 import com.atlp.jzfp.repository.fpxm.FpxmXmjdRepository;
 import lombok.extern.slf4j.Slf4j;

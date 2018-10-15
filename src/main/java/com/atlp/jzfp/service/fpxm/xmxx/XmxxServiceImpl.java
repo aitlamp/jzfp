@@ -1,6 +1,6 @@
 package com.atlp.jzfp.service.fpxm.xmxx;
 
-import com.atlp.jzfp.common.utils.AtlpUtil;
+import org.atlp.utils.AtlpUtil;
 import com.atlp.jzfp.entity.fpxm.JzfpBXmJdEntity;
 import com.atlp.jzfp.entity.fpxm.JzfpBXmXxEntity;
 import com.atlp.jzfp.repository.fpxm.FpxmXmjdRepository;

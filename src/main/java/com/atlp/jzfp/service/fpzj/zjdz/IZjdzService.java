@@ -1,6 +1,6 @@
 package com.atlp.jzfp.service.fpzj.zjdz;
 
-import com.atlp.jzfp.common.data.PageModel;
+import org.atlp.data.PageModel;
 import com.atlp.jzfp.entity.fpzj.JzfpBZjDzEntity;
 
 import java.util.Map;

@@ -1,4 +1,4 @@
-package com.atlp.jzfp.common.data;
+package org.atlp.data;
 
 import lombok.Data;
 

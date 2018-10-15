@@ -1,13 +1,11 @@
 package com.atlp.jzfp.service.fpzj.zjly;
 
-import com.atlp.jzfp.common.data.PageModel;
-import com.atlp.jzfp.common.exception.BusinessException;
-import com.atlp.jzfp.common.utils.AtlpUtil;
 import com.atlp.jzfp.entity.fpzj.JzfpBZjLyEntity;
 import com.atlp.jzfp.repository.fpzj.FpzjZjlyRepository;
 import lombok.extern.slf4j.Slf4j;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.atlp.data.PageModel;
+import org.atlp.exception.BusinessException;
+import org.atlp.utils.AtlpUtil;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
