@@ -26,7 +26,7 @@ import java.util.Map;
 public class ZjxbController extends BaseController {
 
     @Autowired
-    private IZjxbService iZjxbService;
+    private IZjxbService zjxbService;
 
     /**
      * 资金下拨分页数据展示
@@ -38,7 +38,7 @@ public class ZjxbController extends BaseController {
     @RequestMapping(value = "/getPage", method = RequestMethod.POST)
     @ResponseBody
     public Map<String, Object> getPage(@RequestBody PageModel page) throws Exception {
-        return iZjxbService.getPage(page);
+        return zjxbService.getPage(page);
     }
 
     /**
@@ -58,13 +58,13 @@ public class ZjxbController extends BaseController {
         if (AtlpUtil.isEmpty(entity) || AtlpUtil.isEmpty(entity.getXbsj())
                 || AtlpUtil.isEmpty(entity.getXbje()) || AtlpUtil.isEmpty(entity.getJsdwid())
                 || AtlpUtil.isEmpty(entity.getNd())) {
-            logger.debug("传入资金下拨信息不完整，增加资金下拨信息失败...下拨单位id==={},下拨单位名称==={}," +
-                    "下拨时间==={},下拨金额==={},接收单位id==={},接收单位名称==={},资金年度==={}", entity.toString());
+            logger.debug("传入资金下拨信息不完整，增加资金下拨信息失败...下拨时间==={},下拨金额==={},接收单位id==={},资金年度==={}",
+                    entity.toString());
             reMap.put("code", "-1");
             reMap.put("msg", "传入资金到账信息不完整，增加资金下拨信息失败");
             return reMap;
         }
-        return iZjxbService.doSaveOrUpdate(entity);
+        return zjxbService.doSaveOrUpdate(entity);
     }
 
     /**
@@ -90,7 +90,7 @@ public class ZjxbController extends BaseController {
             reMap.put("msg", "传入资金下拨信息不完整，修改资金下拨信息失败");
             return reMap;
         }
-        return iZjxbService.doSaveOrUpdate(entity);
+        return zjxbService.doSaveOrUpdate(entity);
     }
 
     /**
@@ -103,7 +103,7 @@ public class ZjxbController extends BaseController {
     @RequestMapping(value = "/getZjxbById", method = RequestMethod.POST)
     @ResponseBody
     public Map<String, Object> getZjxbById(HttpServletRequest request, @RequestBody JzfpBZjXbEntity entity) throws Exception {
-        return iZjxbService.getZjxbById(entity.getDzid());
+        return zjxbService.getZjxbById(entity.getDzid());
     }
 
     /**
@@ -117,6 +117,6 @@ public class ZjxbController extends BaseController {
     @RequestMapping(value = "/doDelete", method = RequestMethod.POST)
     @ResponseBody
     public Map<String, Object> doDelete(HttpServletRequest request, @RequestBody JzfpBZjXbEntity entity) throws Exception {
-        return iZjxbService.doDelete(entity);
+        return zjxbService.doDelete(entity);
     }
 }

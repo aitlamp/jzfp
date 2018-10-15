@@ -1,6 +1,7 @@
 package com.atlp.jzfp.service.fpzj.zjly;
 
 import com.atlp.jzfp.common.data.PageModel;
+import com.atlp.jzfp.common.exception.BusinessException;
 import com.atlp.jzfp.entity.fpzj.JzfpBZjLyEntity;
 
 import java.util.Map;
@@ -28,7 +29,7 @@ public interface IZjlyService {
      * @return
      * @throws Exception
      */
-    public Map<String, Object> doSaveOrUpdate(JzfpBZjLyEntity entity) throws Exception;
+    public Boolean doSaveOrUpdate(JzfpBZjLyEntity entity) throws BusinessException;
 
     /**
      * 修改资金来源

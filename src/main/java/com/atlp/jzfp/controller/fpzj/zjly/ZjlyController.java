@@ -2,9 +2,11 @@ package com.atlp.jzfp.controller.fpzj.zjly;
 
 import com.atlp.jzfp.common.base.BaseController;
 import com.atlp.jzfp.common.data.PageModel;
+import com.atlp.jzfp.common.exception.BusinessException;
 import com.atlp.jzfp.common.utils.AtlpUtil;
 import com.atlp.jzfp.entity.fpzj.JzfpBZjLyEntity;
 import com.atlp.jzfp.service.fpzj.zjly.IZjlyService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -21,6 +23,7 @@ import java.util.Map;
  * @CreateTime: 2018/10/9 11:03
  * @Decription: 资金来源 controller
  */
+@Slf4j
 @Controller
 @RequestMapping(value = "/fpzj/zjly", method = {RequestMethod.GET, RequestMethod.POST})
 public class ZjlyController extends BaseController {
@@ -37,9 +40,6 @@ public class ZjlyController extends BaseController {
     @RequestMapping(value = "/getPage", method = RequestMethod.POST)
     @ResponseBody
     public Map<String, Object> getPage(@RequestBody PageModel page) throws Exception {
-        Map<String, Object> reMap = new HashMap<>();
-        reMap.put("code", "0");
-        reMap.put("msg", "SUCCESS");
         return iZjlyService.getPage(page);
     }
 
@@ -53,16 +53,11 @@ public class ZjlyController extends BaseController {
      */
     @RequestMapping(value = "/doSave", method = RequestMethod.POST)
     @ResponseBody
-    public Map<String, Object> doSave(HttpServletRequest request, @RequestBody JzfpBZjLyEntity entiy) throws Exception {
-        Map<String, Object> reMap = new HashMap<>();
-        reMap.put("code", "0");
-        reMap.put("msg", "SUCCESS");
+    public Boolean doSave(HttpServletRequest request, @RequestBody JzfpBZjLyEntity entiy) throws BusinessException {
 
         if (AtlpUtil.isEmpty(entiy) || AtlpUtil.isEmpty(entiy.getLymc())) {
-            logger.debug("传入资金来源信息不完整，增加资金来源信息失败...来源名称==={}", entiy.toString());
-            reMap.put("code", "-1");
-            reMap.put("msg", "传入资金来源信息不完整，增加资金来源信息失败");
-            return reMap;
+            log.debug("参数异常，传入资金来源信息不完整，增加资金来源信息失败...来源名称==={}", entiy.toString());
+            throw new BusinessException(4201,"传入资金来源信息不完整，增加资金来源信息失败");
         }
 
         return iZjlyService.doSaveOrUpdate(entiy);
@@ -78,16 +73,14 @@ public class ZjlyController extends BaseController {
      */
     @RequestMapping(value = "/doUpdate", method = RequestMethod.POST)
     @ResponseBody
-    public Map<String, Object> doUpdate(HttpServletRequest request, @RequestBody JzfpBZjLyEntity entiy) throws Exception {
-        Map<String, Object> reMap = new HashMap<>();
-        reMap.put("code", "0");
-        reMap.put("msg", "SUCCESS");
+    public Boolean doUpdate(HttpServletRequest request, @RequestBody JzfpBZjLyEntity entiy) throws Exception {
+
 
         if (AtlpUtil.isEmpty(entiy) || AtlpUtil.isEmpty(entiy.getLyid()) || AtlpUtil.isEmpty(entiy.getLymc())) {
-            logger.debug("传入资金来源信息不完整，修改资金来源信息失败...来源名称==={}", entiy.toString());
-            reMap.put("code", "-1");
-            reMap.put("msg", "传入资金来源信息不完整，修改资金来源信息失败");
-            return reMap;
+            log.debug("参数异常，传入资金来源信息不完整，修改资金来源信息失败...来源名称==={}", entiy.toString());
+//            reMap.put("code", "-1");
+//            reMap.put("msg", "传入资金来源信息不完整，修改资金来源信息失败");
+//            return reMap;
         }
 
         return iZjlyService.doSaveOrUpdate(entiy);

@@ -96,7 +96,7 @@ public class ZjxbServiceImpl implements IZjxbService {
         JzfpBZjXbEntity save = zjxbRepository.save(saveEntity);
         if (null == save || null == save.getDzid()) {
             log.debug("参数异常，新增或修改资金下拨信息失败...资金下拨id==={}", entity.getDzid());
-            retMap.put("code", "-1");
+            retMap.put("code", "-2");
             retMap.put("msg", "系统异常，新增或修改资金下拨信息失败.");
             return retMap;
         }
@@ -140,7 +140,7 @@ public class ZjxbServiceImpl implements IZjxbService {
         retMap.put("msg", "成功");
         if (AtlpUtil.isEmpty(entity) || AtlpUtil.isEmpty(entity.getDzid())) {
             log.debug("参数异常，删除资金下拨信息失败...资金到账id==={}", entity.getDzid());
-            retMap.put("code", "-1");
+            retMap.put("code", "-2");
             retMap.put("msg", "系统异常,删除资金下拨信息失败");
             return retMap;
         }

@@ -6,6 +6,7 @@ import com.atlp.jzfp.entity.fpzj.JzfpBZjDzEntity;
 import com.atlp.jzfp.entity.fpzj.JzfpBZjLyEntity;
 import com.atlp.jzfp.repository.fpzj.FpzjZjdzRepository;
 import com.atlp.jzfp.repository.fpzj.FpzjZjlyRepository;
+import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
@@ -24,11 +25,10 @@ import java.util.Map;
  * @CreateTime: 2018/10/10 11:27
  * @Decription: 资金到账业务层实现类
  */
+@Slf4j
 @Service
 @Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 public class ZjdzServiceImpl implements IZjdzService {
-
-    private final Logger logger = LoggerFactory.getLogger(getClass());
 
     @Autowired
     private FpzjZjdzRepository zjdzRepository;
@@ -66,7 +66,7 @@ public class ZjdzServiceImpl implements IZjdzService {
 
         JzfpBZjDzEntity zjDzEntity = zjdzRepository.findByDzid(dzid);
         if (null == zjDzEntity) {
-            logger.debug("参数异常，查询资金到账信息失败...资金到账id==={}", zjDzEntity.getDzid());
+            log.debug("参数异常，查询资金到账信息失败...资金到账id==={}", zjDzEntity.getDzid());
             retMap.put("code", "-1");
             retMap.put("msg", "系统异常，查询资金到账信息失败");
             return retMap;
@@ -92,7 +92,7 @@ public class ZjdzServiceImpl implements IZjdzService {
 
         JzfpBZjLyEntity zjlyEntity = zjlyRepository.findByLyid(entity.getLyid());
         if (AtlpUtil.isEmpty(zjlyEntity) || AtlpUtil.isEmpty(zjlyEntity.getLymc())) {
-            logger.debug("参数异常，查询资金来源信息失败...资金来源名称==={}", zjlyEntity.getLymc());
+            log.debug("参数异常，查询资金来源信息失败...资金来源名称==={}", zjlyEntity.getLymc());
             retMap.put("code", "-1");
             retMap.put("msg", "系统异常，资金来源信息输入有误.");
             return retMap;
@@ -112,7 +112,7 @@ public class ZjdzServiceImpl implements IZjdzService {
         } else {
             saveEntity = zjdzRepository.findByDzid(entity.getDzid());
             if (AtlpUtil.isEmpty(saveEntity)) {
-                logger.debug("参数异常，查询资金到账信息失败...资金到账id==={}", entity.getDzid());
+                log.debug("参数异常，查询资金到账信息失败...资金到账id==={}", entity.getDzid());
                 retMap.put("code", "-1");
                 retMap.put("msg", "系统异常，查询资金到账信息失败.");
                 return retMap;
@@ -123,8 +123,8 @@ public class ZjdzServiceImpl implements IZjdzService {
         JzfpBZjDzEntity save = zjdzRepository.save(saveEntity);
         //判断增加或修改成功
         if (null == save || null == save.getDzid()) {
-            logger.debug("参数异常，增加或修改资金到账信息失败...资金到账id==={}", entity.getDzid());
-            retMap.put("code", "-1");
+            log.debug("参数异常，增加或修改资金到账信息失败...资金到账id==={}", entity.getDzid());
+            retMap.put("code", "-2");
             retMap.put("msg", "系统异常,增加或修改资金到账信息失败");
             return retMap;
         }
@@ -146,8 +146,8 @@ public class ZjdzServiceImpl implements IZjdzService {
         retMap.put("msg", "成功");
 
         if (AtlpUtil.isEmpty(entity) || AtlpUtil.isEmpty(entity.getDzid())) {
-            logger.debug("参数异常，删除资金到账信息失败...资金到账id==={}", entity.getDzid());
-            retMap.put("code", "-1");
+            log.debug("参数异常，删除资金到账信息失败...资金到账id==={}", entity.getDzid());
+            retMap.put("code", "-2");
             retMap.put("msg", "系统异常,删除资金到账信息失败");
             return retMap;
         }
