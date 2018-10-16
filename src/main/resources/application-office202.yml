@@ -54,5 +54,5 @@ fdfs:
 #自定义属性
 custom:
   log-level: debug
-  access-ignore: include,webjars,login,doLogin,main/,jzfp #访问忽略路径，以逗号分隔
+  access-ignore: login,doLogin #访问忽略路径，以逗号分隔
   fdfs-path: http://47.97.173.180:90/ #FastDFS地址

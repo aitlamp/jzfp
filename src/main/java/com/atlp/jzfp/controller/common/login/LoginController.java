@@ -26,7 +26,7 @@ public class LoginController {
     //登录方法
     @RequestMapping(value = "/doLogin")
     @ResponseBody
-    public Object doLogin(@RequestBody Map pmap, HttpServletRequest request) {
+    public boolean doLogin(@RequestBody Map pmap, HttpServletRequest request) throws Exception {
         String userName = AtlpUtil.toString(pmap.get("userName"));
         String userPwd = AtlpUtil.toString(pmap.get("userPwd"));
         //判断参数
@@ -41,15 +41,16 @@ public class LoginController {
         if (AtlpUtil.isEmpty(userMap)) {
             throw new BusinessException(4203, "未查询到用户信息");
         }
+        String hhid = AtlpUtil.toString(userMap.get("hhid"));
         //给UserInfo赋值
         UserInfo userinfo = new UserInfo(userMap);
         // 清空前面的session变量
-        //request.getSession().removeAttribute("hhid");
+        request.getSession().removeAttribute("hhid");
         request.getSession().removeAttribute("userinfo");
         // 给session重新赋值
-        //request.getSession().setAttribute("hhid", hhid);
+        request.getSession().setAttribute("hhid", hhid);
         request.getSession().setAttribute("userinfo", userinfo);
         // 返回
-        return ResultModel.success("登录成功", true);
+        return true;
     }
 }
