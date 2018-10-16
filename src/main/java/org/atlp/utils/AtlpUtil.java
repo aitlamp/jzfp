@@ -40,6 +40,9 @@ public class AtlpUtil {
         if (ip == null || ip.equals("") || ip.equals("unknown")) {
             ip = request.getRemoteAddr();
         }
+        if (ip.equals("0:0:0:0:0:0:0:1")) {
+            ip = "127.0.0.1";
+        }
         return ip;
     }
 
@@ -271,5 +274,16 @@ public class AtlpUtil {
             e.printStackTrace();
         }
         return map;
+    }
+
+    /**
+     * 产生一个通用唯一识别码
+     *
+     * @return UUID（固定32位）
+     */
+    public static String getUUID() {
+        UUID uuid = UUID.randomUUID();
+        String uids = uuid.toString().replaceAll("-", "");
+        return uids;
     }
 }

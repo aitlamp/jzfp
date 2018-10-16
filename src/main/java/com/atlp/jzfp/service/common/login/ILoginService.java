@@ -9,5 +9,7 @@ import java.util.Map;
  * @date 2018年8月14日 23:11:54
  */
 public interface ILoginService {
-    Map<String, Object> doLogin(String userName, String userPwd, String clientIp);
+    Map<String, Object> doLogin(String userName, String userPwd, String clientIp) throws Exception;
+
+    boolean checkLogin(String hhid, String clientIp);
 }

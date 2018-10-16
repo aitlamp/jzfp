@@ -1,5 +1,6 @@
 package com.atlp.jzfp.common.filter;
 
+import com.atlp.jzfp.service.common.login.ILoginService;
 import lombok.extern.slf4j.Slf4j;
 import org.atlp.utils.AtlpUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +27,8 @@ import java.util.Map;
 public class AccessFilter implements Filter {
     @Autowired
     private Environment env;
+    @Autowired
+    ILoginService loginService;
 
     @Override
     public void init(FilterConfig filterConfig) {
@@ -73,11 +76,7 @@ public class AccessFilter implements Filter {
         }
 
         // 验证hhid是否过期
-
-        //判断是否登录
-        Map<String, Object> checkLoginMap = null;//this.checkLogin(httpServletRequest);
-        String code = checkLoginMap.get("code").toString();
-        if (code.equals("00")) {
+        if (loginService.checkLogin(hhid, AtlpUtil.getClientIP(httpServletRequest))) {
             // 验证通过
             filterChain.doFilter(httpServletRequest, httpServletResponse); // 跳转页面
         } else {
@@ -85,8 +84,6 @@ public class AccessFilter implements Filter {
             String contextPath = httpServletRequest.getContextPath();
             httpServletResponse.sendRedirect(contextPath);
         }
-
-        //filterChain.doFilter(servletRequest, servletResponse);
     }
 
     @Override

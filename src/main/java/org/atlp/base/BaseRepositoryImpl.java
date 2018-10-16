@@ -196,4 +196,12 @@ public class BaseRepositoryImpl<T, ID extends Serializable> extends SimpleJpaRep
         List<Map> list = this.findListMapBySql(sql);
         return list.get(0);
     }
+
+    @Transactional(rollbackFor = Exception.class)
+    public List<T> findAllBySql(String sql) {
+        Class<T> domainType = this.getDomainClass();
+        Query query = entityManager.createNativeQuery(sql, domainType);
+        List<T> list = query.getResultList();
+        return list;
+    }
 }
