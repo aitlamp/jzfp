@@ -2,6 +2,8 @@ package com.atlp.jzfp.common.filter;
 
 import com.atlp.jzfp.service.common.login.ILoginService;
 import lombok.extern.slf4j.Slf4j;
+import org.atlp.data.ResultModel;
+import org.atlp.exception.BusinessException;
 import org.atlp.utils.AtlpUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.annotation.Order;
@@ -68,11 +70,12 @@ public class AccessFilter implements Filter {
         }
 
         // 判断session是否存在hhid
-        String hhid = httpServletRequest.getSession().getAttribute("hhid").toString();
+        String contextPath = httpServletRequest.getContextPath();
+        String hhid = AtlpUtil.toString(httpServletRequest.getSession().getAttribute("hhid"));
         if (AtlpUtil.isEmpty(hhid)) {
             // 验证不通过
-            String contextPath = httpServletRequest.getContextPath();
             httpServletResponse.sendRedirect(contextPath);
+            return;
         }
 
         // 验证hhid是否过期
@@ -81,7 +84,6 @@ public class AccessFilter implements Filter {
             filterChain.doFilter(httpServletRequest, httpServletResponse); // 跳转页面
         } else {
             // 验证不通过
-            String contextPath = httpServletRequest.getContextPath();
             httpServletResponse.sendRedirect(contextPath);
         }
     }

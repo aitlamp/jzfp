@@ -204,4 +204,11 @@ public class BaseRepositoryImpl<T, ID extends Serializable> extends SimpleJpaRep
         List<T> list = query.getResultList();
         return list;
     }
+
+    @Transactional(rollbackFor = Exception.class)
+    public List findAllBySql(String sql, Class cls) {
+        Query query = entityManager.createNativeQuery(sql, cls);
+        List list = query.getResultList();
+        return list;
+    }
 }
