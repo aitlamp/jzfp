@@ -1,9 +1,9 @@
 package com.atlp.jzfp.service.fpxm.xmjd;
 
 import com.atlp.jzfp.entity.fpxm.JzfpBXmJdEntity;
+import org.atlp.exception.BusinessException;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.Map;
 
 /**
  * @Author: zhangchq
@@ -18,7 +18,7 @@ public interface IXmjdService {
      * @return
      * @throws Exception
      */
-    public JzfpBXmJdEntity getInfoById(String id) throws Exception;
+    public JzfpBXmJdEntity getInfoById(String id) throws BusinessException;
 
     /**
      * 项目阶段维护
@@ -27,7 +27,7 @@ public interface IXmjdService {
      * @return
      * @throws Exception
      */
-    public Map<String, Object> doSaveOrUpdate(JzfpBXmJdEntity entity, HttpServletRequest request) throws Exception;
+    public boolean doSaveOrUpdate(JzfpBXmJdEntity entity, HttpServletRequest request) throws BusinessException;
 
     /**
      * 删除项目阶段
@@ -35,5 +35,5 @@ public interface IXmjdService {
      * @return
      * @throws Exception
      */
-    public Map<String, Object> doDelete(JzfpBXmJdEntity entity) throws Exception;
+    public boolean doDelete(JzfpBXmJdEntity entity) throws BusinessException;
 }
