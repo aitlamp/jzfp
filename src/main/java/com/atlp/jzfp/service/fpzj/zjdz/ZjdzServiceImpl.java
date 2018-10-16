@@ -8,8 +8,6 @@ import com.atlp.jzfp.entity.fpzj.JzfpBZjLyEntity;
 import com.atlp.jzfp.repository.fpzj.FpzjZjdzRepository;
 import com.atlp.jzfp.repository.fpzj.FpzjZjlyRepository;
 import lombok.extern.slf4j.Slf4j;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,7 +16,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.Timestamp;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -40,6 +37,14 @@ public class ZjdzServiceImpl implements IZjdzService {
      */
     @Override
     public PageModel getPage(PageModel page) {
+        /*StringBuilder sql = new StringBuilder("select t.nd,t.zjlx,t.lymc,t.dzsj,t.sjxbsj,t.dzje from JZFP_B_ZJ_DZ t where 0=0 ");
+        Map pmap = page.getPmap();
+        if (pmap != null && pmap.size() > 0) {
+            for (Object key : pmap.keySet()) {
+                sql.append(" and ").append((String) key).append(" = ").append((String) pmap.get(key));
+            }
+        }
+        sql.append(" order by ");*/
         String sql = "select t.nd,t.zjlx,t.lymc,t.dzsj,t.sjxbsj,t.dzje from JZFP_B_ZJ_DZ t ";
         page = zjdzRepository.findPageBySql(sql, page);
         return page;

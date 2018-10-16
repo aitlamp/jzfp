@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.Map;
 
 /**
  * @Author: bijunming
@@ -68,18 +69,18 @@ public class ZjdzController extends BaseController {
     /**
      * 单个资金到账信息详细查看
      */
-    @RequestMapping(value = "/getZjdzById", method = RequestMethod.POST)
+    @RequestMapping(value = "/getZjdzById")
     @ResponseBody
-    public JzfpBZjDzEntity getZjdzById(@RequestBody String dzid) {
+    public JzfpBZjDzEntity getZjdzById(String dzid) {
         return zjdzService.getZjdzById(dzid);
     }
 
     /**
      * 删除对应的资金到账数据信息
      */
-    @RequestMapping(value = "/doDelete", method = RequestMethod.POST)
+    @RequestMapping(value = "/doDelete")
     @ResponseBody
-    public Boolean doDelete(@RequestBody String dzid) {
+    public Boolean doDelete(String dzid) {
         return zjdzService.doDelete(dzid);
     }
 }

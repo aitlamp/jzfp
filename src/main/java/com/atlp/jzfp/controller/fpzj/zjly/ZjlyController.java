@@ -43,7 +43,7 @@ public class ZjlyController extends BaseController {
      */
     @RequestMapping(value = "/doSave", method = RequestMethod.POST)
     @ResponseBody
-    public Boolean doSave(HttpServletRequest request, @RequestBody JzfpBZjLyEntity entiy) {
+    public Boolean doSave(@RequestBody JzfpBZjLyEntity entiy) {
         if (AtlpUtil.isEmpty(entiy) || AtlpUtil.isEmpty(entiy.getLymc())) {
             throw new BusinessException(4201, "传入资金来源信息不完整，增加资金来源信息失败");
         }
@@ -65,9 +65,9 @@ public class ZjlyController extends BaseController {
     /**
      * 删除对应的资金来源信息
      */
-    @RequestMapping(value = "/doDelete", method = RequestMethod.POST)
+    @RequestMapping(value = "/doDelete")
     @ResponseBody
-    public Boolean doDelete(@RequestBody String lyid) {
+    public Boolean doDelete(String lyid) {
         return zjlyService.doDelete(lyid);
     }
 }

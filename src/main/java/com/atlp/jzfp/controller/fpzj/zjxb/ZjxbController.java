@@ -67,18 +67,18 @@ public class ZjxbController extends BaseController {
     /**
      * 单个资金下拨信息详细查看
      */
-    @RequestMapping(value = "/getZjxbById", method = RequestMethod.POST)
+    @RequestMapping(value = "/getZjxbById")
     @ResponseBody
-    public JzfpBZjXbEntity getZjxbById(@RequestBody String dzid) {
+    public JzfpBZjXbEntity getZjxbById(String dzid) {
         return zjxbService.getZjxbById(dzid);
     }
 
     /**
      * 删除对应的资金下拨数据信息
      */
-    @RequestMapping(value = "/doDelete", method = RequestMethod.POST)
+    @RequestMapping(value = "/doDelete")
     @ResponseBody
-    public Boolean doDelete(@RequestBody String dzid) {
+    public Boolean doDelete(String dzid) {
         return zjxbService.doDelete(dzid);
     }
 }
