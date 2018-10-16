@@ -11,35 +11,12 @@ import java.util.Map;
  * @Decription: 资金到账业务层接口
  */
 public interface IZjdzService {
-    /**
-     * 资金到账分页展示
-     *
-     * @param page
-     * @return
-     */
+
     public PageModel getPage(PageModel page);
 
-    /**
-     * 查看资金到账的详细信息
-     *
-     * @param entity
-     * @return
-     */
-    public JzfpBZjDzEntity getZjdzById(JzfpBZjDzEntity entity);
+    public JzfpBZjDzEntity getZjdzById(String dzid);
 
-    /**
-     * 增加或修改资金到账信息
-     *
-     * @param entity
-     * @return
-     */
     public Boolean doSaveOrUpdate(JzfpBZjDzEntity entity);
 
-    /**
-     * 删除对应的资金到账数据信息
-     *
-     * @param entity
-     * @return
-     */
-    public Boolean doDelete(JzfpBZjDzEntity entity);
+    public Boolean doDelete(String dzid);
 }

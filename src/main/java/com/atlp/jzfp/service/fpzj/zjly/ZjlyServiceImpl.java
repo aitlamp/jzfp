@@ -31,10 +31,6 @@ public class ZjlyServiceImpl implements IZjlyService {
 
     /**
      * 资金来源分页数据展示
-     *
-     * @param page
-     * @return
-     * @throws Exception
      */
     @Override
     public PageModel getPage(PageModel page) {
@@ -44,16 +40,10 @@ public class ZjlyServiceImpl implements IZjlyService {
 
     /**
      * 增加资金来源信息
-     *
-     * @param entity
-     * @return
-     * @throws Exception
      */
     @Override
     @Transactional
-    public Boolean doSaveOrUpdate(JzfpBZjLyEntity entity) throws BusinessException {
-        Boolean ret = true;
-
+    public Boolean doSaveOrUpdate(JzfpBZjLyEntity entity) {
         JzfpBZjLyEntity saveEntity = new JzfpBZjLyEntity();
         //判断主键ID
         if (null == entity.getLyid()) {
@@ -69,7 +59,6 @@ public class ZjlyServiceImpl implements IZjlyService {
             saveEntity = zjlyRepository.findByLyid(entity.getLyid());
             if (AtlpUtil.isEmpty(saveEntity)) {
                 log.debug("参数异常，查询资金来源信息失败...资金来源id==={}", entity.getLyid());
-                ret = false;
                 throw new BusinessException(4201, "传入资金来源信息不完整，查询资金来源信息失败");
             }
             BeanUtils.copyProperties(entity, saveEntity, AtlpUtil.getNullPropertyNames(entity));
@@ -79,42 +68,32 @@ public class ZjlyServiceImpl implements IZjlyService {
         //判断增加或修改是否成功
         if (null == save || null == save.getLyid()) {
             log.debug("资金来源增加或修改失败...资金来源信息==={}", entity.getLyid());
-            ret = false;
             throw new BusinessException(4202, "资金来源增加或修改失败...");
         }
-
-        return ret;
+        return true;
     }
 
     /**
      * 资金来源信息修改
      * 状态修改
-     *
-     * @param entity
-     * @return
-     * @throws Exception
      */
     @Override
     @Transactional
-    public Boolean doUpdate(JzfpBZjLyEntity entity) throws Exception {
-        Boolean ret = true;
+    public Boolean doUpdate(JzfpBZjLyEntity entity) {
         JzfpBZjLyEntity updateEntity = zjlyRepository.findByLyid(entity.getLyid());
         if (AtlpUtil.isEmpty(updateEntity)) {
             log.debug("参数异常，查询资金来源信息失败...资金来源id==={}", entity.getLyid());
-            ret = false;
             throw new BusinessException(4201, "查询资金来源信息失败");
         }
         BeanUtils.copyProperties(entity, updateEntity, AtlpUtil.getNullPropertyNames(entity));
         updateEntity.setLasttime(new Timestamp(new Date().getTime()));
-
         JzfpBZjLyEntity update = zjlyRepository.save(updateEntity);
         //判断修改是否成功
         if (AtlpUtil.isEmpty(update) || AtlpUtil.isEmpty(update.getLyid())) {
             log.debug("参数异常,资金来源修改失败...资金来源信息==={}", entity.getLyid());
-            ret = false;
             throw new BusinessException(4202, "资金来源修改失败");
         }
-        return ret;
+        return true;
     }
 
     /**

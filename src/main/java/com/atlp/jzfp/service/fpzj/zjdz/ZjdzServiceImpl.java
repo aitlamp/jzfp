@@ -30,7 +30,6 @@ import java.util.Map;
 @Service
 @Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 public class ZjdzServiceImpl implements IZjdzService {
-
     @Autowired
     private FpzjZjdzRepository zjdzRepository;
     @Autowired
@@ -38,9 +37,6 @@ public class ZjdzServiceImpl implements IZjdzService {
 
     /**
      * 资金到账分页数据展示
-     *
-     * @param page
-     * @return
      */
     @Override
     public PageModel getPage(PageModel page) {
@@ -51,35 +47,26 @@ public class ZjdzServiceImpl implements IZjdzService {
 
     /**
      * 资金到账信息详细查看
-     *
-     * @param entity
-     * @return
      */
     @Override
-    public JzfpBZjDzEntity getZjdzById(JzfpBZjDzEntity entity) {
-        JzfpBZjDzEntity zjDzEntity = zjdzRepository.findByDzid(entity.getDzid());
+    public JzfpBZjDzEntity getZjdzById(String dzid) {
+        JzfpBZjDzEntity zjDzEntity = zjdzRepository.findByDzid(dzid);
         if (null == zjDzEntity) {
-            log.debug("参数异常，查询资金到账信息失败...资金到账id==={}", zjDzEntity.getDzid());
-            throw new BusinessException(4201, "参数异常，查询资金到账信息失败");
+            throw new BusinessException(4201, "参数异常，查询资金到账信息失败...到账id==={}");
         }
         return zjDzEntity;
     }
 
     /**
      * 增加或修改资金到账信息
-     *
-     * @param entity
-     * @return
      */
     @Override
     @Transactional
     public Boolean doSaveOrUpdate(JzfpBZjDzEntity entity) {
-
         JzfpBZjDzEntity saveEntity = new JzfpBZjDzEntity();
-
+        //设置资金来源
         JzfpBZjLyEntity zjlyEntity = zjlyRepository.findByLyid(entity.getLyid());
         if (AtlpUtil.isEmpty(zjlyEntity) || AtlpUtil.isEmpty(zjlyEntity.getLymc())) {
-            log.debug("参数异常，查询资金来源信息失败...资金来源名称==={}", zjlyEntity.getLymc());
             throw new BusinessException(4201, "查询资金来源信息失败...资金来源id==={}");
         }
         entity.setLymc(zjlyEntity.getLymc());
@@ -97,7 +84,6 @@ public class ZjdzServiceImpl implements IZjdzService {
         } else {
             saveEntity = zjdzRepository.findByDzid(entity.getDzid());
             if (AtlpUtil.isEmpty(saveEntity)) {
-                log.debug("参数异常，查询资金到账信息失败...资金到账id==={}", entity.getDzid());
                 throw new BusinessException(4201, "查询资金到账信息失败...资金到账id==={}");
             }
             BeanUtils.copyProperties(entity, saveEntity, AtlpUtil.getNullPropertyNames(entity));
@@ -106,29 +92,18 @@ public class ZjdzServiceImpl implements IZjdzService {
         JzfpBZjDzEntity save = zjdzRepository.save(saveEntity);
         //判断增加或修改成功
         if (null == save || null == save.getDzid()) {
-            log.debug("参数异常，增加或修改资金到账信息失败...资金到账id==={}", entity.getDzid());
             throw new BusinessException(4202, "增加或修改资金到账信息失败...");
         }
-
         return true;
     }
 
     /**
      * 删除资金到账数据信息
-     *
-     * @param entity
-     * @return
      */
     @Override
     @Transactional
-    public Boolean doDelete(JzfpBZjDzEntity entity) {
-        JzfpBZjDzEntity deleteEntity = zjdzRepository.findByDzid(entity.getDzid());
-        if (AtlpUtil.isEmpty(deleteEntity) || AtlpUtil.isEmpty(deleteEntity.getDzid())) {
-            log.debug("参数异常，删除资金到账信息失败...资金到账id==={}", entity.getDzid());
-            throw new BusinessException(4202, "删除资金到账信息失败...资金到账id==={}");
-        }
-        zjdzRepository.delete(entity);
+    public Boolean doDelete(String dzid) {
+        zjdzRepository.delete(zjdzRepository.findByDzid(dzid));
         return true;
     }
-
 }

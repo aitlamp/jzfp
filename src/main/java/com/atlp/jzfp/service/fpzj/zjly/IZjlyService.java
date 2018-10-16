@@ -16,9 +16,9 @@ public interface IZjlyService {
 
     public PageModel getPage(PageModel page);
 
-    public Boolean doSaveOrUpdate(JzfpBZjLyEntity entity) throws BusinessException;
+    public Boolean doSaveOrUpdate(JzfpBZjLyEntity entity);
 
-    public Boolean doUpdate(JzfpBZjLyEntity entity) throws Exception;
+    public Boolean doUpdate(JzfpBZjLyEntity entity);
 
     public Boolean doDelete(String lyid);
 }
