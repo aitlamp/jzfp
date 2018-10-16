@@ -5,6 +5,8 @@ import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
+import java.util.List;
+
 @Data
 @Entity
 @Table(name = "JZFP_B_ZJ_SYDJ")
@@ -33,6 +35,6 @@ public class JzfpBZjSydjEntity {
     private String yhdwmc;
 
     @Transient
-    private JzfpBZjFjEntity zjFjEntity;
+    private List<JzfpBZjFjEntity> zjFjEntityList;
 
 }

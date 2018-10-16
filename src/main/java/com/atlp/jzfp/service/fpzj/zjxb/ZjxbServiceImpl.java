@@ -1,13 +1,13 @@
 package com.atlp.jzfp.service.fpzj.zjxb;
 
-import org.atlp.data.PageModel;
-import org.atlp.exception.BusinessException;
-import org.atlp.utils.AtlpUtil;
 import com.atlp.jzfp.entity.fpzj.JzfpBZjXbEntity;
 import com.atlp.jzfp.entity.zzjg.JzfpBZzjgDwEntity;
 import com.atlp.jzfp.repository.fpzj.FpzjZjxbRepository;
 import com.atlp.jzfp.repository.zzjg.ZzjgDwRepository;
 import lombok.extern.slf4j.Slf4j;
+import org.atlp.data.PageModel;
+import org.atlp.exception.BusinessException;
+import org.atlp.utils.AtlpUtil;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,8 +16,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.Timestamp;
 import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * @Author: bijunming
@@ -36,36 +34,26 @@ public class ZjxbServiceImpl implements IZjxbService {
 
     /**
      * 资金下拨数据信息分页展示
-     *
-     * @param page
-     * @return
      */
     @Override
     public PageModel getPage(PageModel page) {
-
         String sql = "select t.nd,t.zjlx,t.xbsj,t.xbje,t.pc,t.jsdwmc from JZFP_B_ZJ_XB t";
-        page = zjxbRepository.findPageBySql(sql, page);
-
-        return page;
+        return zjxbRepository.findPageBySql(sql, page);
     }
 
     /**
      * 新增或修改资金下拨数据信息
-     *
-     * @param entity
-     * @return
      */
     @Override
     @Transactional
     public Boolean doSaveOrUpdate(JzfpBZjXbEntity entity) {
         //设置接收单位、下拨单位
         JzfpBZzjgDwEntity zzjgDwEntity = zzjgDwRepository.findByDwid(entity.getJsdwid());
-        if (entity.getJsdwmc() != null || !zzjgDwEntity.getDwmc().equals(entity.getJsdwmc())) {
+        if (entity.getJsdwmc() != null || !entity.getJsdwmc().equals(zzjgDwEntity.getDwmc())) {
             entity.setXbdwid(zzjgDwEntity.getPdwid());
             entity.setXbdwmc(zzjgDwRepository.findByDwid(zzjgDwEntity.getPdwid()).getDwmc());
             entity.setJsdwmc(zzjgDwEntity.getDwmc());
         }
-
         JzfpBZjXbEntity saveEntity = new JzfpBZjXbEntity();
         //判断主键id
         if (null == entity.getDzid()) {
@@ -81,7 +69,6 @@ public class ZjxbServiceImpl implements IZjxbService {
         } else {
             saveEntity = zjxbRepository.findByDzid(entity.getDzid());
             if (AtlpUtil.isEmpty(saveEntity)) {
-                log.debug("参数异常，查询资金下拨信息失败...资金下拨id==={}", entity.getDzid());
                 throw new BusinessException(4201, "查询资金到账信息失败");
             }
             BeanUtils.copyProperties(entity, saveEntity, AtlpUtil.getNullPropertyNames(entity));
@@ -89,7 +76,6 @@ public class ZjxbServiceImpl implements IZjxbService {
         }
         JzfpBZjXbEntity save = zjxbRepository.save(saveEntity);
         if (null == save || null == save.getDzid()) {
-            log.debug("参数异常，新增或修改资金下拨信息失败...资金下拨id==={}", entity.getDzid());
             throw new BusinessException(4202, "新增或修改资金下拨信息失败");
         }
         return true;
@@ -97,38 +83,23 @@ public class ZjxbServiceImpl implements IZjxbService {
 
     /**
      * 查询对应的资金下拨详细数据信息
-     *
-     * @param entity
-     * @return
      */
     @Override
-    public JzfpBZjXbEntity getZjxbById(JzfpBZjXbEntity entity) {
-
-        JzfpBZjXbEntity zjxbEntity = zjxbRepository.findByDzid(entity.getDzid());
+    public JzfpBZjXbEntity getZjxbById(String dzid) {
+        JzfpBZjXbEntity zjxbEntity = zjxbRepository.findByDzid(dzid);
         if (AtlpUtil.isEmpty(zjxbEntity)) {
-            log.debug("参数异常，查询资金下拨详细信息失败...资金下拨id==={}", zjxbEntity.getDzid());
             throw new BusinessException(4201, "查询资金下拨详细信息失败");
         }
-
         return zjxbEntity;
     }
 
     /**
      * 删除对应的资金下拨数据信息
-     *
-     * @param entity
-     * @return
      */
     @Override
     @Transactional
-    public Boolean doDelete(JzfpBZjXbEntity entity) {
-
-        JzfpBZjXbEntity deleteEntity = zjxbRepository.findByDzid(entity.getDzid());
-        if (AtlpUtil.isEmpty(deleteEntity) || AtlpUtil.isEmpty(deleteEntity.getDzid())) {
-            log.debug("参数异常，删除资金下拨信息失败...资金到账id==={}", entity.getDzid());
-            throw new BusinessException(4202, "删除资金下拨信息失败");
-        }
-        zjxbRepository.delete(deleteEntity);
+    public Boolean doDelete(String dzid) {
+        zjxbRepository.delete(zjxbRepository.findByDzid(dzid));
         return true;
     }
 }

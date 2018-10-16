@@ -1,5 +1,7 @@
 package com.atlp.jzfp.service.fpxm.xmfj;
 
+import org.atlp.data.ExceptionEnum;
+import org.atlp.exception.BusinessException;
 import org.atlp.utils.AtlpUtil;
 import com.atlp.jzfp.entity.fpxm.JzfpBXmFjEntity;
 import com.atlp.jzfp.repository.fpxm.FpxmXmfjRepository;
@@ -14,6 +16,7 @@ import org.springframework.transaction.interceptor.TransactionAspectSupport;
 import java.sql.Timestamp;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -77,5 +80,35 @@ public class XmfjServiceImpl implements IXmfjService {
         }
 
         return reMap;
+    }
+
+    @Override
+    public List<JzfpBXmFjEntity> getXmsxfjByXmid(String xmid) throws BusinessException {
+        // sql
+        String sql = "select fj.fjid,fj.file_name from jzfp_b_xm_fj fj " +
+                " where fj.zlid in (select zl.zlid from jzfp_b_xm_zl zl " +
+                    " where zl.flid in (select xx.dlid from jzfp_b_xm_xx xx where xx.xmid = '"+ xmid +"' ))";
+        List<JzfpBXmFjEntity> xmFjEntityList = xmfjRepository.findAllBySql(sql, JzfpBXmFjEntity.class);
+
+        if (AtlpUtil.isEmpty(xmFjEntityList)) {
+            logger.debug("查询项目附件失败...项目id==={}", xmid);
+            throw new BusinessException(ExceptionEnum.ERROR.getCode(), "查询项目附件失败.");
+        }
+
+        return xmFjEntityList;
+    }
+
+    @Override
+    public List<JzfpBXmFjEntity> getXmyscfjByXmid(String xmid) throws BusinessException {
+        // sql
+        String sql = "select fj.fjid,fj.file_name from jzfp_b_xm_fj fj where fj.xmid = '"+ xmid +"' ))";
+        List<JzfpBXmFjEntity> xmFjEntityList = xmfjRepository.findAllBySql(sql, JzfpBXmFjEntity.class);
+
+        if (AtlpUtil.isEmpty(xmFjEntityList)) {
+            logger.debug("查询项目附件失败...项目id==={}", xmid);
+            throw new BusinessException(ExceptionEnum.ERROR.getCode(), "查询项目附件失败.");
+        }
+
+        return xmFjEntityList;
     }
 }

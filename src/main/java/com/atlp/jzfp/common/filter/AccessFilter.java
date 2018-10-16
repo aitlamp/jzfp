@@ -1,5 +1,6 @@
 package com.atlp.jzfp.common.filter;
 
+import com.atlp.jzfp.service.common.login.ILoginService;
 import lombok.extern.slf4j.Slf4j;
 import org.atlp.utils.AtlpUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,7 +13,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.List;
-import java.util.Map;
 
 /**
  * 是否允许访问--过滤器
@@ -26,6 +26,8 @@ import java.util.Map;
 public class AccessFilter implements Filter {
     @Autowired
     private Environment env;
+    @Autowired
+    ILoginService loginService;
 
     @Override
     public void init(FilterConfig filterConfig) {
@@ -65,28 +67,22 @@ public class AccessFilter implements Filter {
         }
 
         // 判断session是否存在hhid
-        String hhid = httpServletRequest.getSession().getAttribute("hhid").toString();
+        String contextPath = httpServletRequest.getContextPath();
+        String hhid = AtlpUtil.toString(httpServletRequest.getSession().getAttribute("hhid"));
         if (AtlpUtil.isEmpty(hhid)) {
             // 验证不通过
-            String contextPath = httpServletRequest.getContextPath();
             httpServletResponse.sendRedirect(contextPath);
+            return;
         }
 
         // 验证hhid是否过期
-
-        //判断是否登录
-        Map<String, Object> checkLoginMap = null;//this.checkLogin(httpServletRequest);
-        String code = checkLoginMap.get("code").toString();
-        if (code.equals("00")) {
+        if (loginService.checkLogin(hhid, AtlpUtil.getClientIP(httpServletRequest))) {
             // 验证通过
             filterChain.doFilter(httpServletRequest, httpServletResponse); // 跳转页面
         } else {
             // 验证不通过
-            String contextPath = httpServletRequest.getContextPath();
             httpServletResponse.sendRedirect(contextPath);
         }
-
-        //filterChain.doFilter(servletRequest, servletResponse);
     }
 
     @Override

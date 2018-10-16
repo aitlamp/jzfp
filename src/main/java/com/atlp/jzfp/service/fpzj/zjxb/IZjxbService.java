@@ -11,35 +11,11 @@ import java.util.Map;
  * @Decription: 资金下拨业务层接口
  */
 public interface IZjxbService {
-    /**
-     * 资金下拨数据信息分页展示
-     *
-     * @param page
-     * @return
-     */
     public PageModel getPage(PageModel page);
 
-    /**
-     * 新增或修改资金下拨数据信息
-     *
-     * @param entity
-     * @return
-     */
     public Boolean doSaveOrUpdate(JzfpBZjXbEntity entity);
 
-    /**
-     * 查询对应的资金下拨数据信息
-     *
-     * @param entity
-     * @return
-     */
-    public JzfpBZjXbEntity getZjxbById(JzfpBZjXbEntity entity);
+    public JzfpBZjXbEntity getZjxbById(String dzid);
 
-    /**
-     * 删除对应的资金下拨数据信息
-     *
-     * @param entity
-     * @return
-     */
-    public Boolean doDelete(JzfpBZjXbEntity entity);
+    public Boolean doDelete(String dzid);
 }

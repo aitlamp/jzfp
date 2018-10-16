@@ -109,6 +109,7 @@ public class XmflController extends BaseController {
 
     /**
      * 查询项目分类
+     * 根据父级分类查询分类list
      * @param pflid
      * @return
      * @throws Exception

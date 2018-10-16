@@ -33,5 +33,9 @@ public interface BaseRepository<T, ID extends Serializable> extends PagingAndSor
     List<Map> findListMapBySql(String sql);
 
     Map findMapBySql(String sql);
+
+    List<T> findAllBySql(String sql);
+
+    List findAllBySql(String sql, Class cls);
 }
 

@@ -36,6 +36,7 @@ public class JzfpBZzjgYhEntity {
     private String email;
     private String zpfjid;
     private String dlid;
+    private String dlmm;
     private String sm;
     private String dqzt;
     private Timestamp firsttime;

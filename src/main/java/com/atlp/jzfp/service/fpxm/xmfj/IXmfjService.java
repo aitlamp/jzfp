@@ -1,7 +1,9 @@
 package com.atlp.jzfp.service.fpxm.xmfj;
 
 import com.atlp.jzfp.entity.fpxm.JzfpBXmFjEntity;
+import org.atlp.exception.BusinessException;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -35,4 +37,19 @@ public interface IXmfjService {
      */
     public Map<String, Object> doDelete(JzfpBXmFjEntity entity) throws Exception;
 
+    /**
+     * 查询项目所需附件
+     * @param xmid
+     * @return
+     * @throws BusinessException
+     */
+    public List<JzfpBXmFjEntity> getXmsxfjByXmid(String xmid) throws BusinessException;
+
+    /**
+     * 查询项目已上传附件
+     * @param xmid
+     * @return
+     * @throws BusinessException
+     */
+    public List<JzfpBXmFjEntity> getXmyscfjByXmid(String xmid) throws BusinessException;
 }
