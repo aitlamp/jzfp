@@ -113,8 +113,8 @@ public class ZjsydjServiceImpl implements IZjsydjService {
             zjfjService.doSave(zjFjEntity);
         } catch (IOException e) {
             e.printStackTrace();
+            throw new BusinessException("上传附件失败");
         }
-
         return true;
     }
 
@@ -130,12 +130,12 @@ public class ZjsydjServiceImpl implements IZjsydjService {
     }
 
     /**
-     * 查询对应的资金下拨详细数据信息
+     * 查询对应的资金使用登记数据信息
      */
     @Override
     public JzfpBZjSydjEntity getZjsydjById(String djid) {
         JzfpBZjSydjEntity zjsydjEntity = zjsydjRepository.findByDjid(djid);
-//        zjsydjEntity.setZjFjEntityList(zjfjService.getZjfjByDjid(djid));
+        zjsydjEntity.setZjFjEntityList(zjfjService.getZjfjByDjid(djid));
         if (AtlpUtil.isEmpty(zjsydjEntity)) {
             throw new BusinessException(4201, "查询资金使用登记详细信息失败");
         }

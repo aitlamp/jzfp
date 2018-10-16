@@ -72,10 +72,13 @@ public class ZjfjServiceImpl implements IZjfjService {
     @Override
     public Boolean doDeleteBydjid(String djid) {
         List<JzfpBZjFjEntity> zjFjEntityList = zjfjRepository.findByDjid(djid);
-        for (JzfpBZjFjEntity zjFjEntity : zjFjEntityList) {
-            zjfjRepository.delete(zjFjEntity);
+        if (zjFjEntityList.size()>0){
+            for (JzfpBZjFjEntity zjFjEntity : zjFjEntityList) {
+                zjfjRepository.delete(zjFjEntity);
+            }
+            return true;
         }
-        return true;
+        return false;
     }
 
     /**
@@ -83,8 +86,7 @@ public class ZjfjServiceImpl implements IZjfjService {
      */
     @Override
     public List<JzfpBZjFjEntity> getZjfjByDjid(String djid) {
-        List<JzfpBZjFjEntity> zjFjEntityList = zjfjRepository.findByDjid(djid);
-        return zjFjEntityList;
+        return zjfjRepository.findByDjid(djid);
     }
 
 }

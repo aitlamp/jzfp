@@ -76,18 +76,18 @@ public class ZjsydjController extends BaseController {
     /**
      * 删除资金使用登记
      */
-    @RequestMapping(value = "/doDelete", method = RequestMethod.POST)
+    @RequestMapping(value = "/doDelete")
     @ResponseBody
-    public Boolean doDelete(@RequestBody String djid) {
+    public Boolean doDelete(String djid) {
         return zjsydjService.doDelete(djid);
     }
 
     /**
      * 单个资金使用登记信息详细查看
      */
-    @RequestMapping(value = "/getZjsydjById", method = RequestMethod.POST)
+    @RequestMapping(value = "/getZjsydjById")
     @ResponseBody
-    public JzfpBZjSydjEntity getZjsydjById(@RequestBody String djid) {
+    public JzfpBZjSydjEntity getZjsydjById(String djid) {
         return zjsydjService.getZjsydjById(djid);
     }
 }

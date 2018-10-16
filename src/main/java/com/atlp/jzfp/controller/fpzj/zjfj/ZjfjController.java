@@ -31,25 +31,10 @@ public class ZjfjController extends BaseController {
     /**
      * 删除对应的资金附件
      */
-    @RequestMapping(value = "doDelete", method = RequestMethod.POST)
+    @RequestMapping(value = "doDelete")
     @ResponseBody
-    public Boolean doDelete(@RequestBody String fjid) {
+    public Boolean doDelete(String fjid) {
         return zjfjService.doDelete(fjid);
     }
 
-    /**
-     * 资金附件上传
-     */
-    @RequestMapping(value = "doUpload", method = RequestMethod.POST)
-    @ResponseBody
-    public String doUpload(@RequestParam("file") MultipartFile file, HttpServletRequest request) {
-        String zjfjURL = null;
-        try {
-            zjfjURL = dfsClientWrapper.uploadFile(file);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        log.debug("文件URL:" + zjfjURL);
-        return zjfjURL;
-    }
 }
