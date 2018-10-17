@@ -16,6 +16,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
+import org.springframework.web.util.WebUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
@@ -49,7 +51,14 @@ public class ZjsydjController extends BaseController {
      */
     @RequestMapping(value = "/doSave", method = RequestMethod.POST)
     @ResponseBody
-    public Boolean doSave(JzfpBZjSydjEntity entity, @RequestParam("file") MultipartFile file) {
+    public Boolean doSave(HttpServletRequest request,@RequestBody JzfpBZjSydjEntity entity) {
+        //判断是否有上传文件
+        boolean isMultipart = ServletFileUpload.isMultipartContent(request);
+        MultipartFile file=null;
+        if (isMultipart){
+            MultipartHttpServletRequest multipartRequest = WebUtils.getNativeRequest(request, MultipartHttpServletRequest.class);
+            file = multipartRequest.getFile("file");
+        }
         if (AtlpUtil.isEmpty(entity) || AtlpUtil.isEmpty(entity.getSydwid())
                 || AtlpUtil.isEmpty(entity.getZjyt()) || AtlpUtil.isEmpty(entity.getSyje())
                 || AtlpUtil.isEmpty(entity.getDjsj()) || AtlpUtil.isEmpty(entity.getNd())) {
@@ -63,7 +72,14 @@ public class ZjsydjController extends BaseController {
      */
     @RequestMapping(value = "/doUpdate", method = RequestMethod.POST)
     @ResponseBody
-    public Boolean doUpdate(@RequestParam("file") MultipartFile file, JzfpBZjSydjEntity entity) {
+    public Boolean doUpdate(HttpServletRequest request,@RequestBody JzfpBZjSydjEntity entity) {
+        //判断是否有上传文件
+        boolean isMultipart = ServletFileUpload.isMultipartContent(request);
+        MultipartFile file=null;
+        if (isMultipart){
+            MultipartHttpServletRequest multipartRequest = WebUtils.getNativeRequest(request, MultipartHttpServletRequest.class);
+            file = multipartRequest.getFile("file");
+        }
         if (AtlpUtil.isEmpty(entity) || AtlpUtil.isEmpty(entity.getDjid())
                 || AtlpUtil.isEmpty(entity.getSydwid()) || AtlpUtil.isEmpty(entity.getZjyt())
                 || AtlpUtil.isEmpty(entity.getSyje()) || AtlpUtil.isEmpty(entity.getDjsj())
