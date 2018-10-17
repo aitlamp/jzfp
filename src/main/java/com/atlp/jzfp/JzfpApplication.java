@@ -23,5 +23,6 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 public class JzfpApplication {
     public static void main(String[] args) {
         SpringApplication.run(JzfpApplication.class, args);
+
     }
 }
