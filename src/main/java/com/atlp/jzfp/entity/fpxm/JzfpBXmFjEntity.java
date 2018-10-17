@@ -20,6 +20,8 @@ public class JzfpBXmFjEntity implements Serializable {
     @GeneratedValue(generator = "system-uuid")
     private String fjid;
     private String xmid;
+    private String jdid;
+    private String zxid;
     private String zlid;
     private String fileName;
     private String pathUrl;

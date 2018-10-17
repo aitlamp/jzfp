@@ -177,7 +177,7 @@ public class XmzlServiceImpl implements IXmzlService {
             if (AtlpUtil.isEmpty(xmFjEntity.getFjid())) {
                 xmFjEntity.setZlid(save.getZlid());
                 xmFjEntity.setFileName(save.getZlmc());
-                iXmfjService.doSave(xmFjEntity);
+                iXmfjService.doSave(xmFjEntity, request);
             }
         } catch (Exception e) {
             e.printStackTrace();

@@ -12,4 +12,8 @@ public class IStaticInfo {
     // 工作量占比
     public final static String GZLZB = "100";
 
+    // 完成率
+    public final static String WCL = "100";
+
+
 }

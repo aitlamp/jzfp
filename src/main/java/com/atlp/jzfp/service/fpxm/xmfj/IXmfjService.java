@@ -3,6 +3,7 @@ package com.atlp.jzfp.service.fpxm.xmfj;
 import com.atlp.jzfp.entity.fpxm.JzfpBXmFjEntity;
 import org.atlp.exception.BusinessException;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 import java.util.Map;
 
@@ -19,7 +20,7 @@ public interface IXmfjService {
      * @return
      * @throws Exception
      */
-    public JzfpBXmFjEntity getInfoById(String id) throws Exception;
+    public JzfpBXmFjEntity getInfoById(String id) throws BusinessException;
 
     /**
      * 添加项目附件
@@ -27,7 +28,7 @@ public interface IXmfjService {
      * @return
      * @throws Exception
      */
-    public void doSave(JzfpBXmFjEntity entity) throws Exception;
+    public void doSave(JzfpBXmFjEntity entity, HttpServletRequest request) throws BusinessException;
 
     /**
      * 删除项目附件
@@ -35,7 +36,7 @@ public interface IXmfjService {
      * @return
      * @throws Exception
      */
-    public Map<String, Object> doDelete(JzfpBXmFjEntity entity) throws Exception;
+    public Boolean doDelete(JzfpBXmFjEntity entity) throws BusinessException;
 
     /**
      * 查询项目所需附件
@@ -43,7 +44,7 @@ public interface IXmfjService {
      * @return
      * @throws BusinessException
      */
-    public List<JzfpBXmFjEntity> getXmsxfjByXmid(String xmid) throws BusinessException;
+    public List<Map> getXmsxfjByXmid(String xmid) throws BusinessException;
 
     /**
      * 查询项目已上传附件
@@ -51,5 +52,5 @@ public interface IXmfjService {
      * @return
      * @throws BusinessException
      */
-    public List<JzfpBXmFjEntity> getXmyscfjByXmid(String xmid) throws BusinessException;
+    public List<Map> getXmyscfjByXmid(String xmid) throws BusinessException;
 }
