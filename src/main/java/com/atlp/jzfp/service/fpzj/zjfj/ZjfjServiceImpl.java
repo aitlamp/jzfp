@@ -58,7 +58,7 @@ public class ZjfjServiceImpl implements IZjfjService {
     @Transactional
     public Boolean doDelete(String fjid) {
         JzfpBZjFjEntity zjfjEntity = zjfjRepository.findByFjid(fjid);
-        if (AtlpUtil.isEmpty(zjfjEntity) || AtlpUtil.isEmpty(zjfjEntity.getFjid())) {
+        if (AtlpUtil.isEmpty(zjfjEntity) ) {
             log.debug("参数异常，删除资金附件失败...", fjid);
             throw new BusinessException(4202, "删除资金附件失败");
         }
