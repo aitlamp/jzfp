@@ -1,4 +1,4 @@
-package com.atlp.jzfp.controller.fpxm;
+package com.atlp.jzfp.controller.fpxm.xmzx;
 
 import com.atlp.jzfp.common.base.IStaticInfo;
 import com.atlp.jzfp.entity.fpxm.JzfpBXmJdEntity;
