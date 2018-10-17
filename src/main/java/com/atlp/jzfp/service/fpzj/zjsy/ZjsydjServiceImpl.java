@@ -135,7 +135,7 @@ public class ZjsydjServiceImpl implements IZjsydjService {
         JzfpBZjSydjEntity zjsydjEntity = zjsydjRepository.findByDjid(djid);
         zjsydjEntity.setZjFjEntityList(zjfjService.getZjfjByDjid(djid));
         if (AtlpUtil.isEmpty(zjsydjEntity)) {
-            throw new BusinessException(4201, "查询资金使用登记详细信息失败");
+            throw new BusinessException(4201, "查询资金使用登记详细信息失败!");
         }
         return zjsydjEntity;
     }
