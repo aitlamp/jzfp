@@ -61,7 +61,7 @@ public class ZjsydjServiceImpl implements IZjsydjService {
      * 添加或修改资金使用登记信息
      */
     @Override
-    public Boolean doSaveOrUpdate(JzfpBZjSydjEntity entity, MultipartFile file) {
+    public Boolean doSaveOrUpdate(JzfpBZjSydjEntity entity, List<MultipartFile> files) {
         JzfpBZjSydjEntity saveEntity = new JzfpBZjSydjEntity();
         //判断主键
         if (AtlpUtil.isEmpty(entity.getDjid())) {
@@ -95,22 +95,24 @@ public class ZjsydjServiceImpl implements IZjsydjService {
         }
         //添加资金使用登记信息
         JzfpBZjSydjEntity save = zjsydjRepository.save(saveEntity);
-        if (null == save || null == save.getDjid()) {
+        if (null == save) {
             throw new BusinessException(4202, "新增或修改资金下拨登记信息失败");
         }
         //上传文件并添加资金附件
         try {
-            if (file != null) {
+            if (files.size() > 0) {
                 JzfpBZjFjEntity zjFjEntity = new JzfpBZjFjEntity();
-                String zjfjURL = dfsClientWrapper.uploadFile(file);
-                zjFjEntity.setDjid(save.getDjid());
-                zjFjEntity.setZjfjurl(zjfjURL);
-                zjFjEntity.setDocSize(file.getSize());
-                zjFjEntity.setFileName(zjfjURL.trim().substring(zjfjURL.lastIndexOf("/") + 1));
-                zjFjEntity.setContentType(FilenameUtils.getExtension(file.getOriginalFilename()));
-                zjFjEntity.setMimeType(file.getName());
-                zjFjEntity.setBlobContent(new byte[]{1, 2, 34, 5, 6, 7, 8, 9});
-                zjfjService.doSave(zjFjEntity);
+                for (MultipartFile file : files) {
+                    String zjfjURL = dfsClientWrapper.uploadFile(file);
+                    zjFjEntity.setDjid(save.getDjid());
+                    zjFjEntity.setZjfjurl(zjfjURL);
+                    zjFjEntity.setDocSize(file.getSize());
+                    zjFjEntity.setFileName(file.getOriginalFilename());
+                    zjFjEntity.setContentType(FilenameUtils.getExtension(file.getOriginalFilename()));
+                    zjFjEntity.setMimeType(FilenameUtils.getExtension(file.getOriginalFilename()));
+                    zjFjEntity.setBlobContent(new byte[]{1, 2, 34, 5, 6, 7, 8, 9});
+                    zjfjService.doSave(zjFjEntity);
+                }
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -141,5 +143,18 @@ public class ZjsydjServiceImpl implements IZjsydjService {
             throw new BusinessException(4201, "查询资金使用登记详细信息失败");
         }
         return zjsydjEntity;
+    }
+
+    /**
+     * 查询对应项目的资金使用登记信息
+     */
+    @Override
+    public List<JzfpBZjSydjEntity> getZjsydjByXmid(String xmid) {
+        List<JzfpBZjSydjEntity> zjSydjEntityList = zjsydjRepository.findByXmid(xmid);
+        if (zjSydjEntityList.size()<=0){
+            log.debug(zjSydjEntityList.toString());
+            throw new BusinessException("查询对应项目的资金使用登记信息失败");
+        }
+        return zjSydjEntityList;
     }
 }

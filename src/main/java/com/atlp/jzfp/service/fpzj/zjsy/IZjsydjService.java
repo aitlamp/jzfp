@@ -4,6 +4,7 @@ import com.atlp.jzfp.entity.fpzj.JzfpBZjSydjEntity;
 import org.atlp.data.PageModel;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -14,9 +15,11 @@ import java.util.Map;
 public interface IZjsydjService {
     public PageModel getPage(PageModel page);
 
-    public Boolean doSaveOrUpdate(JzfpBZjSydjEntity entity, MultipartFile file);
+    public Boolean doSaveOrUpdate(JzfpBZjSydjEntity entity, List<MultipartFile> files);
 
     public Boolean doDelete(String djid);
 
     public JzfpBZjSydjEntity getZjsydjById(String djid);
+
+    public List<JzfpBZjSydjEntity> getZjsydjByXmid(String xmid);
 }

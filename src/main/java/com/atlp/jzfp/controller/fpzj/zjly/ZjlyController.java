@@ -44,6 +44,7 @@ public class ZjlyController extends BaseController {
     @RequestMapping(value = "/doSave", method = RequestMethod.POST)
     @ResponseBody
     public Boolean doSave(@RequestBody JzfpBZjLyEntity entiy) {
+        //判断参数
         if (AtlpUtil.isEmpty(entiy) || AtlpUtil.isEmpty(entiy.getLymc())) {
             throw new BusinessException(4201, "传入资金来源信息不完整，增加资金来源信息失败");
         }
@@ -56,6 +57,7 @@ public class ZjlyController extends BaseController {
     @RequestMapping(value = "/doUpdate", method = RequestMethod.POST)
     @ResponseBody
     public Boolean doUpdate(@RequestBody JzfpBZjLyEntity entiy) {
+        //判断参数
         if (AtlpUtil.isEmpty(entiy) || AtlpUtil.isEmpty(entiy.getLyid()) || AtlpUtil.isEmpty(entiy.getLymc())) {
             throw new BusinessException(4201, "传入资金来源信息不完整，修改资金来源信息失败...");
         }

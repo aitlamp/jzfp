@@ -41,6 +41,7 @@ public class ZjxbController extends BaseController {
     @RequestMapping(value = "/doSave", method = RequestMethod.POST)
     @ResponseBody
     public Boolean doSave(@RequestBody JzfpBZjXbEntity entity) {
+        //判断参数
         if (AtlpUtil.isEmpty(entity) || AtlpUtil.isEmpty(entity.getXbsj())
                 || AtlpUtil.isEmpty(entity.getXbje()) || AtlpUtil.isEmpty(entity.getJsdwid())
                 || AtlpUtil.isEmpty(entity.getNd())) {
@@ -55,7 +56,7 @@ public class ZjxbController extends BaseController {
     @RequestMapping(value = "/doUpdate", method = RequestMethod.POST)
     @ResponseBody
     public Boolean doUpdate(@RequestBody JzfpBZjXbEntity entity) {
-
+        //判断参数
         if (AtlpUtil.isEmpty(entity) || AtlpUtil.isEmpty(entity.getDzid())
                 || AtlpUtil.isEmpty(entity.getXbsj()) || AtlpUtil.isEmpty(entity.getXbje())
                 || AtlpUtil.isEmpty(entity.getJsdwid()) || AtlpUtil.isEmpty(entity.getNd())) {

@@ -75,7 +75,7 @@ public class ZjxbServiceImpl implements IZjxbService {
             saveEntity.setLasttime(new Timestamp(new Date().getTime()));
         }
         JzfpBZjXbEntity save = zjxbRepository.save(saveEntity);
-        if (null == save || null == save.getDzid()) {
+        if (null == save) {
             throw new BusinessException(4202, "新增或修改资金下拨信息失败");
         }
         return true;

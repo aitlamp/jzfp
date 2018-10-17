@@ -58,7 +58,6 @@ public class ZjlyServiceImpl implements IZjlyService {
         } else {
             saveEntity = zjlyRepository.findByLyid(entity.getLyid());
             if (AtlpUtil.isEmpty(saveEntity)) {
-                log.debug("参数异常，查询资金来源信息失败...资金来源id==={}", entity.getLyid());
                 throw new BusinessException(4201, "传入资金来源信息不完整，查询资金来源信息失败");
             }
             BeanUtils.copyProperties(entity, saveEntity, AtlpUtil.getNullPropertyNames(entity));
@@ -66,8 +65,7 @@ public class ZjlyServiceImpl implements IZjlyService {
         }
         JzfpBZjLyEntity save = zjlyRepository.save(saveEntity);
         //判断增加或修改是否成功
-        if (null == save || null == save.getLyid()) {
-            log.debug("资金来源增加或修改失败...资金来源信息==={}", entity.getLyid());
+        if (null == save) {
             throw new BusinessException(4202, "资金来源增加或修改失败...");
         }
         return true;
@@ -82,15 +80,13 @@ public class ZjlyServiceImpl implements IZjlyService {
     public Boolean doUpdate(JzfpBZjLyEntity entity) {
         JzfpBZjLyEntity updateEntity = zjlyRepository.findByLyid(entity.getLyid());
         if (AtlpUtil.isEmpty(updateEntity)) {
-            log.debug("参数异常，查询资金来源信息失败...资金来源id==={}", entity.getLyid());
             throw new BusinessException(4201, "查询资金来源信息失败");
         }
         BeanUtils.copyProperties(entity, updateEntity, AtlpUtil.getNullPropertyNames(entity));
         updateEntity.setLasttime(new Timestamp(new Date().getTime()));
         JzfpBZjLyEntity update = zjlyRepository.save(updateEntity);
         //判断修改是否成功
-        if (AtlpUtil.isEmpty(update) || AtlpUtil.isEmpty(update.getLyid())) {
-            log.debug("参数异常,资金来源修改失败...资金来源信息==={}", entity.getLyid());
+        if (AtlpUtil.isEmpty(update)) {
             throw new BusinessException(4202, "资金来源修改失败");
         }
         return true;

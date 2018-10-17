@@ -46,7 +46,6 @@ public class ZjfjServiceImpl implements IZjfjService {
         saveEntity.setYhdwmc("bbbbbb");
         JzfpBZjFjEntity save = zjfjRepository.save(saveEntity);
         if (AtlpUtil.isEmpty(save)) {
-            log.debug("添加资金附件失败...", save.toString());
             throw new BusinessException(4202, "添加附件信息失败");
         }
     }
@@ -59,7 +58,6 @@ public class ZjfjServiceImpl implements IZjfjService {
     public Boolean doDelete(String fjid) {
         JzfpBZjFjEntity zjfjEntity = zjfjRepository.findByFjid(fjid);
         if (AtlpUtil.isEmpty(zjfjEntity) ) {
-            log.debug("参数异常，删除资金附件失败...", fjid);
             throw new BusinessException(4202, "删除资金附件失败");
         }
         zjfjRepository.delete(zjfjEntity);

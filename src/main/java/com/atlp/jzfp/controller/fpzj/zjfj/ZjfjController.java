@@ -25,8 +25,6 @@ import java.util.Map;
 public class ZjfjController extends BaseController {
     @Autowired
     private IZjfjService zjfjService;
-    @Autowired
-    private FastDFSClientWrapper dfsClientWrapper;
 
     /**
      * 删除对应的资金附件

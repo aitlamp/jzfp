@@ -71,7 +71,7 @@ public class ZjdzServiceImpl implements IZjdzService {
         JzfpBZjDzEntity saveEntity = new JzfpBZjDzEntity();
         //设置资金来源
         JzfpBZjLyEntity zjlyEntity = zjlyRepository.findByLyid(entity.getLyid());
-        if (AtlpUtil.isEmpty(zjlyEntity) || AtlpUtil.isEmpty(zjlyEntity.getLymc())) {
+        if (AtlpUtil.isEmpty(zjlyEntity)) {
             throw new BusinessException(4201, "查询资金来源信息失败...资金来源id==={}");
         }
         entity.setLymc(zjlyEntity.getLymc());
@@ -96,7 +96,7 @@ public class ZjdzServiceImpl implements IZjdzService {
         }
         JzfpBZjDzEntity save = zjdzRepository.save(saveEntity);
         //判断增加或修改成功
-        if (null == save || null == save.getDzid()) {
+        if (null == save) {
             throw new BusinessException(4202, "增加或修改资金到账信息失败...");
         }
         return true;

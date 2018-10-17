@@ -3,10 +3,6 @@ package com.atlp.jzfp.controller.fpzj.zjsy;
 import com.atlp.jzfp.entity.fpzj.JzfpBZjSydjEntity;
 import com.atlp.jzfp.service.fpzj.zjsy.IZjsydjService;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.tomcat.util.http.fileupload.FileItem;
-import org.apache.tomcat.util.http.fileupload.FileUploadException;
-import org.apache.tomcat.util.http.fileupload.RequestContext;
-import org.apache.tomcat.util.http.fileupload.disk.DiskFileItemFactory;
 import org.apache.tomcat.util.http.fileupload.servlet.ServletFileUpload;
 import org.atlp.base.BaseController;
 import org.atlp.data.PageModel;
@@ -14,16 +10,16 @@ import org.atlp.exception.BusinessException;
 import org.atlp.utils.AtlpUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.util.WebUtils;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 
 /**
  * @Author: bijunming
@@ -54,17 +50,18 @@ public class ZjsydjController extends BaseController {
     public Boolean doSave(HttpServletRequest request, JzfpBZjSydjEntity entity) {
         //判断是否有上传文件
         boolean isMultipart = ServletFileUpload.isMultipartContent(request);
-        MultipartFile file=null;
-        if (isMultipart){
+        List<MultipartFile> files = null;
+        if (isMultipart) {
             MultipartHttpServletRequest multipartRequest = WebUtils.getNativeRequest(request, MultipartHttpServletRequest.class);
-            file = multipartRequest.getFile("file");
+            files = multipartRequest.getFiles("file");
         }
+        //判断参数
         if (AtlpUtil.isEmpty(entity) || AtlpUtil.isEmpty(entity.getSydwid())
                 || AtlpUtil.isEmpty(entity.getZjyt()) || AtlpUtil.isEmpty(entity.getSyje())
                 || AtlpUtil.isEmpty(entity.getDjsj()) || AtlpUtil.isEmpty(entity.getNd())) {
             throw new BusinessException(4201, "添加资金使用登记信息失败");
         }
-        return zjsydjService.doSaveOrUpdate(entity, file);
+        return zjsydjService.doSaveOrUpdate(entity, files);
     }
 
     /**
@@ -72,21 +69,22 @@ public class ZjsydjController extends BaseController {
      */
     @RequestMapping(value = "/doUpdate", method = RequestMethod.POST)
     @ResponseBody
-    public Boolean doUpdate(HttpServletRequest request,JzfpBZjSydjEntity entity) {
+    public Boolean doUpdate(HttpServletRequest request, JzfpBZjSydjEntity entity) {
         //判断是否有上传文件
         boolean isMultipart = ServletFileUpload.isMultipartContent(request);
-        MultipartFile file=null;
-        if (isMultipart){
+        List<MultipartFile> files=null;
+        if (isMultipart) {
             MultipartHttpServletRequest multipartRequest = WebUtils.getNativeRequest(request, MultipartHttpServletRequest.class);
-            file = multipartRequest.getFile("file");
+            files = multipartRequest.getFiles("file");
         }
+        //判断参数
         if (AtlpUtil.isEmpty(entity) || AtlpUtil.isEmpty(entity.getDjid())
                 || AtlpUtil.isEmpty(entity.getSydwid()) || AtlpUtil.isEmpty(entity.getZjyt())
                 || AtlpUtil.isEmpty(entity.getSyje()) || AtlpUtil.isEmpty(entity.getDjsj())
                 || AtlpUtil.isEmpty(entity.getNd())) {
             throw new BusinessException(4201, "修改资金使用登记信息失败");
         }
-        return zjsydjService.doSaveOrUpdate(entity, file);
+        return zjsydjService.doSaveOrUpdate(entity, files);
     }
 
     /**
@@ -105,5 +103,13 @@ public class ZjsydjController extends BaseController {
     @ResponseBody
     public JzfpBZjSydjEntity getZjsydjById(String djid) {
         return zjsydjService.getZjsydjById(djid);
+    }
+    /**
+     * 查询单个项目的资金使用登记信息
+     */
+    @RequestMapping(value = "/getZjsydjByXmid")
+    @ResponseBody
+    public List<JzfpBZjSydjEntity> getZjsydjByXmid(String xmid) {
+        return zjsydjService.getZjsydjByXmid(xmid);
     }
 }
