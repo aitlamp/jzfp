@@ -51,7 +51,7 @@ public class ZjsydjController extends BaseController {
      */
     @RequestMapping(value = "/doSave", method = RequestMethod.POST)
     @ResponseBody
-    public Boolean doSave(HttpServletRequest request,@RequestBody JzfpBZjSydjEntity entity) {
+    public Boolean doSave(HttpServletRequest request, JzfpBZjSydjEntity entity) {
         //判断是否有上传文件
         boolean isMultipart = ServletFileUpload.isMultipartContent(request);
         MultipartFile file=null;
@@ -72,7 +72,7 @@ public class ZjsydjController extends BaseController {
      */
     @RequestMapping(value = "/doUpdate", method = RequestMethod.POST)
     @ResponseBody
-    public Boolean doUpdate(HttpServletRequest request,@RequestBody JzfpBZjSydjEntity entity) {
+    public Boolean doUpdate(HttpServletRequest request,JzfpBZjSydjEntity entity) {
         //判断是否有上传文件
         boolean isMultipart = ServletFileUpload.isMultipartContent(request);
         MultipartFile file=null;

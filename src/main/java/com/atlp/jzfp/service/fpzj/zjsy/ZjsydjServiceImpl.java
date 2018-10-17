@@ -102,12 +102,11 @@ public class ZjsydjServiceImpl implements IZjsydjService {
         try {
             if (file != null) {
                 JzfpBZjFjEntity zjFjEntity = new JzfpBZjFjEntity();
-                String zjfjURL = null;
-                zjfjURL = dfsClientWrapper.uploadFile(file);
+                String zjfjURL = dfsClientWrapper.uploadFile(file);
                 zjFjEntity.setDjid(save.getDjid());
                 zjFjEntity.setZjfjurl(zjfjURL);
                 zjFjEntity.setDocSize(file.getSize());
-                zjFjEntity.setFileName("time");
+                zjFjEntity.setFileName(zjfjURL.trim().substring(zjfjURL.lastIndexOf("/") + 1));
                 zjFjEntity.setContentType(FilenameUtils.getExtension(file.getOriginalFilename()));
                 zjFjEntity.setMimeType(file.getName());
                 zjFjEntity.setBlobContent(new byte[]{1, 2, 34, 5, 6, 7, 8, 9});
@@ -121,7 +120,7 @@ public class ZjsydjServiceImpl implements IZjsydjService {
     }
 
     /**
-     * 删除对应的资金使用登记
+     * 删除对应的资金使用登记及资金附件
      */
     @Override
     @Transactional
@@ -132,7 +131,7 @@ public class ZjsydjServiceImpl implements IZjsydjService {
     }
 
     /**
-     * 查询对应的资金使用登记数据信息
+     * 查询对应的资金使用登记及资金附件数据信息
      */
     @Override
     public JzfpBZjSydjEntity getZjsydjById(String djid) {
