@@ -1,15 +1,11 @@
 package com.atlp.jzfp.service.common.login;
 
-import com.alibaba.fastjson.JSON;
 import com.atlp.jzfp.entity.common.ComBLoginLogEntity;
 import com.atlp.jzfp.repository.common.LoginLogRepository;
 import com.atlp.jzfp.service.zzjg.yh.IYhService;
 import lombok.extern.slf4j.Slf4j;
-import org.atlp.exception.BusinessException;
 import org.atlp.utils.AtlpUtil;
-import org.atlp.utils.HttpClientUtil;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
