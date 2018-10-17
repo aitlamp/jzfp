@@ -84,7 +84,7 @@ public class ZjsydjServiceImpl implements IZjsydjService {
         }
         //设置使用单位
         JzfpBZzjgDwEntity zzjgDwEntity = zzjgDwRepository.findByDwid(saveEntity.getSydwid());
-        if (saveEntity.getSydwmc() == null || !saveEntity.getSydwmc().equals(zzjgDwEntity.getDwmc())) {
+        if (saveEntity.getSydwmc() == null || !zzjgDwEntity.getDwmc().equals(saveEntity.getSydwmc())) {
             saveEntity.setSydwmc(zzjgDwEntity.getDwmc());
         }
         //设置项目信息
@@ -99,21 +99,23 @@ public class ZjsydjServiceImpl implements IZjsydjService {
             throw new BusinessException(4202, "新增或修改资金下拨登记信息失败");
         }
         //上传文件并添加资金附件
-        JzfpBZjFjEntity zjFjEntity = new JzfpBZjFjEntity();
-        String zjfjURL = null;
         try {
-            zjfjURL = dfsClientWrapper.uploadFile(file);
-            zjFjEntity.setDjid(save.getDjid());
-            zjFjEntity.setZjfjurl(zjfjURL);
-            zjFjEntity.setDocSize(file.getSize());
-            zjFjEntity.setFileName("time");
-            zjFjEntity.setContentType(FilenameUtils.getExtension(file.getOriginalFilename()));
-            zjFjEntity.setMimeType(file.getName());
-            zjFjEntity.setBlobContent(new byte[]{1, 2, 34, 5, 6, 7, 8, 9});
-            zjfjService.doSave(zjFjEntity);
+            if (file != null) {
+                JzfpBZjFjEntity zjFjEntity = new JzfpBZjFjEntity();
+                String zjfjURL = null;
+                zjfjURL = dfsClientWrapper.uploadFile(file);
+                zjFjEntity.setDjid(save.getDjid());
+                zjFjEntity.setZjfjurl(zjfjURL);
+                zjFjEntity.setDocSize(file.getSize());
+                zjFjEntity.setFileName("time");
+                zjFjEntity.setContentType(FilenameUtils.getExtension(file.getOriginalFilename()));
+                zjFjEntity.setMimeType(file.getName());
+                zjFjEntity.setBlobContent(new byte[]{1, 2, 34, 5, 6, 7, 8, 9});
+                zjfjService.doSave(zjFjEntity);
+            }
         } catch (IOException e) {
             e.printStackTrace();
-            throw new BusinessException("上传附件失败");
+            throw new BusinessException("资金附件上传失败");
         }
         return true;
     }
