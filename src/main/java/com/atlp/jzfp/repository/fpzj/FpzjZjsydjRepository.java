@@ -12,5 +12,5 @@ public interface FpzjZjsydjRepository extends BaseRepository<JzfpBZjSydjEntity, 
     /**
      * 查询对应的资金使用登记
      */
-    public JzfpBZjSydjEntity findByDjid(String djid);
+    JzfpBZjSydjEntity findByDjid(String djid);
 }

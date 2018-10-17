@@ -35,7 +35,7 @@ import java.util.Map;
  */
 @Slf4j
 @Service
-@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+@Transactional
 public class ZjsydjServiceImpl implements IZjsydjService {
     @Autowired
     private FpzjZjsydjRepository zjsydjRepository;
@@ -135,6 +135,7 @@ public class ZjsydjServiceImpl implements IZjsydjService {
      */
     @Override
     public JzfpBZjSydjEntity getZjsydjById(String djid) {
+        log.debug(djid);
         JzfpBZjSydjEntity zjsydjEntity = zjsydjRepository.findByDjid(djid);
         zjsydjEntity.setZjFjEntityList(zjfjService.getZjfjByDjid(djid));
         if (AtlpUtil.isEmpty(zjsydjEntity)) {

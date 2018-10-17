@@ -38,9 +38,13 @@ public class LoginServiceImpl implements ILoginService {
         // 判断用户名是否存在
         Map userMap = yhService.findMapByDlid(userName);
         if (AtlpUtil.isEmpty(userMap)) {
-            dlLog.setDljg("失败：用户名不存在");
-            loginLogRepository.save(dlLog);
-            throw new Exception("用户名不存在");
+            //根据手机号登录
+            userMap = yhService.findMapBySjh(userName);
+            if (AtlpUtil.isEmpty(userMap)) {
+                dlLog.setDljg("失败：用户名不存在");
+                loginLogRepository.save(dlLog);
+                throw new Exception("用户名不存在");
+            }
         }
         dlLog.setYhxm(AtlpUtil.toString(userMap.get("yhxm")));
         dlLog.setYhdwid(AtlpUtil.toString(userMap.get("yhdwid")));

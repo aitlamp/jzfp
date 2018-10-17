@@ -1,5 +1,7 @@
 package com.atlp.jzfp.service.zzjg.dw;
 
+import com.atlp.jzfp.entity.zzjg.JzfpBZzjgYhEntity;
+import lombok.extern.slf4j.Slf4j;
 import org.atlp.data.ExceptionEnum;
 import org.atlp.data.PageModel;
 import org.atlp.exception.BusinessException;
@@ -27,6 +29,7 @@ import java.util.Map;
  * @author ctc
  * @date 2018年10月7日 11:24:56
  */
+@Slf4j
 @Service
 @Transactional
 public class DwServiceImpl implements IDwService {
@@ -87,17 +90,25 @@ public class DwServiceImpl implements IDwService {
     /**
      * 获取数据
      */
-    public JzfpBZzjgDwEntity findByDwid(String cdid) {
-        return dwRepository.findByDwid(cdid);
+    public JzfpBZzjgDwEntity findByDwid(String dwid) {
+        return dwRepository.findByDwid(dwid);
     }
 
     /**
      * 获取数据
      */
     public Object getData(Map pmap) {
-        String sql = "select t.* from JZFP_B_ZZJG_DW t ";
-        //List<Map> list = dwRepository.findListMapBySql(sql);
-        Map list = dwRepository.findMapBySql(sql);
+//        String dwid = AtlpUtil.toString(pmap.get("dwid"));
+//        return dwRepository.findByDwid(dwid);
+//        String sql = "select t.* from JZFP_B_ZZJG_DW t ";
+//        //List<Map> list = dwRepository.findListMapBySql(sql);
+//        Map list = dwRepository.findMapBySql(sql);
+//        return list;
+        String sql = "select t.* from JZFP_B_ZZJG_YH t ";
+        List<JzfpBZzjgYhEntity> list = dwRepository.findAllBySql(sql, JzfpBZzjgYhEntity.class);
+        for (JzfpBZzjgYhEntity user : list) {
+            log.debug(user.getYhxm());
+        }
         return list;
     }
 

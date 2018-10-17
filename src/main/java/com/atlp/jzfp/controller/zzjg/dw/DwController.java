@@ -1,5 +1,6 @@
 package com.atlp.jzfp.controller.zzjg.dw;
 
+import com.atlp.jzfp.entity.zzjg.JzfpBZzjgDwEntity;
 import com.atlp.jzfp.service.zzjg.dw.IDwService;
 import lombok.extern.slf4j.Slf4j;
 import org.atlp.base.BaseController;
@@ -64,6 +65,13 @@ public class DwController extends BaseController {
     @RequestMapping(value = "/getData", method = RequestMethod.POST)
     public Object getData(@RequestBody Map pmap) {
         return dwService.getData(pmap);
+    }
+
+    //保存
+    @ResponseBody
+    @RequestMapping(value = "/doSave", method = RequestMethod.POST)
+    public Object doSave(@RequestBody JzfpBZzjgDwEntity dwEntity, HttpServletRequest request) {
+        return dwService.doSave(dwEntity, request);
     }
 
 }

@@ -28,4 +28,6 @@ public interface IYhService {
 
     Map findMapByDlid(String dlid);
 
+    Map findMapBySjh(String sjh);
+
 }
