@@ -20,4 +20,5 @@ public interface FpzjZjsydjRepository extends BaseRepository<JzfpBZjSydjEntity, 
      * 查询项目的资金使用登记
      */
     public List<JzfpBZjSydjEntity> findByXmid(String xmid);
+
 }

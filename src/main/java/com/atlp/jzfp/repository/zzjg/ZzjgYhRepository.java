@@ -16,4 +16,6 @@ public interface ZzjgYhRepository extends BaseRepository<JzfpBZzjgYhEntity, Long
 
     JzfpBZzjgYhEntity findByDlid(String dlid);
 
+    JzfpBZzjgYhEntity findBySjh(String sjh);
+
 }

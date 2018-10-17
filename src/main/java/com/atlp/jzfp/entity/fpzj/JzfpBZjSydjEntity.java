@@ -3,9 +3,11 @@ package com.atlp.jzfp.entity.fpzj;
 import lombok.Data;
 import org.hibernate.annotations.GenericGenerator;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.Table;
 import java.sql.Timestamp;
-import java.util.List;
 
 @Data
 @Entity
@@ -18,7 +20,7 @@ public class JzfpBZjSydjEntity {
     private String sydwid;
     private String sydwmc;
     private String zjyt;
-    private long syje;
+    private Double syje;
     private Timestamp djsj;
     private String xmid;
     private String xmmc;
@@ -34,7 +36,7 @@ public class JzfpBZjSydjEntity {
     private String yhdwid;
     private String yhdwmc;
 
-    @Transient
-    private List<JzfpBZjFjEntity> zjFjEntityList;
+    //@Transient
+    //private List<JzfpBZjFjEntity> zjFjEntityList;
 
 }

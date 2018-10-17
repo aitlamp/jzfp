@@ -2,6 +2,7 @@ package com.atlp.jzfp.repository.zzjg;
 
 import org.atlp.base.BaseRepository;
 import com.atlp.jzfp.entity.zzjg.JzfpBZzjgDwEntity;
+import org.springframework.data.jpa.repository.Query;
 
 /**
  * 组织架构--单位 Repository

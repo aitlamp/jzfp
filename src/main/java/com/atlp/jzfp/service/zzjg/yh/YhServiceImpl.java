@@ -107,4 +107,11 @@ public class YhServiceImpl implements IYhService {
         return AtlpUtil.entityToMap(yhRepository.findByDlid(dlid));
     }
 
+    /**
+     * 获取数据
+     */
+    public Map findMapBySjh(String sjh) {
+        return AtlpUtil.entityToMap(yhRepository.findBySjh(sjh));
+    }
+
 }
