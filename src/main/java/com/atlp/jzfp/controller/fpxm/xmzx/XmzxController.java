@@ -154,7 +154,7 @@ public class XmzxController extends BaseController {
     }
 
     /**
-     * 保存
+     * 修改保存
      * @param request
      * @param entity
      * @return
@@ -169,6 +169,43 @@ public class XmzxController extends BaseController {
         }
 
         return iXmzxService.doSaveOrUpdate(entity, request);
+    }
+
+    /**
+     * 保存-提交
+     * @param request
+     * @param entity
+     * @return
+     * @throws BusinessException
+     */
+    @RequestMapping(value = "/doSaveToCommit", method = RequestMethod.POST)
+    @ResponseBody
+    public Boolean doSaveToCommit(HttpServletRequest request, @RequestBody JzfpBXmZxEntity entity) throws BusinessException {
+        if (AtlpUtil.isEmpty(entity) || AtlpUtil.isEmpty(entity.getXmid()) || AtlpUtil.isEmpty(entity.getJdid())) {
+            logger.debug("传入执行情况信息不完整...执行信息==={}", entity.toString());
+            throw new BusinessException(ExceptionEnum.ERROR_PARAM.getCode(), "传入执行情况信息不完整.");
+        }
+
+        return iXmzxService.doSaveToCommit(entity, request);
+    }
+
+    /**
+     * 保存-提交
+     * @param zxid
+     * @return
+     * @throws BusinessException
+     */
+    @RequestMapping(value = "/doCommit/{zxid}")
+    @ResponseBody
+    public Boolean doCommit(@PathVariable(name = "zxid", required = true) String zxid) throws BusinessException {
+        // 查询执行信息
+        JzfpBXmZxEntity xmZxEntity = iXmzxService.getInfoById(zxid);
+        if (AtlpUtil.isEmpty(xmZxEntity)) {
+            logger.debug("查询执行情况信息失败...执行id==={}", zxid);
+            throw new BusinessException(ExceptionEnum.ERROR_PARAM.getCode(), "查询执行情况信息失败.");
+        }
+
+        return iXmzxService.doCommit(xmZxEntity);
     }
 
     /**

@@ -15,5 +15,12 @@ public class IStaticInfo {
     // 完成率
     public final static String WCL = "100";
 
+    // 项目执行进度上报状态
+    public final static String ZXJD_PRESERVATION = "保存";
+    public final static String ZXJD_COMMIT = "提交";
+    public final static String ZXJD_BACK = "退回";
+    public final static String ZXJD_EFFECTIVE = "有效";
+    public final static String ZXJD_UNEFFECTIVE = "无效";
+
 
 }

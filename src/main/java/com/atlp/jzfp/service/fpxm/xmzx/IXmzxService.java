@@ -21,6 +21,14 @@ public interface IXmzxService {
     public JzfpBXmZxEntity getInfoByKey(String key) throws BusinessException;
 
     /**
+     * 主键id查询执行信息
+     * @param id
+     * @return
+     * @throws BusinessException
+     */
+    public JzfpBXmZxEntity getInfoById(String id) throws BusinessException;
+
+    /**
      * 确认保存项目执行信息
      * @param entity
      * @param request
@@ -28,6 +36,23 @@ public interface IXmzxService {
      * @throws BusinessException
      */
     public Boolean doSaveOrUpdate(JzfpBXmZxEntity entity, HttpServletRequest request) throws BusinessException;
+
+    /**
+     * 保存后提交
+     * @param entity
+     * @param request
+     * @return
+     * @throws BusinessException
+     */
+    public Boolean doSaveToCommit(JzfpBXmZxEntity entity, HttpServletRequest request) throws BusinessException;
+
+    /**
+     * 提交
+     * @param entity
+     * @return
+     * @throws BusinessException
+     */
+    public Boolean doCommit(JzfpBXmZxEntity entity) throws BusinessException;
 
     /**
      * 查询项目阶段累计完成率
@@ -46,5 +71,4 @@ public interface IXmzxService {
      * @throws BusinessException
      */
     public Double workProjectStageTotalCompleteRate(String xmid, String jdid, Double jdljwcl) throws BusinessException;
-
 }

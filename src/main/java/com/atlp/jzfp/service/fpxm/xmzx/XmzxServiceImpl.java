@@ -76,7 +76,42 @@ public class XmzxServiceImpl implements IXmzxService {
     }
 
     @Override
+    public JzfpBXmZxEntity getInfoById(String id) throws BusinessException {
+        return xmzxRepository.findByZxid(id);
+    }
+
+    @Override
     public Boolean doSaveOrUpdate(JzfpBXmZxEntity entity, HttpServletRequest request) throws BusinessException {
+        // 保存进度
+        JzfpBXmZxEntity save = this.doSave(entity, request);
+
+        // 项目所需附件
+        List<JzfpBXmFjEntity> xmFjEntityList = entity.getXmFjEntityList();
+        // 附件list不为空，则表示有附件上传
+        if (!AtlpUtil.isEmpty(xmFjEntityList)) {
+            for (JzfpBXmFjEntity xmFjEntity : xmFjEntityList) {
+                // 项目附件id查询附件是否存在，不存在就直接添加
+                // JzfpBXmFjEntity fjEntity = xmfjRepository.findByFjid(xmFjEntity.getFjid());
+                if (AtlpUtil.isEmpty(xmFjEntity.getFjid())) {
+                    xmFjEntity.setXmid(entity.getXmid());
+                    xmFjEntity.setJdid(entity.getJdid());
+                    xmFjEntity.setZxid(save.getZxid());
+                    iXmfjService.doSave(xmFjEntity, request);
+                }
+            }
+        }
+
+        return true;
+    }
+
+    /**
+     * 保存项目执行进度
+     * @param entity
+     * @param request
+     * @return
+     * @throws BusinessException
+     */
+    private JzfpBXmZxEntity doSave(JzfpBXmZxEntity entity, HttpServletRequest request) throws BusinessException {
         // 计算本次进度完成进度
         BigDecimal jdljjd = new BigDecimal(Double.toString(entity.getLjzxjd())); // 阶段累计完成进度（率）
         BigDecimal jdscjd = new BigDecimal(Double.toString(entity.getSczxjd())); // 阶段上次完成进度
@@ -93,7 +128,7 @@ public class XmzxServiceImpl implements IXmzxService {
             AtlpUtil.setUserInfo(saveEntity, request);
             saveEntity.setFirsttime(new Timestamp(new Date().getTime()));
             saveEntity.setLasttime(new Timestamp(new Date().getTime()));
-            saveEntity.setDqzt("保存");
+            saveEntity.setDqzt(IStaticInfo.ZXJD_PRESERVATION);
         } else {
             saveEntity = xmzxRepository.findByZxid(entity.getZxid());
             if (AtlpUtil.isEmpty(saveEntity)) {
@@ -112,20 +147,33 @@ public class XmzxServiceImpl implements IXmzxService {
             throw new BusinessException(ExceptionEnum.ERROR.getCode(), "维护项目执行信息失败..");
         }
 
-        // 项目所需附件
-        List<JzfpBXmFjEntity> xmFjEntityList = entity.getXmFjEntityList();
-        // 附件list不为空，则表示有附件上传
-        if (!AtlpUtil.isEmpty(xmFjEntityList)) {
-            for (JzfpBXmFjEntity xmFjEntity : xmFjEntityList) {
-                // 项目附件id查询附件是否存在，不存在就直接添加
-                // JzfpBXmFjEntity fjEntity = xmfjRepository.findByFjid(xmFjEntity.getFjid());
-                if (AtlpUtil.isEmpty(xmFjEntity.getFjid())) {
-                    xmFjEntity.setXmid(entity.getXmid());
-                    xmFjEntity.setJdid(entity.getJdid());
-                    xmFjEntity.setZxid(save.getZxid());
-                    iXmfjService.doSave(xmFjEntity, request);
-                }
-            }
+        return save;
+    }
+
+    @Override
+    public Boolean doSaveToCommit(JzfpBXmZxEntity entity, HttpServletRequest request) throws BusinessException {
+        // 保存进度
+        JzfpBXmZxEntity saveEntity = this.doSave(entity, request);
+
+        // 修改状态
+        saveEntity.setDqzt(IStaticInfo.ZXJD_COMMIT);
+        JzfpBXmZxEntity save = xmzxRepository.save(saveEntity);
+        if (null == save || null == save.getZxid()) {
+            log.debug("添加或修改项目执行情况失败...项目执行情况==={}", save.toString());
+            throw new BusinessException(ExceptionEnum.ERROR.getCode(), "维护项目执行信息失败..");
+        }
+
+        return true;
+    }
+
+    @Override
+    public Boolean doCommit(JzfpBXmZxEntity entity) throws BusinessException {
+        entity.setDqzt(IStaticInfo.ZXJD_COMMIT);
+
+        JzfpBXmZxEntity save = xmzxRepository.save(entity);
+        if (null == save || null == save.getZxid()) {
+            log.debug("提交项目执行进度失败...项目执行情况==={}", entity.toString());
+            throw new BusinessException(ExceptionEnum.ERROR.getCode(), "维护项目执行信息失败..");
         }
 
         return true;
