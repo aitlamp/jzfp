@@ -154,6 +154,24 @@ public class XmzxController extends BaseController {
     }
 
     /**
+     * 保存
+     * @param request
+     * @param entity
+     * @return
+     * @throws BusinessException
+     */
+    @RequestMapping(value = "/doUpdate", method = RequestMethod.POST)
+    @ResponseBody
+    public Boolean doUpdate(HttpServletRequest request, @RequestBody JzfpBXmZxEntity entity) throws BusinessException {
+        if (AtlpUtil.isEmpty(entity) || AtlpUtil.isEmpty(entity.getZxid())) {
+            logger.debug("传入执行情况信息不完整...执行信息==={}", entity.toString());
+            throw new BusinessException(ExceptionEnum.ERROR_PARAM.getCode(), "传入执行情况信息不完整.");
+        }
+
+        return iXmzxService.doSaveOrUpdate(entity, request);
+    }
+
+    /**
      * 查询项目所需附件list
      * @param xmid
      * @return
