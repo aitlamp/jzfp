@@ -14,6 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.servlet.http.HttpServletRequest;
 import java.sql.Timestamp;
 import java.util.Date;
+import java.util.List;
 
 /**
  * @Author: zhangchq
@@ -29,8 +30,19 @@ public class XmjdServiceImpl implements IXmjdService {
     private FpxmXmjdRepository xmjdRepository;
 
     @Override
-    public JzfpBXmJdEntity getInfoById(String id) throws BusinessException {
-        return xmjdRepository.findByJdid(id);
+    public JzfpBXmJdEntity getInfoByKey(String key) throws BusinessException {
+        return xmjdRepository.findByJdid(key);
+    }
+
+    @Override
+    public List<JzfpBXmJdEntity> getListByXmid(String xmid) throws BusinessException {
+        List<JzfpBXmJdEntity> xmJdEntityList = xmjdRepository.findAllByXmid(xmid);
+        if (AtlpUtil.isEmpty(xmJdEntityList)) {
+            log.debug("参数异常，查询项目阶段信息失败...项目id==={}", xmid);
+            throw new BusinessException(ExceptionEnum.ERROR_PARAM.getCode(), "查询项目阶段信息失败.");
+        }
+
+        return xmJdEntityList;
     }
 
     @Override

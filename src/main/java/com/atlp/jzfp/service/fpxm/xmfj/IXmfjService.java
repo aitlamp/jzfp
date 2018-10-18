@@ -53,4 +53,12 @@ public interface IXmfjService {
      * @throws BusinessException
      */
     public List<Map> getXmyscfjByXmid(String xmid) throws BusinessException;
+
+    /**
+     * 查询执行进度已上传支撑材料
+     * @param zxid
+     * @return
+     * @throws BusinessException
+     */
+    public List<Map> getZxjdyscfjByZxid(String zxid) throws BusinessException;
 }

@@ -4,6 +4,7 @@ import com.atlp.jzfp.entity.fpxm.JzfpBXmJdEntity;
 import org.atlp.exception.BusinessException;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.List;
 
 /**
  * @Author: zhangchq
@@ -18,7 +19,15 @@ public interface IXmjdService {
      * @return
      * @throws Exception
      */
-    public JzfpBXmJdEntity getInfoById(String id) throws BusinessException;
+    public JzfpBXmJdEntity getInfoByKey(String key) throws BusinessException;
+
+    /**
+     * 查询项目所有阶段list
+     * @param xmid
+     * @return
+     * @throws BusinessException
+     */
+    public List<JzfpBXmJdEntity> getListByXmid(String xmid) throws BusinessException;
 
     /**
      * 项目阶段维护

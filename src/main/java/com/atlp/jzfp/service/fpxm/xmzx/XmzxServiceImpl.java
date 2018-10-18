@@ -1,8 +1,13 @@
 package com.atlp.jzfp.service.fpxm.xmzx;
 
+import com.atlp.jzfp.common.base.IStaticInfo;
 import com.atlp.jzfp.entity.fpxm.JzfpBXmFjEntity;
+import com.atlp.jzfp.entity.fpxm.JzfpBXmJdEntity;
+import com.atlp.jzfp.entity.fpxm.JzfpBXmXxEntity;
 import com.atlp.jzfp.entity.fpxm.JzfpBXmZxEntity;
 import com.atlp.jzfp.repository.fpxm.FpxmXmfjRepository;
+import com.atlp.jzfp.repository.fpxm.FpxmXmjdRepository;
+import com.atlp.jzfp.repository.fpxm.FpxmXmxxRepository;
 import com.atlp.jzfp.repository.fpxm.FpxmXmzxRepository;
 import com.atlp.jzfp.service.fpxm.xmfj.IXmfjService;
 import lombok.extern.slf4j.Slf4j;
@@ -34,9 +39,41 @@ public class XmzxServiceImpl implements IXmzxService {
     @Autowired
     private FpxmXmzxRepository xmzxRepository;
     @Autowired
+    private FpxmXmjdRepository xmjdRepository;
+    @Autowired
+    private FpxmXmxxRepository xmxxRepository;
+    @Autowired
     private FpxmXmfjRepository xmfjRepository;
     @Autowired
     private IXmfjService iXmfjService;
+
+    @Override
+    public JzfpBXmZxEntity getInfoByKey(String key) throws BusinessException {
+        // 1. 查询阶段执行信息
+        JzfpBXmZxEntity xmZxEntity = xmzxRepository.findByZxid(key);
+        if (AtlpUtil.isEmpty(xmZxEntity)) {
+            log.debug("参数异常，查询项目执行情况失败...执行id==={}", key);
+            throw new BusinessException(ExceptionEnum.ERROR.getCode(), "查询项目执行情况失败.");
+        }
+
+        // 2. 项目信息
+        JzfpBXmXxEntity xmXxEntity = xmxxRepository.findByXmid(xmZxEntity.getXmid());
+        xmZxEntity.setXmmc(xmXxEntity.getXmmc());
+
+        // 3. 阶段上次执行进度
+        BigDecimal jdljjd = new BigDecimal(Double.toString(xmZxEntity.getLjzxjd()));    // 阶段累计执行进度
+        BigDecimal bczxjd = new BigDecimal(Double.toString(xmZxEntity.getBczxjd()));    // 阶段本次执行进度
+        // 计算阶段上次累计执行进度
+        BigDecimal sczxjd = jdljjd.subtract(bczxjd);
+        xmZxEntity.setSczxjd(sczxjd.doubleValue());
+
+        // 4. 项目累计执行进度
+        Double completeRate = this.workProjectStageTotalCompleteRate(xmZxEntity.getXmid(),
+                xmZxEntity.getJdid(), xmZxEntity.getLjzxjd());
+        xmZxEntity.setXmljjd(completeRate);
+
+        return xmZxEntity;
+    }
 
     @Override
     public Boolean doSaveOrUpdate(JzfpBXmZxEntity entity, HttpServletRequest request) throws BusinessException {
@@ -109,5 +146,44 @@ public class XmzxServiceImpl implements IXmzxService {
         }
 
         return xmZxEntity;
+    }
+
+    @Override
+    public Double workProjectStageTotalCompleteRate(String xmid, String jdid, Double jdljwcl) throws BusinessException {
+        // 计算项目当前阶段的完成率
+        JzfpBXmJdEntity xmJdEntity = xmjdRepository.findByJdid(jdid);
+        if (AtlpUtil.isEmpty(xmJdEntity)) {
+            log.debug("查询项目阶段失败...阶段id==={}", jdid);
+            throw new BusinessException(ExceptionEnum.ERROR.getCode(), "查询项目阶段失败.");
+        }
+        // 计算当前阶段项目累计完成率，阶段累计完成率*阶段占比
+        BigDecimal gzlzb = new BigDecimal(Double.toString(xmJdEntity.getGzlzb()));  // 阶段工作量占比
+        BigDecimal ljwcl = new BigDecimal(Double.toString(jdljwcl));    // 阶段累计完成率
+        BigDecimal xmljwcl = gzlzb.multiply(ljwcl);     // 项目累计完成率
+        // 当前阶段项目累计完成率转百分比
+        BigDecimal wclPercent = xmljwcl.divide(new BigDecimal(IStaticInfo.WCL), BigDecimal.ROUND_HALF_UP);
+
+        // 查询判断其他阶段是否已上报执行进度
+        // 1. 首先查询项目其余阶段信息
+        List<JzfpBXmJdEntity> xmJdEntityList = xmjdRepository.findAllByXmid(xmid);
+        if (xmJdEntityList.size() != 1) {
+            for (JzfpBXmJdEntity jdEntity : xmJdEntityList) {
+                // 2. 判断是否是当前阶段
+                if (!jdid.equals(jdEntity.getJdid())) {
+                    // 3. 查询阶段的执行进度
+                    JzfpBXmZxEntity xmZxEntity = this.getProjectStageTotalCompleteRate(jdEntity.getJdid());
+                    // 4. 计算项目执行进度
+                    BigDecimal xmjdljjd = new BigDecimal(Double.toString(xmZxEntity.getLjzxjd()));  // 阶段累计执行进度
+                    BigDecimal jdzb = new BigDecimal(Double.toString(jdEntity.getGzlzb()));
+                    BigDecimal xmljjd = xmjdljjd.multiply(jdzb);
+                    // 5. 项目执行进度转百分比
+                    BigDecimal xmjdPercent = xmljjd.divide(new BigDecimal(IStaticInfo.WCL), BigDecimal.ROUND_HALF_UP);
+                    // 6. 所有项目阶段执行进度相加
+                    wclPercent = wclPercent.add(xmjdPercent);
+                }
+            }
+        }
+
+        return wclPercent.doubleValue();
     }
 }
