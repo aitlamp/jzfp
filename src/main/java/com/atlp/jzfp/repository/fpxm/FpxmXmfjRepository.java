@@ -1,7 +1,7 @@
 package com.atlp.jzfp.repository.fpxm;
 
-import org.atlp.base.BaseRepository;
 import com.atlp.jzfp.entity.fpxm.JzfpBXmFjEntity;
+import org.atlp.base.BaseRepository;
 
 /**
  * @Author: zhangchq

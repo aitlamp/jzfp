@@ -1,6 +1,5 @@
 package com.atlp.jzfp.controller.fpxm.xmzx;
 
-import com.atlp.jzfp.common.base.IStaticInfo;
 import com.atlp.jzfp.entity.fpxm.JzfpBXmJdEntity;
 import com.atlp.jzfp.entity.fpxm.JzfpBXmXxEntity;
 import com.atlp.jzfp.entity.fpxm.JzfpBXmZxEntity;
@@ -18,7 +17,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
-import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -95,6 +93,33 @@ public class XmzxController extends BaseController {
     }
 
     /**
+     * 查询项目阶段进度信息
+     * @param zxid
+     * @return
+     * @throws BusinessException
+     */
+    @RequestMapping(value = "/getXmzxInfo/{zxid}")
+    @ResponseBody
+    public Map<String, Object> getXmzxInfo(@PathVariable(name = "zxid", required = true) String zxid)
+            throws BusinessException {
+        Map<String, Object> map = new HashMap<>();
+
+        // 查询项目阶段执行信息
+        JzfpBXmZxEntity xmZxEntity = iXmzxService.getInfoByKey(zxid);
+        map.put("xmzx", xmZxEntity);
+
+        // 项目阶段list
+        List<JzfpBXmJdEntity> xmJdEntityList = iXmjdService.getListByXmid(xmZxEntity.getXmid());
+        map.put("xmjd", xmJdEntityList);
+
+        // 进度上报支撑材料
+        List<Map> fjList = iXmfjService.getZxjdyscfjByZxid(xmZxEntity.getZxid());
+        map.put("jdcl", fjList);
+
+        return map;
+    }
+
+    /**
      * 计算项目累计完成率
      * @param xmid  项目id
      * @param jdid  进度id
@@ -107,21 +132,7 @@ public class XmzxController extends BaseController {
     public Double workProjectStageTotalCompleteRate(@PathVariable(name = "xmid", required = true) String xmid,
             @PathVariable(name = "jdid", required = true) String jdid,
             @PathVariable(name = "jdljwcl", required = true) Double jdljwcl) throws BusinessException {
-        // 计算项目当前阶段的完成率
-        JzfpBXmJdEntity xmJdEntity = iXmjdService.getInfoById(jdid);
-        if (AtlpUtil.isEmpty(xmJdEntity)) {
-            logger.debug("查询项目阶段失败...阶段id==={}", jdid);
-            throw new BusinessException(ExceptionEnum.ERROR.getCode(), "查询项目阶段失败.");
-        }
-        // 计算项目累计完成率，阶段累计完成率*阶段占比
-        BigDecimal gzlzb = new BigDecimal(Double.toString(xmJdEntity.getGzlzb()));  // 阶段工作量占比
-        BigDecimal ljwcl = new BigDecimal(Double.toString(jdljwcl));    // 阶段累计完成率
-        BigDecimal xmljwcl = gzlzb.multiply(ljwcl);     // 项目累计完成率
-
-        // 项目累计完成率转百分比
-        BigDecimal wclPercent = xmljwcl.divide(new BigDecimal(IStaticInfo.WCL), BigDecimal.ROUND_HALF_UP);
-
-        return wclPercent.doubleValue();
+        return iXmzxService.workProjectStageTotalCompleteRate(xmid, jdid, jdljwcl);
     }
 
     /**

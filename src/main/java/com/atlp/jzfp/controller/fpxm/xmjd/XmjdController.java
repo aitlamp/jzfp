@@ -34,7 +34,7 @@ public class XmjdController extends BaseController {
     @ResponseBody
     public boolean doDelete(@PathVariable(name = "jdid", required = true) String jdid) throws Exception {
         // 查询该附件是否存在
-        JzfpBXmJdEntity xmJdEntity = iXmjdService.getInfoById(jdid);
+        JzfpBXmJdEntity xmJdEntity = iXmjdService.getInfoByKey(jdid);
         if (AtlpUtil.isEmpty(xmJdEntity)) {
             logger.debug("查询项目阶段为空,删除失败...阶段id==={}", jdid);
             throw new BusinessException(ExceptionEnum.ERROR_PARAM.getCode(), "查询项目阶段为空,删除失败.");

@@ -95,4 +95,12 @@ public class XmfjServiceImpl implements IXmfjService {
 
         return xmFjEntityList;
     }
+
+    @Override
+    public List<Map> getZxjdyscfjByZxid(String zxid) throws BusinessException {
+        // 进度支撑材料
+        String jdfjsql = "select fj.fjid fjid, fj.file_name fileName from jzfp_b_xm_fj fj " +
+                " where fj.zxid = '"+zxid+"' and fj.zlid is null ";
+        return xmfjRepository.findListMapBySql(jdfjsql);
+    }
 }

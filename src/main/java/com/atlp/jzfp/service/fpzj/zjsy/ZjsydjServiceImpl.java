@@ -17,16 +17,12 @@ import org.atlp.wrapper.FastDFSClientWrapper;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 /**
  * @Author: bijunming
@@ -53,7 +49,7 @@ public class ZjsydjServiceImpl implements IZjsydjService {
      */
     @Override
     public PageModel getPage(PageModel page) {
-        String sql = "select t.nd,t.xmmc,t.zjyt,t.djsj,t.sydwmc,t.syje from JZFP_B_ZJ_SYDJ t";
+        String sql = "select t.nd,t.xmmc,t.zjyt,t.djsj,t.sydwmc,t.syje from JZFP_B_ZJ_SYDJ t ";
         return zjsydjRepository.findPageBySql(sql, page);
     }
 
@@ -141,7 +137,7 @@ public class ZjsydjServiceImpl implements IZjsydjService {
         JzfpBZjSydjEntity zjsydjEntity = zjsydjRepository.findByDjid(djid);
         zjsydjEntity.setZjFjEntityList(zjfjService.getZjfjByDjid(djid));
         if (AtlpUtil.isEmpty(zjsydjEntity)) {
-            throw new BusinessException(4201, "查询资金使用登记详细信息失败");
+            throw new BusinessException(4201, "查询资金使用登记详细信息失败!");
         }
         return zjsydjEntity;
     }

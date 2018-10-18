@@ -36,5 +36,12 @@ public class JzfpBXmZxEntity implements Serializable {
     @Transient
     private Double sczxjd;
     @Transient
+    private Double xmljjd;
+    @Transient
+    private String xmmc;
+    @Transient
+    private List<JzfpBXmJdEntity> xmJdEntityList;
+    @Transient
     private List<JzfpBXmFjEntity> xmFjEntityList;
+
 }
