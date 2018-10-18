@@ -25,5 +25,5 @@ public class ComBLoginLogEntity {
     private Timestamp yxsj;
     private String ip;
     private String mark;
-    private String hosename;
+    private String hostname;
 }
