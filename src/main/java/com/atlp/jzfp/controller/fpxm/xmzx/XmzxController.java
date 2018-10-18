@@ -149,6 +149,8 @@ public class XmzxController extends BaseController {
             logger.debug("传入执行情况信息不完整...执行信息==={}", entity.toString());
             throw new BusinessException(ExceptionEnum.ERROR_PARAM.getCode(), "传入执行情况信息不完整.");
         }
+        System.out.println("aaa");
+
         return iXmzxService.doSaveOrUpdate(entity, request);
     }
 
