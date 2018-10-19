@@ -4,6 +4,7 @@ import org.apache.commons.lang3.time.DateUtils;
 
 import java.sql.Timestamp;
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -37,6 +38,17 @@ public class DateTimeUtil extends DateUtils {
         } catch (ParseException e) {
             return null;
         }
+    }
+
+    /**
+     * date转String
+     * yyyy-MM-dd
+     * @param date
+     * @return
+     */
+    public static String date2String(Date date) {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        return sdf.format(date);
     }
 
     /**
@@ -88,6 +100,50 @@ public class DateTimeUtil extends DateUtils {
         int days = ((int) (max.getTime().getTime() / 1000) - (int) (min.getTime().getTime() / 1000)) / 3600 / 24;
 
         return days;
+    }
+
+    /**
+     * 获得该月最后一天
+     * @param year
+     * @param month
+     * @return
+     */
+    public static Date getLastDayOfMonth(int year, int month) {
+        Calendar cal = Calendar.getInstance();
+        //设置年份
+        cal.set(Calendar.YEAR, year);
+        //设置月份
+        cal.set(Calendar.MONTH, month - 1);
+        //获取某月最大天数
+        int lastDay = cal.getActualMaximum(Calendar.DAY_OF_MONTH);
+        //设置日历中月份的最大天数
+        cal.set(Calendar.DAY_OF_MONTH, lastDay);
+
+        //格式化日期
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        String lastDayOfMonth = sdf.format(cal.getTime());
+
+        return parseDate(lastDayOfMonth);
+    }
+
+    /**
+     * 截取日期所在年
+     * @param date
+     * @return
+     */
+    public static String getDateYear(Date date) {
+        SimpleDateFormat format = new SimpleDateFormat("yyyy");
+        return format.format(date);
+    }
+
+    /**
+     * 截取日期所在月份
+     * @param date
+     * @return
+     */
+    public static String getDateMonth(Date date) {
+        SimpleDateFormat format = new SimpleDateFormat("MM");
+        return format.format(date);
     }
 
 

@@ -15,6 +15,10 @@ public class IStaticInfo {
     // 完成率
     public final static String WCL = "100";
 
+    // 项目日期上半月或下半月
+    public final static String PROJECT_DATE_FIRST = "1";
+    public final static String PROJECT_DATE_AFTER = "2";
+
     // 项目执行进度上报状态
     public final static String ZXJD_PRESERVATION = "保存";
     public final static String ZXJD_COMMIT = "提交";

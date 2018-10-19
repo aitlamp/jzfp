@@ -20,8 +20,11 @@ public class JzfpBXmJdEntity implements Serializable {
     private String jdmc;
     private String jsnr;
     private Double gzlzb;
+    private String nd;
     private Timestamp kssj;
+    private String kssjb;
     private Timestamp jssj;
+    private String jssjb;
     private Integer jdsx;
     private String sm;
     private String dqzt;
@@ -33,5 +36,9 @@ public class JzfpBXmJdEntity implements Serializable {
     private String yhdwmc;
 
     @Transient
-    private Double jdljzxjd;
+    private String jhkssj;  // 计划开始时间2018-03
+    @Transient
+    private String jhjssj;
+    @Transient
+    private Double jdljzxjd;    // 阶段累计执行进度
 }

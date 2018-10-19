@@ -1,6 +1,7 @@
 package com.atlp.jzfp.service.fpxm.xmjd;
 
 import com.atlp.jzfp.entity.fpxm.JzfpBXmJdEntity;
+import com.atlp.jzfp.entity.fpxm.JzfpBXmXxEntity;
 import org.atlp.exception.BusinessException;
 
 import javax.servlet.http.HttpServletRequest;
@@ -31,12 +32,13 @@ public interface IXmjdService {
 
     /**
      * 项目阶段维护
-     * @param entity
+     * @param xmJdEntity
      * @param request
      * @return
      * @throws Exception
      */
-    public boolean doSaveOrUpdate(JzfpBXmJdEntity entity, HttpServletRequest request) throws BusinessException;
+    public boolean doSaveOrUpdate(JzfpBXmXxEntity xmXxEntity, JzfpBXmJdEntity xmJdEntity, HttpServletRequest request)
+            throws BusinessException;
 
     /**
      * 删除项目阶段

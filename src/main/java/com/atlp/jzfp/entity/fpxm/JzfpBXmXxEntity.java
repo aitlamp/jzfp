@@ -36,8 +36,11 @@ public class JzfpBXmXxEntity implements Serializable {
     private String xmmb;
     private String jsnr;
     private String xmdd;
+    private String nd;
     private Timestamp kssj;
+    private String kssjb;
     private Timestamp jssj;
+    private String jssjb;
     private Boolean xmlb;
     private String sm;
     private String dqzt;
@@ -48,6 +51,10 @@ public class JzfpBXmXxEntity implements Serializable {
     private String yhdwid;
     private String yhdwmc;
 
+    @Transient
+    private String jhkssj;
+    @Transient
+    private String jhjssj;
     @Transient
     private List<JzfpBXmJdEntity> xmJdEntityList;
 
